@@ -92,7 +92,34 @@ class ArticleService {
     }
 
     storeArticleCategory(data) {
-        return axios.post('/v1/articles/categories',data)
+        return axios.post('/v1/articles/categories', data)
+    }
+
+    getListOfTheArticleCategories(pageNumber) {
+        return axios.get('/v1/articles/categories?page=' + pageNumber)
+    }
+
+    deleteArticleCategories(data) {
+        return axios.post('/v1/articles/categories/deleteMultipleArticleCategory', data);
+    }
+
+    switchArticleCategoryStatus(id, data) {
+        return axios.put('/v1/articles/categories/' + id, data)
+    }
+    UpdateArticleCategoryStatus(id, data) {
+        return axios.put('/v1/articles/categories/' + id, data)
+    }
+
+    paginateArticleCategories(pageNumber) {
+        return axios.get('/v1/articles/categories?page=' + pageNumber)
+    }
+
+    searchInArticleCategories(search_value) {
+        return axios.get('/v1/articles/categories?search=' + search_value)
+    }
+
+    editArticleCategory(id) {
+        return axios.get('/v1/articles/categories/edit/' + id)
     }
 }
 

@@ -1,28 +1,6 @@
 <template>
     <div>
-        <modal title="ویرایش تگ">
-            <div slot="content">
-                <label style="color: #fff;margin:4px 0">
-                    نام فارسی تگ :
-                </label>
-                <div class="form-group">
-                    <VueInputUi type="array" label="نام تگ به فارسی..." v-model="fa_title"/>
-                </div>
-                <label style="color: #fff;margin:4px 0">
-                    نام انگلیسی تگ :
-                </label>
-                <div class="form-group">
-                    <VueInputUi type="array" label="نام تگ به فارسی..." v-model="en_title"/>
-                </div>
-                <div class="form-group">
-                    <div @click="update" class="submit_button">
-                        ثبت
-                    </div>
-                </div>
-            </div>
-        </modal>
-
-        <span @click="deleteItems" class="delete_button">
+           <span @click="deleteItems" class="delete_button">
             <box-icon color="#fff" name='trash'></box-icon>
         </span>
         <div class="form-group">
@@ -42,21 +20,26 @@
         </template>
 
     </div>
-
 </template>
 
 <script>
     import ArticleService from "@/services/articles/ArticleService";
     import HelperClass from "@/services/HelperClass";
-    import Modal from "@/layouts/Modal";
-
 
     const VueInputUi = () => import('vue-input-ui');
     export default {
-        name: "List",
+        name: "ArticleCategoryList",
+        created() {
+            this.$store.state.loading = true;
+            this.$store.state.pageTitle = 'لیست دسته بندی مقالات';
+            this.getListOfTheArticleCategories();
+        },
         data() {
             return {
-                show_pagination:true,
+                show_pagination: true,
+                current: 1,
+                search_value: '',
+                selected: [],
                 columns: [
                     {
                         label: 'عنوان فارسی',
@@ -64,7 +47,13 @@
                     },
                     {
                         label: 'عنوان لاتین',
-                        field: 'en_title',
+                        field: 'en_title_show',
+                        html: true
+                    },
+                    {
+                      label: 'en_title',
+                      field: 'en_title',
+                      hidden: true
                     },
                     {
                         label: 'condition',
@@ -86,26 +75,30 @@
                         html: true
                     },
                     {
+                        label: 'نام والد',
+                        field: 'father',
+                        html: true
+                    },
+                    {
+                        label: 'description',
+                        field: 'description',
+                        hidden: true
+                    },
+                    {
                         label: 'انتخاب',
                         field: 'delete',
                         html: true
                     }
                 ],
                 rows: [],
-                selected: [],
-                fa_title: '',
-                en_title: '',
-                status: '',
-                id: '',
-                current: 1,
-                search_value: '',
-                last_page: 0,
+                ArticleCategoriesList: [],
+                last_page: 0
             }
         },
         watch: {
             current(value) {
                 this.$store.state.loading = true;
-                ArticleService.paginateTags(value)
+                ArticleService.paginateArticleCategories(value)
                     .then(res => {
                         let list = [];
                         res.data.data.data.forEach(item => {
@@ -113,6 +106,7 @@
                                 {
                                     id: item.id,
                                     fa_title: item.fa_title,
+                                    en_title_show: item.en_title ? item.en_title : '<span class="deactive_button">ندارد</span>',
                                     en_title: item.en_title,
                                     condition: item.status,
                                     status: item.status ? '<span class="active_button">فعال</span>' : '<span class="deactive_button">غیر فعال</span>',
@@ -128,19 +122,50 @@
                 })
             }
         },
-        created() {
-            this.$store.state.pageTitle = 'لیست تگ های مقالات';
-            this.getList();
-        },
         methods: {
+            getListOfTheArticleCategories() {
+                ArticleService.getListOfTheArticleCategories(1)
+                    .then(res => {
+                        let list = [];
+                        if (res.status === 204) {
+                            this.rows = list;
+                            this.$store.state.loading = false;
+                            this.last_page = 0;
+                            return;
+                        }
+                        this.last_page = res.data.data.last_page;
+                        let result = res.data.data.data;
+                        result.forEach(item => {
+                            list.push(
+                                {
+                                    id: item.id,
+                                    fa_title: item.fa_title,
+                                    en_title_show: item.en_title ? item.en_title : '<span class="deactive_button">ندارد</span>',
+                                    en_title:item.en_title,
+                                    condition: item.status,
+                                    status: item.status ? '<span class="active_button">فعال</span>' : '<span class="deactive_button">غیر فعال</span>',
+                                    father: item.father ? item.father.fa_title : '<span class="deactive_button">ندارد</span>',
+                                    switch_condition: item.status ? "<i class='active_it' title='غیر فعال کن'> <box-icon color='red' name='x'></box-icon></i>" : "<i title='فعال کن' class='active_it'><box-icon color='green' name='check'></box-icon></i>",
+                                    edit: '<i  title="ویرایش" class="active_it"><box-icon color="green" type="solid" name="message-edit"></box-icon></i>',
+                                    description: item.description,
+                                    delete: '<input type="checkbox"  value="' + item.id + '">'
+                                })
+                        })
+                        this.rows = list;
+                        this.$store.state.loading = false;
+                    }).catch(error => {
+                    HelperClass.showErrors(error, this.$noty)
+                });
+            },
             searchInTable() {
-
+                this.show_pagination = false
                 if (this.search_value.trim() === '') {
-                    this.getList();
+                    this.show_pagination = true;
+                    this.getListOfTheArticleCategories();
                     return
                 }
                 this.$store.state.loading = true;
-                ArticleService.search(this.search_value)
+                ArticleService.searchInArticleCategories(this.search_value)
                     .then((res) => {
                         let list = [];
                         if (res.status === 204) {
@@ -148,18 +173,20 @@
                             this.$store.state.loading = false;
                             return
                         }
-
-                        res.data.data.data.forEach(item => {
-
+                        let result = res.data.data;
+                        result.forEach(item => {
                             list.push(
                                 {
                                     id: item.id,
                                     fa_title: item.fa_title,
-                                    en_title: item.en_title,
+                                    en_title_show: item.en_title ? item.en_title : '<span class="deactive_button">ندارد</span>',
+                                    en_title:item.en_title,
                                     condition: item.status,
                                     status: item.status ? '<span class="active_button">فعال</span>' : '<span class="deactive_button">غیر فعال</span>',
+                                    father: item.father ? item.father.fa_title : '<span class="deactive_button">ندارد</span>',
                                     switch_condition: item.status ? "<i class='active_it' title='غیر فعال کن'> <box-icon color='red' name='x'></box-icon></i>" : "<i title='فعال کن' class='active_it'><box-icon color='green' name='check'></box-icon></i>",
-                                    edit: '<i  title="ویرایش" class="active_it"><box-icon color="green" type=\'solid\' name=\'message-edit\'></box-icon></i>',
+                                    edit: '<i  title="ویرایش" class="active_it"><box-icon color="green" type="solid" name="message-edit"></box-icon></i>',
+                                    description: item.description,
                                     delete: '<input type="checkbox"  value="' + item.id + '">'
                                 })
                         })
@@ -168,98 +195,19 @@
                     }).catch(error => {
                     HelperClass.showErrors(error, this.$noty);
                 })
-            },
-            update() {
-                this.$store.state.loading = true;
-                let data = {
-                    fa_title: this.fa_title,
-                    en_title: this.en_title,
-                    status: this.status
-                }
-                ArticleService.updateTag(this.id, data)
-                    .then(() => {
-                        this.getList();
-                        HelperClass.showSuccess(this.$noty);
-                        this.$store.state.modal_show = false;
-                    }).catch(error => {
-                    HelperClass.showErrors(error, this.$noty);
-                })
-            },
-            getList() {
-                this.$store.state.loading = true;
-                ArticleService.getListOfTheTags(this.current)
-                    .then(res => {
-                        let list = [];
-                        if (res.status === 204) {
-                            this.rows = list;
-                            this.$store.state.loading = false;
-                            this.last_page = 0;
-                            return
-                        }
-                        this.last_page = res.data.data.last_page;
-
-                        res.data.data.data.forEach(item => {
-
-                            list.push(
-                                {
-                                    id: item.id,
-                                    fa_title: item.fa_title,
-                                    en_title: item.en_title,
-                                    condition: item.status,
-                                    status: item.status ? '<span class="active_button">فعال</span>' : '<span class="deactive_button">غیر فعال</span>',
-                                    switch_condition: item.status ? "<i class='active_it' title='غیر فعال کن'> <box-icon color='red' name='x'></box-icon></i>" : "<i title='فعال کن' class='active_it'><box-icon color='green' name='check'></box-icon></i>",
-                                    edit: '<i  title="ویرایش" class="active_it"><box-icon color="green" type=\'solid\' name=\'message-edit\'></box-icon></i>',
-                                    delete: '<input type="checkbox"  value="' + item.id + '">'
-                                })
-                        })
-                        this.rows = list;
-                        this.$store.state.loading = false;
-
-
-                    }).catch(error => {
-                    if (error.response) {
-                        HelperClass.showErrors(error, this.$noty)
-                    }
-                })
-            },
-            onCellClick(params) {
-                let tagName = params.event.target.tagName;
-                let column_name = params.column.field;
-                let row_object = params.row
-                switch (tagName) {
-                    case ("BOX-ICON"):
-
-                        if (column_name === 'edit') {
-                            this.showEditModal(row_object)
-                        } else if (column_name === 'switch_condition') {
-                            this.switchCondition(row_object)
-                        }
-                        break
-                    case ('INPUT'):
-                        this.selectItems(params.event.target)
-                        break
-                    default:
-                        break
-                }
-            },
-            showEditModal(row) {
-                this.fa_title = row.fa_title;
-                this.en_title = row.en_title;
-                this.status = row.condition;
-                this.$store.state.modal_show = true;
-                this.id = row.id;
             },
             switchCondition(row) {
                 this.$store.state.loading = true;
                 let data = {
                     fa_title: row.fa_title,
                     en_title: row.en_title,
-                    status: row.condition ? 0 : 1
+                    status: row.condition ? 0 : 1,
+                    description: row.description
                 }
 
-                ArticleService.switchActivation(row.id, data)
+                ArticleService.switchArticleCategoryStatus(row.id, data)
                     .then(() => {
-                        this.getList();
+                        this.getListOfTheArticleCategories();
                         HelperClass.showSuccess(this.$noty)
                     }).catch(error => {
                     HelperClass.showErrors(error, this.$noty)
@@ -286,14 +234,14 @@
                         let data = {
                             ids: this.selected
                         }
-                        ArticleService.deleteTags(data)
+                        ArticleService.deleteArticleCategories(data)
                             .then(() => {
                                 this.selected = [];
                                 if (this.current > 1) {
                                     this.current = this.current - 1;
                                 }
 
-                                this.getList();
+                                this.getListOfTheArticleCategories();
                                 HelperClass.scrollTop();
                                 HelperClass.showSuccess(this.$noty)
                             }).catch(error => {
@@ -303,15 +251,34 @@
                     }
                 })
 
-            }
+            },
+            onCellClick(params) {
+                let tagName = params.event.target.tagName;
+                let column_name = params.column.field;
+                let row_object = params.row
+                switch (tagName) {
+                    case ("BOX-ICON"):
+
+                        if (column_name === 'edit') {
+                           this.$router.push({name:'article-category-edit',params:{articleCategory:row_object.id}})
+                        } else if (column_name === 'switch_condition') {
+                            this.switchCondition(row_object)
+                        }
+                        break
+                    case ('INPUT'):
+                        this.selectItems(params.event.target)
+                        break
+                    default:
+                        break
+                }
+            },
         },
         components: {
-            Modal,
-            VueInputUi,
+            VueInputUi
         }
     }
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 
 </style>

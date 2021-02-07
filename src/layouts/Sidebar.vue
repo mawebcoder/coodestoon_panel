@@ -38,7 +38,7 @@
                                 <router-link :to="{name:'article-category-create'}">ایجاد دسته بندی</router-link>
                             </li>
                             <li>
-                                <router-link to=""> لیست دسته بندی ها</router-link>
+                                <router-link :to="{name:'article-category-list'}"> لیست دسته بندی ها</router-link>
                             </li>
                             <li>
                                 <router-link to="">دسته بندی های فعال</router-link>

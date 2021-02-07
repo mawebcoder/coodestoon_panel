@@ -1,29 +1,63 @@
 //import components section
-const CreateTag=()=>import('../views/articles/tags/CreateTag')
-const List=()=>import('@/views/articles/tags/List')
-const ActiveTagsList=()=>import('@/views/articles/tags/ActiveTagsList')
-const DeActiveTags=()=>import('@/views/articles/tags/DeActiveTags')
-const Trashes=()=>import('@/views/articles/tags/Trashed')
-const CreateArticleCategory=()=>import('@/views/articles/categories/CreateArticleCategory')
-const routes=[
+
+const EditArticleCategory =()=> import("@/views/articles/categories/EditArticleCategory");
+
+const Articles = () => import('@/layouts/Articles')
+const CreateTag = () => import('../views/articles/tags/CreateTag')
+const List = () => import('@/views/articles/tags/List')
+const ActiveTagsList = () => import('@/views/articles/tags/ActiveTagsList')
+const DeActiveTags = () => import('@/views/articles/tags/DeActiveTags')
+const Trashes = () => import('@/views/articles/tags/Trashed')
+const ArticleTags = () => import('@/layouts/ArticleTags');
+const Categories = () => import('@/layouts/Categories')
+const ArticleCategoryList =()=>import("@/views/articles/categories/ArticleCategoryList");
+const CreateArticleCategory = () => import('@/views/articles/categories/CreateArticleCategory')
+const routes = [
+    // Articles-------------articles--------------articles--------
     {
-      path: '/panel/articles/tags/list',component:List,name: 'article-tag-list'
+        path: '/panel/articles', component: Articles,
+        children: [
+            {
+                // articles tags
+                path: 'tags', component: ArticleTags,
+                children: [
+                    {
+                        path: 'list', component: List, name: 'article-tag-list'
+                    },
+                    {
+                        path: 'create', component: CreateTag, name: 'article-tag-create'
+                    },
+                    {
+                        path: 'actives', component: ActiveTagsList, name: 'article-tags-active'
+                    },
+                    {
+                        path: 'de-actives', component: DeActiveTags, name: 'article-tags-de-active'
+                    },
+                    {
+                        path: 'trashes', component: Trashes, name: 'article-tags-trashes'
+                    },
+                ]
+            },
+
+            {
+                // articles categories
+                path: 'categories', component: Categories,
+                children: [
+                    {
+                        path: 'store', component: CreateArticleCategory, name: 'article-category-create'
+                    },
+                    {
+                        path: 'list',component:ArticleCategoryList,name: 'article-category-list'
+                    },
+                    {
+                        path: 'edit/:articleCategory',component:EditArticleCategory,name: 'article-category-edit'
+                    }
+                ]
+            },
+
+        ]
     },
-    {
-        path:'/panel/articles/tags/create',component:CreateTag,name:'article-tag-create'
-    },
-    {
-        path:'/panel/articles/tags/actives',component:ActiveTagsList,name: 'article-tags-active'
-    },
-    {
-        path:'/panel/articles/tags/de-actives',component:DeActiveTags,name: 'article-tags-de-active'
-    },
-    {
-        path:'/panel/articles/tags/trashes',component:Trashes,name: 'article-tags-trashes'
-    },
-    {
-        path: '/panel/articles/categories/store',component:CreateArticleCategory,name: 'article-category-create'
-    }
+
 ]
 
 export default routes;
