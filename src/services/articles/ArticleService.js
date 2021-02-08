@@ -121,6 +121,9 @@ class ArticleService {
     editArticleCategory(id) {
         return axios.get('/v1/articles/categories/edit/' + id)
     }
+    UpdateArticleCategory(id,data){
+        return axios.post('/v1/articles/categories/'+id,data)
+    }
 }
 
 export default new ArticleService();

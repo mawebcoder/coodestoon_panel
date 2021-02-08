@@ -53,7 +53,7 @@
                 ثبت
             </span>
         </div>
-
+        <Button link="article-category-list" icon="chevron-left"></Button>
         <div style="height: 300px"></div>
     </div>
 </template>
@@ -62,6 +62,7 @@
     import ArticleService from "@/services/articles/ArticleService";
     import HelperClass from "@/services/HelperClass";
     import FileUpload from "@/components/FileUpload";
+    import Button from "@/components/Button";
 
     const VueInputUi = () => import('vue-input-ui');
 
@@ -69,14 +70,14 @@
         name: "ActiveArticleCategories",
         data() {
             return {
-                image_url:'',
+                image_url: '',
                 fa_title: '',
                 en_title: '',
                 description: '',
                 status: '',
                 cover_file_name: '',
                 parents: [],
-                parent:0,
+                parent: 0,
                 categories: [],
                 is_show_parent: true
             }
@@ -106,33 +107,33 @@
                         parents.forEach(item => {
                             this.categories.push({value: item.id, text: item.fa_title})
                         })
-                        this.categories.push({text: 'بدون والد',value:0})
-                        this.image_url=`${this.$store.state.baseUrl}/storage/images/articles/categories/${this.$route.params.articleCategory}/${this.cover_file_name}`
-                        if (data.category.parent){
-                            this.parent=data.category.parent
+                        this.categories.push({text: 'بدون والد', value: 0})
+                        this.image_url = `${this.$store.state.baseUrl}/storage/images/articles/categories/${this.$route.params.articleCategory}/${this.cover_file_name}`
+                        if (data.category.parent) {
+                            this.parent = data.category.parent
                             return
                         }
                     }).catch(error => {
                     HelperClass.showErrors(error, this.$noty)
                 })
             },
-            submit(){
-                // use form data for this section
-                // this.$store.state.loading = true;
-                // let data = {
-                //     fa_title:this.fa_title,
-                //     en_title:this.en_title,
-                //     status: this.status,
-                //     description: this.description,
-                // }
-                //
-                // ArticleService.switchArticleCategoryStatus(row.id, data)
-                //     .then(() => {
-                //         this.getListOfTheArticleCategories();
-                //         HelperClass.showSuccess(this.$noty)
-                //     }).catch(error => {
-                //     HelperClass.showErrors(error, this.$noty)
-                // })
+            submit() {
+                this.$store.state.loading = true;
+                let formData = new FormData();
+                formData.append('fa_title', this.fa_title);
+                formData.append('en_title', this.en_title);
+                formData.append('status', this.status);
+                formData.append('description', this.description);
+                formData.append('file', this.$store.state.file);
+                formData.append('parent', this.parent)
+                let id = this.$route.params.articleCategory;
+                ArticleService.UpdateArticleCategory(id, formData)
+                    .then(() => {
+                        HelperClass.showSuccess(this.$noty)
+                        this.$router.push({name:'article-category-list'})
+                    }).catch(err => {
+                    HelperClass.showErrors(err, this.$noty)
+                })
             }
         },
         computed: {
@@ -140,9 +141,10 @@
                 return this.status ? 'فعال' : 'غیر فعال'
             }
         },
-        components:{
+        components: {
             FileUpload,
-            VueInputUi
+            VueInputUi,
+            Button
         }
 
     }
