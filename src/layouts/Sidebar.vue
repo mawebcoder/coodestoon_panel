@@ -41,10 +41,10 @@
                                 <router-link :to="{name:'article-category-list'}"> لیست دسته بندی ها</router-link>
                             </li>
                             <li>
-                                <router-link to="">دسته بندی های فعال</router-link>
+                                <router-link :to="{name:'article-category-active'}">دسته بندی های فعال</router-link>
                             </li>
                             <li>
-                                <router-link to="">دسته بندی های غیر فعال</router-link>
+                                <router-link :to="{name:'article-category-deactive'}">دسته بندی های غیر فعال</router-link>
                             </li>
                             <li>
                                 <router-link to="">سطل زباله دسته بندی ها</router-link>

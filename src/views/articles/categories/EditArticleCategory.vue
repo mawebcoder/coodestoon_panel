@@ -53,7 +53,15 @@
                 ثبت
             </span>
         </div>
-        <Button link="article-category-list" icon="chevron-left"></Button>
+        <template v-if="$route.query.from_actives">
+            <Button link="article-category-active" icon="chevron-left"></Button>
+        </template>
+        <template v-else-if="$route.query.from_de_actives">
+            <Button link="article-category-deactive" icon="chevron-left"></Button>
+        </template>
+        <template v-else>
+            <Button link="article-category-list" icon="chevron-left"></Button>
+        </template>
         <div style="height: 300px"></div>
     </div>
 </template>
@@ -130,7 +138,13 @@
                 ArticleService.UpdateArticleCategory(id, formData)
                     .then(() => {
                         HelperClass.showSuccess(this.$noty)
-                        this.$router.push({name:'article-category-list'})
+                        if (this.$route.query.from_actives) {
+                            this.$router.push({name: 'article-category-active'})
+                        } else if (this.$route.query.from_de_actives) {
+                            this.$router.push({name: 'article-category-deactive'})
+                        } else {
+                            this.$router.push({name: 'article-category-list'})
+                        }
                     }).catch(err => {
                     HelperClass.showErrors(err, this.$noty)
                 })

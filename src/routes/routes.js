@@ -1,7 +1,7 @@
 //import components section
 
 const EditArticleCategory =()=> import("@/views/articles/categories/EditArticleCategory");
-
+const ActiveArticleCategory=()=>import('@/views/articles/categories/ActiveArticleCategory')
 const Articles = () => import('@/layouts/Articles')
 const CreateTag = () => import('../views/articles/tags/CreateTag')
 const List = () => import('@/views/articles/tags/List')
@@ -10,6 +10,7 @@ const DeActiveTags = () => import('@/views/articles/tags/DeActiveTags')
 const Trashes = () => import('@/views/articles/tags/Trashed')
 const ArticleTags = () => import('@/layouts/ArticleTags');
 const Categories = () => import('@/layouts/Categories')
+const DeActiveArticleCategory=()=>import('@/views/articles/categories/DeActiveArticleCategory')
 const ArticleCategoryList =()=>import("@/views/articles/categories/ArticleCategoryList");
 const CreateArticleCategory = () => import('@/views/articles/categories/CreateArticleCategory')
 const routes = [
@@ -51,6 +52,12 @@ const routes = [
                     },
                     {
                         path: 'edit/:articleCategory',component:EditArticleCategory,name: 'article-category-edit'
+                    },
+                    {
+                        path: 'actives',component:ActiveArticleCategory,name: 'article-category-active'
+                    },
+                    {
+                        path: 'de-actives',component:DeActiveArticleCategory,name: 'article-category-deactive'
                     }
                 ]
             },

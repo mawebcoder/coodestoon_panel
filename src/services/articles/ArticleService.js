@@ -104,10 +104,7 @@ class ArticleService {
     }
 
     switchArticleCategoryStatus(id, data) {
-        return axios.put('/v1/articles/categories/' + id, data)
-    }
-    UpdateArticleCategoryStatus(id, data) {
-        return axios.put('/v1/articles/categories/' + id, data)
+        return axios.post('/v1/articles/categories/' + id, data)
     }
 
     paginateArticleCategories(pageNumber) {
@@ -121,9 +118,37 @@ class ArticleService {
     editArticleCategory(id) {
         return axios.get('/v1/articles/categories/edit/' + id)
     }
-    UpdateArticleCategory(id,data){
-        return axios.post('/v1/articles/categories/'+id,data)
+
+    UpdateArticleCategory(id, data) {
+        return axios.post('/v1/articles/categories/' + id, data)
     }
+
+    getListOfTheActiveArticleCategories() {
+        return axios.get('/v1/articles/categories/actives')
+    }
+
+    paginateActiveArticleCategories(pageNumber) {
+        return axios.get('/v1/articles/categories/de-actives?page=' + pageNumber)
+    }
+
+    searchInActiveArticleCategories(search_value) {
+        return axios.get('/v1/articles/categories/actives?search=' + search_value)
+    }
+
+
+
+    getListOfTheDeActiveArticleCategories() {
+        return axios.get('/v1/articles/categories/de-actives')
+    }
+
+    paginateDeActiveArticleCategories(pageNumber) {
+        return axios.get('/v1/articles/categories/actives?page=' + pageNumber)
+    }
+
+    searchInDeActiveArticleCategories(search_value) {
+        return axios.get('/v1/articles/categories/de-actives?search=' + search_value)
+    }
+
 }
 
 export default new ArticleService();
