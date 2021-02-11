@@ -1,7 +1,7 @@
 //import components section
 
-const EditArticleCategory =()=> import("@/views/articles/categories/EditArticleCategory");
-const ActiveArticleCategory=()=>import('@/views/articles/categories/ActiveArticleCategory')
+const EditArticleCategory = () => import("@/views/articles/categories/EditArticleCategory");
+const ActiveArticleCategory = () => import('@/views/articles/categories/ActiveArticleCategory')
 const Articles = () => import('@/layouts/Articles')
 const CreateTag = () => import('../views/articles/tags/CreateTag')
 const List = () => import('@/views/articles/tags/List')
@@ -10,8 +10,16 @@ const DeActiveTags = () => import('@/views/articles/tags/DeActiveTags')
 const Trashes = () => import('@/views/articles/tags/Trashed')
 const ArticleTags = () => import('@/layouts/ArticleTags');
 const Categories = () => import('@/layouts/Categories')
-const DeActiveArticleCategory=()=>import('@/views/articles/categories/DeActiveArticleCategory')
-const ArticleCategoryList =()=>import("@/views/articles/categories/ArticleCategoryList");
+const Article = () => import('@/views/articles/Article')
+const DeActiveArticleCategory = () => import('@/views/articles/categories/DeActiveArticleCategory')
+const ArticleCategoryList = () => import("@/views/articles/categories/ArticleCategoryList");
+const ArticleCategoryTrash = () => import('@/views/articles/categories/Trashe')
+const StoreArticle = () => import('@/views/articles/StoreArticle')
+const ArticleList = () => import('@/views/articles/List')
+const ArticleEdit=()=>import('@/views/articles/Edit.vue')
+const ActiveArticles=()=>import('@/views/articles/Actives')
+const DeActiveArticle=()=>import('@/views/articles/DeActiveArticle')
+const ArticleTrashes=()=>import('@/views/articles/Trashes');
 const CreateArticleCategory = () => import('@/views/articles/categories/CreateArticleCategory')
 const routes = [
     // Articles-------------articles--------------articles--------
@@ -48,19 +56,47 @@ const routes = [
                         path: 'store', component: CreateArticleCategory, name: 'article-category-create'
                     },
                     {
-                        path: 'list',component:ArticleCategoryList,name: 'article-category-list'
+                        path: 'list', component: ArticleCategoryList, name: 'article-category-list'
                     },
                     {
-                        path: 'edit/:articleCategory',component:EditArticleCategory,name: 'article-category-edit'
+                        path: 'edit/:articleCategory', component: EditArticleCategory, name: 'article-category-edit'
                     },
                     {
-                        path: 'actives',component:ActiveArticleCategory,name: 'article-category-active'
+                        path: 'actives', component: ActiveArticleCategory, name: 'article-category-active'
                     },
                     {
-                        path: 'de-actives',component:DeActiveArticleCategory,name: 'article-category-deactive'
+                        path: 'de-actives', component: DeActiveArticleCategory, name: 'article-category-deactive'
+                    },
+                    {
+                        path: 'trashes', component: ArticleCategoryTrash, name: 'article-category-trash'
                     }
                 ]
             },
+            {
+                path: 'articles',
+                component: Article,
+                children: [
+                    {
+                        path: 'create', component: StoreArticle, name: 'article-store'
+                    },
+                    {
+                        path: 'list', component: ArticleList, name: 'article-list'
+                    },
+                    {
+                        path:'edit/:article',component:ArticleEdit,name: 'article-edit'
+                    },
+                    {
+                        path: 'actives',component:ActiveArticles,name: 'article-actives'
+                    },
+                    {
+                        path: 'de-actives',component:DeActiveArticle,name: 'article-de-actives'
+                    },
+                    {
+                        path: 'trashes',component:ArticleTrashes,name: 'article-trashes'
+                    }
+
+                ]
+            }
 
         ]
     },

@@ -30,7 +30,6 @@ Vue.use(Vuesax, {
     // options here
 })
 new Vue({
-
     router,
     store,
     render: h => h(App),

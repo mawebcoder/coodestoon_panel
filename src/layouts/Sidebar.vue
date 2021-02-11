@@ -47,7 +47,7 @@
                                 <router-link :to="{name:'article-category-deactive'}">دسته بندی های غیر فعال</router-link>
                             </li>
                             <li>
-                                <router-link to="">سطل زباله دسته بندی ها</router-link>
+                                <router-link :to="{name:'article-category-trash'}">سطل زباله دسته بندی ها</router-link>
                             </li>
                             <li class="li_title">
                                 تگ ها
@@ -71,19 +71,19 @@
                                 مقالات
                             </li>
                             <li>
-                                <router-link to="">ایجاد مقاله</router-link>
+                                <router-link :to="{name:'article-store'}">ایجاد مقاله</router-link>
                             </li>
                             <li>
-                                <router-link to="/">لیست مقالات</router-link>
+                                <router-link :to="{name:'article-list'}">لیست مقالات</router-link>
                             </li>
                             <li>
-                                <router-link to="/"> لیست مقالات فعال</router-link>
+                                <router-link :to="{name:'article-actives'}"> لیست مقالات فعال</router-link>
                             </li>
                             <li>
-                                <router-link to="/"> لیست مقالات غیر فعال</router-link>
+                                <router-link :to="{name:'article-de-actives'}"> لیست مقالات غیر فعال</router-link>
                             </li>
                             <li>
-                                <router-link to="/">سطل زباله مقالات</router-link>
+                                <router-link :to="{name:'article-trashes'}">سطل زباله مقالات</router-link>
                             </li>
                         </ul>
                     </transition>
