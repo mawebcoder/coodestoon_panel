@@ -41,7 +41,7 @@
 </template>
 
 <script>
-    import ArticleService from "@/services/articles/ArticleService";
+    import TagService from "@/services/articles/TagService";
     import HelperClass from "@/services/HelperClass";
     import Modal from "@/layouts/Modal";
     const VueInputUi = () => import('vue-input-ui');
@@ -97,7 +97,7 @@
         watch: {
             current(value) {
                 this.$store.state.loading = true;
-                ArticleService.paginateDeActiveTags(value)
+                TagService.paginateDeActiveTags(value)
                     .then(res => {
                         let list = [];
                         res.data.data.data.forEach(item => {
@@ -131,7 +131,7 @@
                     return
                 }
                 this.$store.state.loading = true;
-                ArticleService.searchInDeActives(this.search_value)
+                TagService.searchInDeActives(this.search_value)
                     .then((res) => {
                         let list = [];
                         if (res.status === 204) {
@@ -167,7 +167,7 @@
                     en_title: this.en_title,
                     status: this.status
                 }
-                ArticleService.updateTag(this.id, data)
+                TagService.updateTag(this.id, data)
                     .then(() => {
                         this.getDeActiveTags()
                         HelperClass.showSuccess(this.$noty);
@@ -179,7 +179,7 @@
             },
             getDeActiveTags() {
                 this.$store.state.loading = true;
-                ArticleService.getDeActiveTags(this.current)
+                TagService.getDeActiveTags(this.current)
                     .then(res => {
                         let list = [];
                         if (res.status === 204) {
@@ -261,7 +261,7 @@
                         let data = {
                             ids: this.selected
                         }
-                        ArticleService.deleteTags(data)
+                        TagService.deleteTags(data)
                             .then(() => {
                                 this.selected = [];
                                 if (this.current > 1) {
@@ -287,7 +287,7 @@
                     status: row.condition ? 0 : 1
                 }
 
-                ArticleService.switchActivation(row.id, data)
+                TagService.switchActivation(row.id, data)
                     .then(() => {
                         this.getDeActiveTags()
                         HelperClass.showSuccess(this.$noty)

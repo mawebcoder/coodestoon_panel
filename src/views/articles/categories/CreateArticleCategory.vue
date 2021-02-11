@@ -68,10 +68,9 @@
 </template>
 
 <script>
-    import ArticleService from "@/services/articles/ArticleService";
     import HelperClass from "@/services/HelperClass";
     import FileUpload from "@/components/FileUpload";
-
+    import CategoryService from "@/services/articles/CategoryService";
     const VueInputUi = () => import('vue-input-ui');
     export default {
         name: "CreateArticleCategory",
@@ -101,7 +100,7 @@
         },
         methods: {
             getCategories() {
-                ArticleService.getAllCategories('select_box')
+                CategoryService.getAllCategories('select_box')
                     .then((res) => {
                         if (res.status === 204) {
                             this.is_show_parent = false;
@@ -128,7 +127,7 @@
                 formData.append('status', this.status);
                 formData.append('parent', this.parent);
                 formData.append('file', this.$store.state.file)
-                ArticleService.storeArticleCategory(formData)
+                CategoryService.storeArticleCategory(formData)
                     .then(() => {
                         HelperClass.removeAllImagePreviews();
                         this.fa_title = '';

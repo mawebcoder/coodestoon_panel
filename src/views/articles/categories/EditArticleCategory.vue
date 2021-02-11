@@ -67,11 +67,10 @@
 </template>
 
 <script>
-    import ArticleService from "@/services/articles/ArticleService";
     import HelperClass from "@/services/HelperClass";
     import FileUpload from "@/components/FileUpload";
     import Button from "@/components/Button";
-
+    import CategoryService from "@/services/articles/CategoryService";
     const VueInputUi = () => import('vue-input-ui');
 
     export default {
@@ -98,7 +97,7 @@
         methods: {
             getInfo() {
 
-                ArticleService.editArticleCategory(parseInt(this.$route.params.articleCategory))
+                CategoryService.editArticleCategory(parseInt(this.$route.params.articleCategory))
                     .then(res => {
                         let data = res.data.data;
                         let parents = data.categories;
@@ -135,7 +134,7 @@
                 formData.append('file', this.$store.state.file);
                 formData.append('parent', this.parent)
                 let id = this.$route.params.articleCategory;
-                ArticleService.UpdateArticleCategory(id, formData)
+                CategoryService.UpdateArticleCategory(id, formData)
                     .then(() => {
                         HelperClass.showSuccess(this.$noty)
                         if (this.$route.query.from_actives) {

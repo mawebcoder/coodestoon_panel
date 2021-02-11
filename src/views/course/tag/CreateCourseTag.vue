@@ -30,7 +30,7 @@
 </template>
 
 <script>
-    import TagService from "@/services/articles/TagService";
+import TagService from "@/services/Course/TagService";
     import HelperClass from "@/services/HelperClass";
 
     const VueInputUi = () => import('vue-input-ui');
@@ -54,7 +54,7 @@
                     'en_title': this.en_tag_name,
                     'status': this.status
                 }
-                TagService.storeArticleTag(data).then(() => {
+                TagService.storeCourseTag(data).then(() => {
                     HelperClass.showSuccess(this.$noty)
                     this.en_tag_name = '';
                     this.fa_tag_name = '';
@@ -76,9 +76,6 @@
                 return this.status ? 'فعال' : 'غیر فعال'
             }
         },
-        mounted() {
-
-        }
     }
 </script>
 

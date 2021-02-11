@@ -15,6 +15,8 @@
                 </div>
             </div>
             <ul id="sidebar_ul">
+
+                <!--                blogs-->
                 <li>
                     <span @click="subone=!subone,openerone=!openerone" class="sidebar_opener">
                         <box-icon color="#596860" name='library'></box-icon>
@@ -44,16 +46,17 @@
                                 <router-link :to="{name:'article-category-active'}">دسته بندی های فعال</router-link>
                             </li>
                             <li>
-                                <router-link :to="{name:'article-category-deactive'}">دسته بندی های غیر فعال</router-link>
+                                <router-link :to="{name:'article-category-deactive'}">دسته بندی های غیر فعال
+                                </router-link>
                             </li>
                             <li>
-                                <router-link :to="{name:'article-category-trash'}">سطل زباله دسته بندی ها</router-link>
+                                <router-link :to="{name:'article-category-trash'}">دسته های حذف شده</router-link>
                             </li>
                             <li class="li_title">
                                 تگ ها
                             </li>
                             <li>
-                                <router-link :to="{name:'article-tag-create'}">ایجاد تگ </router-link>
+                                <router-link :to="{name:'article-tag-create'}">ایجاد تگ</router-link>
                             </li>
                             <li>
                                 <router-link :to="{name:'article-tag-list'}">لیست تگ ها</router-link>
@@ -62,10 +65,10 @@
                                 <router-link :to="{name:'article-tags-active'}">لیست تگ های فعال</router-link>
                             </li>
                             <li>
-                                <router-link :to="{name:'article-tags-de-active'}">لیست تگ  غیر فعال</router-link>
+                                <router-link :to="{name:'article-tags-de-active'}">لیست تگ غیر فعال</router-link>
                             </li>
                             <li>
-                                <router-link :to="{name:'article-tags-trashes'}">سطل زباله تگ ها</router-link>
+                                <router-link :to="{name:'article-tags-trashes'}">تگ های حذف شده</router-link>
                             </li>
                             <li class="li_title">
                                 مقالات
@@ -83,8 +86,101 @@
                                 <router-link :to="{name:'article-de-actives'}"> لیست مقالات غیر فعال</router-link>
                             </li>
                             <li>
-                                <router-link :to="{name:'article-trashes'}">سطل زباله مقالات</router-link>
+                                <router-link :to="{name:'article-trashes'}">مقالات حذف شده</router-link>
                             </li>
+                        </ul>
+                    </transition>
+
+                </li>
+
+                <!--                course-->
+                <li>
+                    <span @click="subtwo=!subtwo,openertwo=!openertwo" class="sidebar_opener">
+                        <box-icon color="#596860" name='library'></box-icon>
+                        <p class="top_title">دوره ها</p>
+                        <transition name="subtwo" mode="out-in">
+                             <span v-if="subtwo" :key="0" class="down_arrow">
+                                     <box-icon size="xs" color="#596860" type='solid' name='down-arrow'></box-icon>
+                                 </span>
+                             <span v-else :key="1" class="up_arrow">
+                           <box-icon size="xs" color="#596860" name='up-arrow' type='solid'></box-icon>
+                         </span>
+                        </transition>
+
+                    </span>
+                    <transition name="openertwo" mode="in-out">
+                        <ul v-if="openertwo" class="sidebar_ul_level_2">
+                            <li class="li_title">
+                                دسته بندی ها
+                            </li>
+                            <li>
+                                <router-link :to="{name:'article-category-create'}">ایجاد دسته بندی</router-link>
+                            </li>
+                            <li>
+                                <router-link :to="{name:'article-category-list'}"> لیست دسته بندی ها</router-link>
+                            </li>
+                            <li>
+                                <router-link :to="{name:'article-category-active'}">دسته بندی های فعال</router-link>
+                            </li>
+                            <li>
+                                <router-link :to="{name:'article-category-deactive'}">دسته بندی های غیر فعال
+                                </router-link>
+                            </li>
+                            <li>
+                                <router-link :to="{name:'article-category-trash'}">دسته های حذف شده</router-link>
+                            </li>
+                            <li class="li_title">
+                                تگ ها
+                            </li>
+                            <li>
+                                <router-link :to="{name:'course-tag-create'}">ایجاد تگ</router-link>
+                            </li>
+                            <li>
+                                <router-link :to="{name:'course-tag-list'}">لیست تگ ها</router-link>
+                            </li>
+                            <li>
+                                <router-link :to="{name:'course-tag-active'}">لیست تگ های فعال</router-link>
+                            </li>
+                            <li>
+                                <router-link :to="{name:'course-tag-de-active'}">لیست تگ غیر فعال</router-link>
+                            </li>
+                            <li class="li_title">
+                                فصل بندی ها
+                            </li>
+                            <li>
+                                <router-link :to="{name:'article-store'}">ایجاد فصل جدید</router-link>
+                            </li>
+                            <li>
+                                <router-link :to="{name:'article-list'}">لیست تمام فصل ها</router-link>
+                            </li>
+                            <li>
+                                <router-link :to="{name:'article-actives'}"> لیست فصل های فعال</router-link>
+                            </li>
+                            <li>
+                                <router-link :to="{name:'article-de-actives'}"> لیست فصل های غیر فعال</router-link>
+                            </li>
+                            <li>
+                                <router-link :to="{name:'article-trashes'}">فصول حذف شده</router-link>
+                            </li>
+                            <li class="li_title">
+                                دوره ها
+                            </li>
+                            <li>
+                                <router-link :to="{name:'article-trashes'}">ایجاد دوره جدید</router-link>
+                            </li>
+                            <li>
+                                <router-link :to="{name:'article-trashes'}">لیست تمام دوره ها</router-link>
+                            </li>
+                             <li>
+                                <router-link :to="{name:'article-trashes'}">دوره های فعال</router-link>
+                            </li>
+                            <li>
+                                <router-link :to="{name:'article-trashes'}">دوره های غیر فعال</router-link>
+                            </li>
+                            <li>
+                                <router-link :to="{name:'article-trashes'}">دوره های حذف شده</router-link>
+                            </li>
+
                         </ul>
                     </transition>
 
@@ -100,8 +196,9 @@
         data() {
             return {
                 subone: true,
+                openerone: false,
                 subtwo: true,
-                openerone:false
+                openertwo: false
             }
         }
     }
@@ -160,6 +257,7 @@
             .sidebar_opener {
                 height: 50px;
                 display: block;
+                margin-top: 5px;
                 transition: .5s;
                 cursor: pointer;
                 border-radius: 5px;
@@ -217,6 +315,7 @@
             height: 40px;
             padding-right: 10px;
             border-radius: 4px;
+
             > a {
                 height: 100%;
                 width: 100%;
@@ -227,6 +326,7 @@
                 transition: .1s;
 
             }
+
             &:hover a {
                 color: red;
                 transform: translateX(-5px);
@@ -234,6 +334,7 @@
         }
     }
 
+    /*blogs*/
     .subone-enter {
         opacity: .4;
         transform: translateY(-5px);
@@ -243,13 +344,36 @@
         opacity: 1;
         transform: translateY(0);
     }
-    .openerone-enter{
+
+    .openerone-enter {
         max-height: 0;
     }
-    .openerone-leave-active{
+
+    .openerone-leave-active {
         max-height: 0;
     }
-    .li_title{
+
+
+    /*course*/
+    .subtwo-enter {
+        opacity: .4;
+        transform: translateY(-5px);
+    }
+
+    subtwo-leave-active {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .openertwo-enter {
+        max-height: 0;
+    }
+
+    .openertwo-leave-active {
+        max-height: 0;
+    }
+
+    .li_title {
         font-weight: bold;
         font-size: .9em;
         color: orange;

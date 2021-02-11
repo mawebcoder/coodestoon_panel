@@ -23,9 +23,8 @@
 </template>
 
 <script>
-    import ArticleService from "@/services/articles/ArticleService";
     import HelperClass from "@/services/HelperClass";
-
+    import CategoryService from "@/services/articles/CategoryService";
     const VueInputUi = () => import('vue-input-ui');
     export default {
         name: "ArticleCategoryList",
@@ -98,7 +97,7 @@
         watch: {
             current(value) {
                 this.$store.state.loading = true;
-                ArticleService.paginateArticleCategories(value)
+                CategoryService.paginateArticleCategories(value)
                     .then(res => {
                         let list = [];
                         res.data.data.data.forEach(item => {
@@ -124,7 +123,7 @@
         },
         methods: {
             getListOfTheArticleCategories() {
-                ArticleService.getListOfTheArticleCategories(1)
+                CategoryService.getListOfTheArticleCategories(1)
                     .then(res => {
                         let list = [];
                         if (res.status === 204) {
@@ -165,7 +164,7 @@
                     return
                 }
                 this.$store.state.loading = true;
-                ArticleService.searchInArticleCategories(this.search_value)
+                CategoryService.searchInArticleCategories(this.search_value)
                     .then((res) => {
                         let list = [];
                         if (res.status === 204) {
@@ -205,7 +204,7 @@
                     description: row.description
                 }
 
-                ArticleService.switchArticleCategoryStatus(row.id, data)
+                CategoryService.switchArticleCategoryStatus(row.id, data)
                     .then(() => {
                         this.getListOfTheArticleCategories();
                         HelperClass.showSuccess(this.$noty)
@@ -234,7 +233,7 @@
                         let data = {
                             ids: this.selected
                         }
-                        ArticleService.deleteArticleCategories(data)
+                        CategoryService.deleteArticleCategories(data)
                             .then(() => {
                                 this.selected = [];
                                 if (this.current > 1) {

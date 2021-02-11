@@ -46,7 +46,7 @@
 </template>
 
 <script>
-    import ArticleService from "@/services/articles/ArticleService";
+    import TagService from "@/services/articles/TagService";
     import HelperClass from "@/services/HelperClass";
     import Modal from "@/layouts/Modal";
 
@@ -105,7 +105,7 @@
         watch: {
             current(value) {
                 this.$store.state.loading = true;
-                ArticleService.paginateTags(value)
+                TagService.paginateTags(value)
                     .then(res => {
                         let list = [];
                         res.data.data.data.forEach(item => {
@@ -140,7 +140,7 @@
                     return
                 }
                 this.$store.state.loading = true;
-                ArticleService.search(this.search_value)
+                TagService.search(this.search_value)
                     .then((res) => {
                         let list = [];
                         if (res.status === 204) {
@@ -176,7 +176,7 @@
                     en_title: this.en_title,
                     status: this.status
                 }
-                ArticleService.updateTag(this.id, data)
+                TagService.updateTag(this.id, data)
                     .then(() => {
                         this.getList();
                         HelperClass.showSuccess(this.$noty);
@@ -187,7 +187,7 @@
             },
             getList() {
                 this.$store.state.loading = true;
-                ArticleService.getListOfTheTags(this.current)
+                TagService.getListOfTheTags(this.current)
                     .then(res => {
                         let list = [];
                         if (res.status === 204) {
@@ -257,7 +257,7 @@
                     status: row.condition ? 0 : 1
                 }
 
-                ArticleService.switchActivation(row.id, data)
+                TagService.switchActivation(row.id, data)
                     .then(() => {
                         this.getList();
                         HelperClass.showSuccess(this.$noty)
@@ -286,7 +286,7 @@
                         let data = {
                             ids: this.selected
                         }
-                        ArticleService.deleteTags(data)
+                        TagService.deleteTags(data)
                             .then(() => {
                                 this.selected = [];
                                 if (this.current > 1) {

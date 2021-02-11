@@ -44,7 +44,7 @@
 </template>
 
 <script>
-    import ArticleService from "@/services/articles/ArticleService";
+    import TagService from "@/services/articles/TagService";
     import HelperClass from "@/services/HelperClass";
     import Modal from "@/layouts/Modal";
     const VueInputUi = () => import('vue-input-ui');
@@ -104,7 +104,7 @@
         watch: {
             current(value) {
                 this.$store.state.loading = true;
-                ArticleService.paginateTrashedTags(value)
+                TagService.paginateTrashedTags(value)
                     .then(res => {
                         let list = [];
                         res.data.data.data.forEach(item => {
@@ -138,7 +138,7 @@
                     return
                 }
                 this.$store.state.loading = true;
-                ArticleService.searchInTrashes(this.search_value)
+                TagService.searchInTrashes(this.search_value)
                     .then((res) => {
                         let list = [];
                         if (res.status === 204) {
@@ -174,7 +174,7 @@
                     en_title: this.en_title,
                     status: this.status
                 }
-                ArticleService.updateTag(this.id, data)
+                TagService.updateTag(this.id, data)
                     .then(() => {
                         this.getTrashes()
                         HelperClass.showSuccess(this.$noty);
@@ -186,7 +186,7 @@
             },
             getTrashes() {
                 this.$store.state.loading = true;
-                ArticleService.getTrashes(this.current)
+                TagService.getTrashes(this.current)
                     .then(res => {
                         let list = [];
                         if (res.status === 204) {
@@ -268,7 +268,7 @@
                         let data = {
                             ids: this.selected
                         }
-                        ArticleService.forceDeleteTags(data)
+                        TagService.forceDeleteTags(data)
                             .then(() => {
                                 this.selected = [];
                                 if (this.current > 1) {
@@ -294,7 +294,7 @@
                     status: row.condition ? 0 : 1
                 }
 
-                ArticleService.switchActivation(row.id, data)
+                TagService.switchActivation(row.id, data)
                     .then(() => {
                         this.getTrashes()
                         HelperClass.showSuccess(this.$noty)
@@ -314,7 +314,7 @@
                         let data = {
                             ids: this.selected
                         }
-                        ArticleService.restoreTags(data)
+                        TagService.restoreTags(data)
                             .then(() => {
                                 this.selected = [];
                                 if (this.current > 1) {
