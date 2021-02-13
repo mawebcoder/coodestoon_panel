@@ -4,6 +4,8 @@ const CreateCourseTag=()=>import("@/views/course/tag/CreateCourseTag");
 const CourseTagList=()=>import('../views/course/tag/List')
 const ActiveTag=()=>import('@/views/course/tag/ActiveTag')
 const DeActiveCourseTag=()=>import('@/views/course/tag/DeActiveCourseTag')
+const Category=()=>import('@/views/course/category/Category')
+const StoreCourseCategory=()=>import('@/views/course/category/StoreCourseCategory')
 const CourseRoutes={
     path:'/panel/courses',component:Course,
     children:[
@@ -21,6 +23,14 @@ const CourseRoutes={
                 },
                 {
                     path: 'de-actives',component:DeActiveCourseTag,name: 'course-tag-de-active'
+                }
+            ]
+        },
+        {
+            path:'categories',component:Category,
+            children: [
+                {
+                    path: 'store',component:StoreCourseCategory,name:'course-category-store'
                 }
             ]
         }

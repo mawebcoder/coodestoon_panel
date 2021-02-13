@@ -114,7 +114,7 @@
                                 دسته بندی ها
                             </li>
                             <li>
-                                <router-link :to="{name:'article-category-create'}">ایجاد دسته بندی</router-link>
+                                <router-link :to="{name:'course-category-store'}">ایجاد دسته بندی</router-link>
                             </li>
                             <li>
                                 <router-link :to="{name:'article-category-list'}"> لیست دسته بندی ها</router-link>
