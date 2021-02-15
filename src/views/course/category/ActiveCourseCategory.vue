@@ -1,27 +1,6 @@
 <template>
     <div>
-        <modal title="ویرایش تگ">
-            <div slot="content">
-                <label style="color: #fff;margin:4px 0">
-                    نام فارسی تگ :
-                </label>
-                <div class="form-group">
-                    <VueInputUi type="array" label="نام تگ به فارسی..." v-model="fa_title"/>
-                </div>
-                <label style="color: #fff;margin:4px 0">
-                    نام انگلیسی تگ :
-                </label>
-                <div class="form-group">
-                    <VueInputUi type="array" label="نام تگ به فارسی..." v-model="en_title"/>
-                </div>
-                <div class="form-group">
-                    <div @click="update" class="submit_button">
-                        ثبت
-                    </div>
-                </div>
-            </div>
-        </modal>
-        <span @click="deleteItems" class="delete_button">
+           <span @click="deleteItems" class="delete_button">
             <box-icon color="#fff" name='trash'></box-icon>
         </span>
         <div class="form-group">
@@ -34,21 +13,33 @@
                         :rows="rows"
                         @on-cell-click="onCellClick"
         />
-        <div dir="ltr" style="margin-top: 20px;margin-bottom: 100px">
-            <vs-pagination :total="last_page" v-model="current"></vs-pagination>
-        </div>
+        <template v-if="show_pagination">
+            <div dir="ltr" style="margin-top: 20px;margin-bottom: 100px">
+                <vs-pagination :total="last_page" v-model="current"></vs-pagination>
+            </div>
+        </template>
+
     </div>
 </template>
 
 <script>
     import HelperClass from "@/services/HelperClass";
-    import Modal from "@/layouts/Modal";
+    import CourseCategoryService from "@/services/Course/CourseCategoryService";
+
     const VueInputUi = () => import('vue-input-ui');
-    import TagService from "@/services/articles/TagService";
     export default {
-        name: "ActiveTagsList",
+        name: "ArticleCategoryList",
+        created() {
+            this.$store.state.loading = true;
+            this.$store.state.pageTitle = 'لیست دسته بندی های تایید شده دوره ها';
+            this.getActiveCourseCategoryList();
+        },
         data() {
             return {
+                show_pagination: true,
+                current: 1,
+                search_value: '',
+                selected: [],
                 columns: [
                     {
                         label: 'عنوان فارسی',
@@ -56,7 +47,13 @@
                     },
                     {
                         label: 'عنوان لاتین',
+                        field: 'en_title_show',
+                        html: true
+                    },
+                    {
+                        label: 'en_title',
                         field: 'en_title',
+                        hidden: true
                     },
                     {
                         label: 'condition',
@@ -67,7 +64,13 @@
                         label: 'وضعیت',
                         field: 'status',
                         html: true,
-                    }, {
+                    },
+                    {
+                        label: 'meta',
+                        field: 'meta',
+                        hidden: true
+                    },
+                    {
                         label: 'تغییر وضعیت',
                         field: 'switch_condition',
                         html: true
@@ -78,26 +81,30 @@
                         html: true
                     },
                     {
+                        label: 'نام والد',
+                        field: 'father',
+                        html: true
+                    },
+                    {
+                        label: 'description',
+                        field: 'description',
+                        hidden: true
+                    },
+                    {
                         label: 'انتخاب',
                         field: 'delete',
                         html: true
                     }
                 ],
                 rows: [],
-                selected: [],
-                fa_title: '',
-                en_title: '',
-                status: '',
-                id: '',
-                current: 1,
-                search_value: '',
-                last_page: 0,
+                ArticleCategoriesList: [],
+                last_page: 0
             }
         },
         watch: {
             current(value) {
                 this.$store.state.loading = true;
-                TagService.paginateActiveTags(value)
+                CourseCategoryService.paginateActiveCourseCategories(value)
                     .then(res => {
                         let list = [];
                         res.data.data.data.forEach(item => {
@@ -105,6 +112,7 @@
                                 {
                                     id: item.id,
                                     fa_title: item.fa_title,
+                                    en_title_show: item.en_title ? item.en_title : '<span class="deactive_button">ندارد</span>',
                                     en_title: item.en_title,
                                     condition: item.status,
                                     status: item.status ? '<span class="active_button">فعال</span>' : '<span class="deactive_button">غیر فعال</span>',
@@ -120,18 +128,51 @@
                 })
             }
         },
-        created() {
-            this.$store.state.pageTitle = 'لیست تگ های فعال مقالات';
-            this.getActiveTagsList()
-        },
         methods: {
+            getActiveCourseCategoryList() {
+                CourseCategoryService.getActiveCourseCategoryList()
+                    .then(res => {
+                        let list = [];
+                        if (res.status === 204) {
+                            this.rows = list;
+                            this.$store.state.loading = false;
+                            this.last_page = 0;
+                            return;
+                        }
+                        this.last_page = res.data.data.last_page;
+                        let result = res.data.data.data;
+                        result.forEach(item => {
+                            list.push(
+                                {
+                                    id: item.id,
+                                    fa_title: item.fa_title,
+                                    en_title_show: item.en_title ? item.en_title : '<span class="deactive_button">ندارد</span>',
+                                    en_title: item.en_title,
+                                    condition: item.status,
+                                    meta: item.meta,
+                                    status: item.status ? '<span class="active_button">فعال</span>' : '<span class="deactive_button">غیر فعال</span>',
+                                    father: item.father ? item.father.fa_title : '<span class="deactive_button">ندارد</span>',
+                                    switch_condition: item.status ? "<i class='active_it' title='غیر فعال کن'> <box-icon color='red' name='x'></box-icon></i>" : "<i title='فعال کن' class='active_it'><box-icon color='green' name='check'></box-icon></i>",
+                                    edit: '<i  title="ویرایش" class="active_it"><box-icon color="green" type="solid" name="message-edit"></box-icon></i>',
+                                    description: item.description,
+                                    delete: '<input type="checkbox"  value="' + item.id + '">'
+                                })
+                        })
+                        this.rows = list;
+                        this.$store.state.loading = false;
+                    }).catch(error => {
+                    HelperClass.showErrors(error, this.$noty)
+                });
+            },
             searchInTable() {
+                this.show_pagination = false
                 if (this.search_value.trim() === '') {
-                    this.getActiveTagsList()
+                    this.show_pagination = true;
+                    this.getActiveCourseCategoryList();
                     return
                 }
                 this.$store.state.loading = true;
-                TagService.searchInActives(this.search_value)
+                CourseCategoryService.searchInActiveCourseCategories(this.search_value)
                     .then((res) => {
                         let list = [];
                         if (res.status === 204) {
@@ -139,18 +180,21 @@
                             this.$store.state.loading = false;
                             return
                         }
-
-                        res.data.data.data.forEach(item => {
-
+                        let result = res.data.data;
+                        result.forEach(item => {
                             list.push(
                                 {
                                     id: item.id,
                                     fa_title: item.fa_title,
+                                    en_title_show: item.en_title ? item.en_title : '<span class="deactive_button">ندارد</span>',
                                     en_title: item.en_title,
                                     condition: item.status,
+                                    meta: item.meta,
                                     status: item.status ? '<span class="active_button">فعال</span>' : '<span class="deactive_button">غیر فعال</span>',
+                                    father: item.father ? item.father.fa_title : '<span class="deactive_button">ندارد</span>',
                                     switch_condition: item.status ? "<i class='active_it' title='غیر فعال کن'> <box-icon color='red' name='x'></box-icon></i>" : "<i title='فعال کن' class='active_it'><box-icon color='green' name='check'></box-icon></i>",
-                                    edit: '<i  title="ویرایش" class="active_it"><box-icon color="green" type=\'solid\' name=\'message-edit\'></box-icon></i>',
+                                    edit: '<i  title="ویرایش" class="active_it"><box-icon color="green" type="solid" name="message-edit"></box-icon></i>',
+                                    description: item.description,
                                     delete: '<input type="checkbox"  value="' + item.id + '">'
                                 })
                         })
@@ -160,58 +204,21 @@
                     HelperClass.showErrors(error, this.$noty);
                 })
             },
-            update() {
+            switchCondition(row) {
                 this.$store.state.loading = true;
                 let data = {
-                    fa_title: this.fa_title,
-                    en_title: this.en_title,
-                    status: this.status
+                    fa_title: row.fa_title,
+                    status: row.condition ? 0 : 1,
+                    description: row.description,
+                    meta: row.meta
                 }
-                TagService.updateTag(this.id, data)
+
+                CourseCategoryService.switchCourseCategoryStatus(row.id, data)
                     .then(() => {
-                       this.getActiveTagsList()
-                        HelperClass.showSuccess(this.$noty);
-                        this.$store.state.modal_show = false;
+                        this.getActiveCourseCategoryList();
+                        HelperClass.showSuccess(this.$noty)
                     }).catch(error => {
-                    HelperClass.showErrors(error, this.$noty);
-                    this.$store.state.modal_show = false;
-                })
-            },
-            getActiveTagsList() {
-                this.$store.state.loading = true;
-                TagService.getActiveTags()
-                    .then(res => {
-                        let list = [];
-                        if (res.status === 204) {
-                            this.rows = list;
-                            this.$store.state.loading = false;
-                            this.last_page = 0;
-                            return
-                        }
-                        this.last_page = res.data.data.last_page;
-
-                        res.data.data.data.forEach(item => {
-
-                            list.push(
-                                {
-                                    id: item.id,
-                                    fa_title: item.fa_title,
-                                    en_title: item.en_title,
-                                    condition: item.status,
-                                    status: item.status ? '<span class="active_button">فعال</span>' : '<span class="deactive_button">غیر فعال</span>',
-                                    switch_condition: item.status ? "<i class='active_it' title='غیر فعال کن'> <box-icon color='red' name='x'></box-icon></i>" : "<i title='فعال کن' class='active_it'><box-icon color='green' name='check'></box-icon></i>",
-                                    edit: '<i  title="ویرایش" class="active_it"><box-icon color="green" type=\'solid\' name=\'message-edit\'></box-icon></i>',
-                                    delete: '<input type="checkbox"  value="' + item.id + '">'
-                                })
-                        })
-                        this.rows = list;
-                        this.$store.state.loading = false;
-
-
-                    }).catch(error => {
-                    if (error.response) {
-                        HelperClass.showErrors(error, this.$noty)
-                    }
+                    HelperClass.showErrors(error, this.$noty)
                 })
             },
             selectItems(inputElement) {
@@ -224,32 +231,6 @@
                 }
 
             },
-            showEditModal(row) {
-                this.fa_title = row.fa_title;
-                this.en_title = row.en_title;
-                this.status = row.condition;
-                this.$store.state.modal_show = true;
-                this.id = row.id;
-            },
-            onCellClick(params) {
-                let tagName = params.event.target.tagName;
-                let column_name = params.column.field;
-                let row_object = params.row
-                switch (tagName) {
-                    case ("BOX-ICON"):
-                        if (column_name === 'edit') {
-                            this.showEditModal(row_object)
-                        } else if (column_name === 'switch_condition') {
-                            this.switchCondition(row_object)
-                        }
-                        break
-                    case ('INPUT'):
-                        this.selectItems(params.event.target)
-                        break
-                    default:
-                        break
-                }
-            },
             deleteItems() {
                 if (HelperClass.checkIsEmpty(this.selected)) {
                     return
@@ -261,14 +242,14 @@
                         let data = {
                             ids: this.selected
                         }
-                        TagService.deleteTags(data)
+                        CourseCategoryService.deleteCourseCategories(data)
                             .then(() => {
                                 this.selected = [];
                                 if (this.current > 1) {
                                     this.current = this.current - 1;
                                 }
 
-                               this.getActiveTagsList()
+                                this.getActiveCourseCategoryList();
                                 HelperClass.scrollTop();
                                 HelperClass.showSuccess(this.$noty)
                             }).catch(error => {
@@ -279,26 +260,32 @@
                 })
 
             },
-            switchCondition(row) {
-                this.$store.state.loading = true;
-                let data = {
-                    fa_title: row.fa_title,
-                    en_title: row.en_title,
-                    status: row.condition ? 0 : 1
-                }
+            onCellClick(params) {
+                let tagName = params.event.target.tagName;
+                let column_name = params.column.field;
+                let row_object = params.row
+                switch (tagName) {
+                    case ("BOX-ICON"):
 
-                TagService.switchActivation(row.id, data)
-                    .then(() => {
-                        this.getActiveTagsList()
-                        HelperClass.showSuccess(this.$noty)
-                    }).catch(error => {
-                    HelperClass.showErrors(error, this.$noty)
-                    this.$store.state.loading = false;
-                })
+                        if (column_name === 'edit') {
+                            this.$router.push({
+                                name: 'course-category-edit',
+                                params: {courseCategory_id: row_object.id},
+                                query: {from_actives: true}
+                            })
+                        } else if (column_name === 'switch_condition') {
+                            this.switchCondition(row_object)
+                        }
+                        break
+                    case ('INPUT'):
+                        this.selectItems(params.event.target)
+                        break
+                    default:
+                        break
+                }
             },
         },
         components: {
-            Modal,
             VueInputUi
         }
     }

@@ -39,8 +39,8 @@ class TagService {
 
 
     // active tags
-    getActiveTags(pageNumber) {
-        return axios.get('/v1/articles/tags/actives?page=' + pageNumber + '&select_box=true')
+    getActiveTags() {
+        return axios.get('/v1/articles/tags/actives')
     }
 
     // search in active tags

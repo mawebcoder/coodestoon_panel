@@ -117,17 +117,16 @@
                                 <router-link :to="{name:'course-category-store'}">ایجاد دسته بندی</router-link>
                             </li>
                             <li>
-                                <router-link :to="{name:'article-category-list'}"> لیست دسته بندی ها</router-link>
+                                <router-link :to="{name:'course-category-list'}"> لیست دسته بندی ها</router-link>
                             </li>
                             <li>
-                                <router-link :to="{name:'article-category-active'}">دسته بندی های فعال</router-link>
+                                <router-link :to="{name:'course-category-active'}">دسته بندی های فعال</router-link>
                             </li>
                             <li>
-                                <router-link :to="{name:'article-category-deactive'}">دسته بندی های غیر فعال
-                                </router-link>
+                                <router-link :to="{name:'course-category-de-active'}">دسته بندی های غیر فعال</router-link>
                             </li>
                             <li>
-                                <router-link :to="{name:'article-category-trash'}">دسته های حذف شده</router-link>
+                                <router-link :to="{name:'course-category-trash'}">دسته های حذف شده</router-link>
                             </li>
                             <li class="li_title">
                                 تگ ها
