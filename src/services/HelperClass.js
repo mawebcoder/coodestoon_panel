@@ -85,8 +85,6 @@ class HelperClass {
         })
     }
 
-
-
     // images methods
     validateFileUpload(inputElement, formElement, size = null, validTypes = null) {
         let file = inputElement.files[0];
@@ -143,6 +141,17 @@ class HelperClass {
             item.querySelector('i.remove').style.display = 'none'
         })
 
+    }
+    checkNumberValidation(event) {
+        let keyCode = event.keyCode;
+        if (!event.target.value.length) {
+            if (keyCode === 48) {
+                event.preventDefault()
+            }
+        }
+        if (keyCode === 189 || keyCode === 187 || keyCode === 69) {
+            event.preventDefault();
+        }
     }
 }
 

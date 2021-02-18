@@ -6,7 +6,10 @@ class TagService {
         return axios.post('/v1/courses/tags', data)
     }
 
-    getListOfTheTags() {
+    getListOfTheTags(select_box = null) {
+        if (select_box !== null) {
+            return axios.get('/v1/courses/tags?select_box=true')
+        }
         return axios.get('/v1/courses/tags')
     }
 
@@ -34,11 +37,12 @@ class TagService {
         return axios.get('/v1/courses/tags/actives?search=' + search_value)
     }
 
-    getListOfTheDeActiveTags(){
+    getListOfTheDeActiveTags() {
         return axios.get('/v1/courses/tags/de-actives')
     }
-    searchInDeActiveTags(search_value){
-        return axios.get('/v1/courses/tags/de-actives?search='+search_value)
+
+    searchInDeActiveTags(search_value) {
+        return axios.get('/v1/courses/tags/de-actives?search=' + search_value)
     }
 
 }

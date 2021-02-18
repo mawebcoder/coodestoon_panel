@@ -15,6 +15,40 @@
                 </div>
             </div>
             <ul id="sidebar_ul">
+                <!--        ACL-->
+                <li>
+                    <span @click="subthree=!subthree,openerthree=!openerthree" class="sidebar_opener">
+                        <box-icon color="#596860" name='library'></box-icon>
+                        <p class="top_title">سطوح دسترسی</p>
+                        <transition name="subthree" mode="out-in">
+                             <span v-if="subthree" :key="0" class="down_arrow">
+                                     <box-icon size="xs" color="#596860" type='solid' name='down-arrow'></box-icon>
+                                 </span>
+                             <span v-else :key="1" class="up_arrow">
+                           <box-icon size="xs" color="#596860" name='up-arrow' type='solid'></box-icon>
+                         </span>
+                        </transition>
+
+                    </span>
+                    <transition name="openerthree" mode="in-out">
+                        <ul v-if="openerthree" class="sidebar_ul_level_2">
+                            <li class="li_title">
+                                نقش ها
+                            </li>
+                            <li>
+                                <router-link :to="{name:'role-create'}">ایجاد نقش جدید</router-link>
+                            </li>
+                            <li>
+                                <router-link :to="{name:'article-category-list'}"> لیست نقش ها</router-link>
+                            </li>
+                            <li>
+                                <router-link :to="{name:'article-category-deactive'}">تخصیص مجوز به نقش ها
+                                </router-link>
+                            </li>
+                        </ul>
+                    </transition>
+
+                </li>
 
                 <!--                blogs-->
                 <li>
@@ -123,7 +157,8 @@
                                 <router-link :to="{name:'course-category-active'}">دسته بندی های فعال</router-link>
                             </li>
                             <li>
-                                <router-link :to="{name:'course-category-de-active'}">دسته بندی های غیر فعال</router-link>
+                                <router-link :to="{name:'course-category-de-active'}">دسته بندی های غیر فعال
+                                </router-link>
                             </li>
                             <li>
                                 <router-link :to="{name:'course-category-trash'}">دسته های حذف شده</router-link>
@@ -165,12 +200,12 @@
                                 دوره ها
                             </li>
                             <li>
-                                <router-link :to="{name:'article-trashes'}">ایجاد دوره جدید</router-link>
+                                <router-link :to="{name:'course-create'}">ایجاد دوره جدید</router-link>
                             </li>
                             <li>
                                 <router-link :to="{name:'article-trashes'}">لیست تمام دوره ها</router-link>
                             </li>
-                             <li>
+                            <li>
                                 <router-link :to="{name:'article-trashes'}">دوره های فعال</router-link>
                             </li>
                             <li>
@@ -184,6 +219,8 @@
                     </transition>
 
                 </li>
+
+
             </ul>
         </aside>
     </div>
@@ -197,7 +234,9 @@
                 subone: true,
                 openerone: false,
                 subtwo: true,
-                openertwo: false
+                openertwo: false,
+                subthree: true,
+                openerthree: false
             }
         }
     }
@@ -369,6 +408,25 @@
     }
 
     .openertwo-leave-active {
+        max-height: 0;
+    }
+
+
+    .subthree-enter {
+        opacity: .4;
+        transform: translateY(-5px);
+    }
+
+    subthree-leave-active {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .openerthree-enter {
+        max-height: 0;
+    }
+
+    .openerthree-leave-active {
         max-height: 0;
     }
 

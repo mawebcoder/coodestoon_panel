@@ -1,11 +1,9 @@
 //import components section
-import ArticleRoutes from "./ArticlesRoutes";
-import CourseRoutes from "./CourseRoutes";
-
-
+import panel from "./panelRoutes";
+import notFound from "./NotFound";
+import AuthRoutes from "./AuthRoutes";
 const routes = []
-
-routes.push(ArticleRoutes)
-routes.push(CourseRoutes)
-
+routes.push(panel)
+routes.push(AuthRoutes)
+routes.push(notFound)
 export default routes;

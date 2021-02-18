@@ -21,7 +21,7 @@ const ArticleTrashes=()=>import('@/views/articles/Trashes');
 const CreateArticleCategory = () => import('@/views/articles/categories/CreateArticleCategory')
 
 let ArticleRoutes= {
-    path: '/panel/articles', component: Articles,
+    path: 'articles', component: Articles,
     children: [
         {
             // articles tags
