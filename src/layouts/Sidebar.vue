@@ -39,7 +39,7 @@
                                 <router-link :to="{name:'role-create'}">ایجاد نقش جدید</router-link>
                             </li>
                             <li>
-                                <router-link :to="{name:'article-category-list'}"> لیست نقش ها</router-link>
+                                <router-link :to="{name:'role-list'}"> لیست نقش ها</router-link>
                             </li>
                             <li>
                                 <router-link :to="{name:'article-category-deactive'}">تخصیص مجوز به نقش ها
