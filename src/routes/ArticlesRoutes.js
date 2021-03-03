@@ -21,7 +21,9 @@ const ArticleTrashes=()=>import('@/views/articles/Trashes');
 const CreateArticleCategory = () => import('@/views/articles/categories/CreateArticleCategory')
 
 let ArticleRoutes= {
+
     path: 'articles', component: Articles,
+
     children: [
         {
             // articles tags
@@ -44,7 +46,6 @@ let ArticleRoutes= {
                 },
             ]
         },
-
         {
             // articles categories
             path: 'categories', component: Categories,

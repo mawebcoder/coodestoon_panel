@@ -48,7 +48,7 @@ class CategoryService {
     }
 
     paginateActiveArticleCategories(pageNumber) {
-        return axios.get('/v1/articles/categories/de-actives?page=' + pageNumber)
+        return axios.get('/v1/articles/categories/actives?page=' + pageNumber)
     }
 
     searchInActiveArticleCategories(search_value) {

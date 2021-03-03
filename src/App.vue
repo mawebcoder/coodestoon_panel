@@ -26,6 +26,7 @@
     @import '~pretty-checkbox/src/pretty-checkbox.scss';
     @import '~vue-input-ui/dist/vue-input-ui.css';
     @import "./assets/globalStyles/app.scss";
+    @import "~vue-multiselect/dist/vue-multiselect.min.css";
     @import '~vuejs-noty-2/dist/vuejs-noty.css';
 
     .vs-pagination--mb {

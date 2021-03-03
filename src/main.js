@@ -5,7 +5,15 @@ import './assets/css/fontiran.css'
 import 'boxicons';
 import VueRouter from "vue-router";
 import router from "./routes/router";
+import Vuesax from 'vuesax'
 
+import 'vuesax/dist/vuesax.css' //Vuesax styles
+Vue.use(Vuesax, {
+    // options here
+})
+import editor from "vue-editor-md2"
+
+Vue.use(editor)
 import PrettyCheckbox from 'pretty-checkbox-vue';
 import axios from "axios";
 import VueNoty from 'vuejs-noty-2'
@@ -13,9 +21,6 @@ import store from "./store/vuex";
 import VueGoodTablePlugin from 'vue-good-table';
 // import the styles
 import 'vue-good-table/dist/vue-good-table.css'
-import Vuesax from 'vuesax'
-
-import 'vuesax/dist/vuesax.css' //Vuesax styles
 
 
 Vue.use(VueGoodTablePlugin);
@@ -26,9 +31,7 @@ Vue.use(PrettyCheckbox);
 Vue.use(VueRouter)
 Vue.use(VueNoty)
 Vue.config.productionTip = false
-Vue.use(Vuesax, {
-    // options here
-})
+
 new Vue({
     router,
     store,

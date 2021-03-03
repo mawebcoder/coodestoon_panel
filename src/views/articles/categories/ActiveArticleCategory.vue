@@ -96,6 +96,7 @@
         watch: {
             current(value) {
                 this.$store.state.loading = true;
+
                 CategoryService.paginateActiveArticleCategories(value)
                     .then(res => {
                         let list = [];

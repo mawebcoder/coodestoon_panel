@@ -68,14 +68,14 @@
                 menubar: true,
                 plugins: [
                 'advlist autolink link image lists charmap print preview hr anchor pagebreak',
-                'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
+                'searchreplace codesample wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
                 'table emoticons template paste help'
                  ],
                 width: 1000,
                 height: 300,
                 images_upload_url:$store.state.baseUrl+'/api/v1/upload-article-images',
                 // image_upload_base_path:$store.state.baseUrl,
-                toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | ' +
+                toolbar: 'undo redo | styleselect | codesample | bold italic | alignleft aligncenter alignright alignjustify | ' +
                 'bullist numlist outdent indent | link image | print preview media fullpage | ' +
                 'forecolor backcolor emoticons | help',
                  }"
@@ -123,11 +123,12 @@
 
 <script>
     import Editor from '@tinymce/tinymce-vue'
-    import ArticleService from "@/services/articles/ArticleService";
+    import CategoryService from "@/services/articles/CategoryService";
     import HelperClass from "@/services/HelperClass";
     import FileUpload from "@/components/FileUpload";
     import Button from "@/components/Button";
-
+    import TagService from "@/services/articles/TagService";
+import ArticleService from "@/services/articles/ArticleService";
     const VueInputUi = () => import('vue-input-ui');
     export default {
         name: "CreateArticleCategory",
@@ -173,7 +174,7 @@
         },
         methods: {
             getCategories() {
-                ArticleService.getAllCategories('select_box')
+              CategoryService.getAllCategories('select_box')
                     .then((res) => {
                         if (res.status === 204) {
                             this.is_show_parent = false;
@@ -189,7 +190,7 @@
                 })
             },
             getActiveTagsList() {
-                ArticleService.getActiveTags(this.current)
+              TagService.getActiveTags('select_box')
                     .then(res => {
                         let list = [];
                         res.data.data.forEach(item => {
@@ -221,7 +222,7 @@
                 this.cover_file_name = result.article.cover_file_name;
             },
             getArticleInfo() {
-                ArticleService.getArticleInformation(this.$route.params.article)
+              ArticleService.getArticleInformation(this.$route.params.article)
                     .then((res) => {
                         let result = res.data.data
                         this.setInfo(result);
@@ -260,7 +261,7 @@
             submit() {
                 this.$store.state.loading = true;
                 let formDate = this.getValues()
-                ArticleService.updateArticle(this.$route.params.article, formDate)
+              ArticleService.updateArticle(this.$route.params.article, formDate)
                     .then(() => {
                         HelperClass.showSuccess(this.$noty);
                         if (this.$route.query.from_list) {

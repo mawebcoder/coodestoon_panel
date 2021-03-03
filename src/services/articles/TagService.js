@@ -39,7 +39,10 @@ class TagService {
 
 
     // active tags
-    getActiveTags() {
+    getActiveTags(select_box=null) {
+        if(select_box!=null){
+            return axios.get('/v1/articles/tags/actives?select_box=true')
+        }
         return axios.get('/v1/articles/tags/actives')
     }
 

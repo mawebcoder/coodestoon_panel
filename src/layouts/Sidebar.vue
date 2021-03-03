@@ -15,10 +15,61 @@
                 </div>
             </div>
             <ul id="sidebar_ul">
+
+                <!--        Users-->
+                <li>
+                    <span @click="subFour=!subFour,openerFour=!openerFour" class="sidebar_opener">
+                        <box-icon type='solid' color="#596860" name='user-circle'></box-icon>
+                        <p class="top_title">مدیریت کاربران</p>
+                        <transition name="subFour" mode="out-in">
+                             <span v-if="subFour" :key="0" class="down_arrow">
+                                     <box-icon size="xs" color="#596860" type='solid' name='down-arrow'></box-icon>
+                                 </span>
+                             <span v-else :key="1" class="up_arrow">
+                           <box-icon size="xs" color="#596860" name='up-arrow' type='solid'></box-icon>
+                         </span>
+                        </transition>
+
+                    </span>
+                    <transition name="openerFour" mode="in-out">
+                        <ul v-if="openerFour" class="sidebar_ul_level_2">
+
+                            <li>
+                                <router-link :to="{name:'users-create'}">ایجاد کاربر جدید</router-link>
+                            </li>
+                            <li>
+                                <router-link :to="{name:'role-list'}"> لیست کاربران</router-link>
+                            </li>
+                            <li>
+                                <router-link :to="{name:'article-category-deactive'}">لیست مدیران
+                                </router-link>
+                            </li>
+                            <li>
+                                <router-link :to="{name:'article-category-deactive'}">لیست مدرسین
+                                </router-link>
+                            </li>
+                            <li>
+                                <router-link :to="{name:'article-category-deactive'}">لیست مدرسین فعال
+                                </router-link>
+                            </li>
+                            <li>
+                                <router-link :to="{name:'article-category-deactive'}">لیست مدرسین غیر فعال
+                                </router-link>
+                            </li>
+                            <li>
+                                <router-link :to="{name:'article-category-deactive'}">لیست کاربران حذف شده
+                                </router-link>
+                            </li>
+                        </ul>
+                    </transition>
+
+                </li>
+
+
                 <!--        ACL-->
                 <li>
                     <span @click="subthree=!subthree,openerthree=!openerthree" class="sidebar_opener">
-                        <box-icon color="#596860" name='library'></box-icon>
+                        <box-icon type='solid' color="#596860" name='lock'></box-icon>
                         <p class="top_title">سطوح دسترسی</p>
                         <transition name="subthree" mode="out-in">
                              <span v-if="subthree" :key="0" class="down_arrow">
@@ -53,7 +104,7 @@
                 <!--                blogs-->
                 <li>
                     <span @click="subone=!subone,openerone=!openerone" class="sidebar_opener">
-                        <box-icon color="#596860" name='library'></box-icon>
+                        <box-icon type='solid'  color="#596860" name='book-alt'></box-icon>
                         <p class="top_title">مقالات</p>
                         <transition name="subone" mode="out-in">
                              <span v-if="subone" :key="0" class="down_arrow">
@@ -130,7 +181,7 @@
                 <!--                course-->
                 <li>
                     <span @click="subtwo=!subtwo,openertwo=!openertwo" class="sidebar_opener">
-                        <box-icon color="#596860" name='library'></box-icon>
+                        <box-icon color="#596860" type='solid' name='camera-movie'></box-icon>
                         <p class="top_title">دوره ها</p>
                         <transition name="subtwo" mode="out-in">
                              <span v-if="subtwo" :key="0" class="down_arrow">
@@ -236,7 +287,9 @@
                 subtwo: true,
                 openertwo: false,
                 subthree: true,
-                openerthree: false
+                openerthree: false,
+                subFour: true,
+                openerFour: false
             }
         }
     }
@@ -429,6 +482,27 @@
     .openerthree-leave-active {
         max-height: 0;
     }
+
+    /*from here*/
+
+    .subFour-enter {
+        opacity: .4;
+        transform: translateY(-5px);
+    }
+
+    subFour-leave-active {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .openerFour-enter {
+        max-height: 0;
+    }
+
+    .openerFour-leave-active {
+        max-height: 0;
+    }
+
 
     .li_title {
         font-weight: bold;
