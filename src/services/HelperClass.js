@@ -3,6 +3,16 @@ import swal from "sweetalert2";
 
 class HelperClass {
 
+    numberFormat( num ) {
+        var str = num.toString().split('.');
+        if (str[0].length >= 5) {
+            str[0] = str[0].replace(/(\d)(?=(\d{3})+$)/g, '$1,');
+        }
+        if (str[1] && str[1].length >= 5) {
+            str[1] = str[1].replace(/(\d{3})/g, '$1 ');
+        }
+        return str.join('.');
+    }
     // show the server errors
     showErrors(error, noty) {
         store.state.loading = false
@@ -158,6 +168,10 @@ class HelperClass {
         if (keyCode === 189 || keyCode === 187 || keyCode === 69) {
             event.preventDefault();
         }
+    }
+
+    spliceTeacherName(teacher_name) {
+        return teacher_name.length < 20 ? teacher_name : teacher_name.slice(0, 20)+"..."
     }
 }
 

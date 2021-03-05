@@ -254,7 +254,7 @@
                                 <router-link :to="{name:'course-create'}">ایجاد دوره جدید</router-link>
                             </li>
                             <li>
-                                <router-link :to="{name:'article-trashes'}">لیست تمام دوره ها</router-link>
+                                <router-link :to="{name:'course-list'}">لیست تمام دوره ها</router-link>
                             </li>
                             <li>
                                 <router-link :to="{name:'article-trashes'}">دوره های فعال</router-link>

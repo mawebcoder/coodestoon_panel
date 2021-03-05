@@ -35,9 +35,10 @@
     <div class="form-group">
       <vs-select
           class="selectExample"
-          label="انتخاب دسته بندی :"
+          label="انتخاب تگ(ها) :"
           v-model="tag"
           multiple
+          :disabled="is_disable_tags_select"
       >
         <vs-select-item :key="index" :value="item.value" :text="item.text" v-for="(item,index) in tags"/>
       </vs-select>
@@ -146,7 +147,7 @@ export default {
     }
   },
   created() {
-    this.$store.state.pageTitle = 'ایجاد دسته بندی مقالات';
+    this.$store.state.pageTitle = 'ایجاد مقاله جدید';
     this.getCategories();
     this.getActiveTagsList()
   },
@@ -166,9 +167,8 @@ export default {
           .then((res) => {
             let list = [];
             if (res.status === 204) {
-              list.push({value: 0, text: 'عدم وجود دسته'})
-              this.categories = list;
-              this.category = list[0].value
+              this.categories.push({value: 0, text: 'عدم وجود دسته بندی فعال'});
+              this.category = 0
               this.is_disable_category_select = true;
               return
             }
@@ -184,19 +184,18 @@ export default {
     getActiveTagsList() {
       TagService.getActiveTags('select_box')
           .then(res => {
-            console.log(res.data.data)
             let list = [];
             if (res.status === 204) {
               list.push({value: 0, text: 'تگی وجود ندارد'})
               this.tags = list;
-              this.tag = list[0].value;
+              this.tag=[];
+              this.tag.push(list[0].value);
               this.is_disable_tags_select = true
               return
             }
             res.data.data.forEach(item => {
               this.tags.push({text: item.fa_title, value: item.id})
             })
-            console.log(this.tags[0].value)
             this.tag.push(this.tags[0].value)
 
           }).catch(error => {
@@ -212,11 +211,9 @@ export default {
       this.writer = ''
       this.fa_title = ''
       this.en_title = ''
-      this.categories = []
-      this.category = ''
       this.content = ''
-      this.tags = []
-      this.tag = [1]
+      this.getActiveTagsList();
+      this.getCategories()
     },
     getValues() {
       let formDate = new FormData();
@@ -229,7 +226,7 @@ export default {
       formDate.append('articleCategory_id', this.category)
       formDate.append('writer', this.writer)
       formDate.append('status', this.status)
-      formDate.append('article_tags', JSON.stringify(this.tag))
+      formDate.append('article_tags', this.tag[0] === 0 ? null : JSON.stringify(this.tag))
       return formDate;
     },
     submit() {

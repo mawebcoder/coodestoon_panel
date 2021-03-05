@@ -1,311 +1,314 @@
 <template>
-    <div>
-        <modal title="ویرایش تگ">
-            <div slot="content">
-                <label style="color: #fff;margin:4px 0">
-                    نام فارسی تگ :
-                </label>
-                <div class="form-group">
-                    <VueInputUi type="array" label="نام تگ به فارسی..." v-model="fa_title"/>
-                </div>
-                <label style="color: #fff;margin:4px 0">
-                    نام انگلیسی تگ :
-                </label>
-                <div class="form-group">
-                    <VueInputUi type="array" label="نام تگ به فارسی..." v-model="en_title"/>
-                </div>
-                <div class="form-group">
-                    <div @click="update" class="submit_button">
-                        ثبت
-                    </div>
-                </div>
-            </div>
-        </modal>
+  <div>
+    <modal title="ویرایش تگ">
+      <div slot="content">
+        <label style="color: #fff;margin:4px 0">
+          نام فارسی تگ :
+        </label>
+        <div class="form-group">
+          <VueInputUi type="array" label="نام تگ به فارسی..." v-model="fa_title"/>
+        </div>
+        <label style="color: #fff;margin:4px 0">
+          نام انگلیسی تگ :
+        </label>
+        <div class="form-group">
+          <VueInputUi type="array" label="نام تگ به فارسی..." v-model="en_title"/>
+        </div>
+        <div class="form-group">
+          <div @click="update" class="submit_button">
+            ثبت
+          </div>
+        </div>
+      </div>
+    </modal>
 
-        <span @click="deleteItems" class="delete_button">
+    <span @click="deleteItems" class="delete_button">
             <box-icon color="#fff" name='trash'></box-icon>
         </span>
-        <div class="form-group">
-            <VueInputUi @keyup="searchInTable" type="array" label="جستجو..." v-model="search_value"/>
-        </div>
-        <vue-good-table mode="remote"
-                        :line-numbers="true"
-                        :rtl="true"
-                        :columns="columns"
-                        :rows="rows"
-                        @on-cell-click="onCellClick"
-        />
-        <template v-if="show_pagination">
-            <div dir="ltr" style="margin-top: 20px;margin-bottom: 100px">
-                <vs-pagination :total="last_page" v-model="current"></vs-pagination>
-            </div>
-        </template>
-
+    <div class="form-group">
+      <VueInputUi @keyup="searchInTable" type="array" label="جستجو..." v-model="search_value"/>
     </div>
+    <vue-good-table mode="remote"
+                    :line-numbers="true"
+                    :rtl="true"
+                    :columns="columns"
+                    :rows="rows"
+                    @on-cell-click="onCellClick"
+    />
+    <template v-if="show_pagination">
+      <div dir="ltr" style="margin-top: 20px;margin-bottom: 100px">
+        <vs-pagination :total="last_page" v-model="current"></vs-pagination>
+      </div>
+    </template>
+
+  </div>
 
 </template>
 
 <script>
-    import TagService from "@/services/Course/TagService";
-    import HelperClass from "@/services/HelperClass";
-    import Modal from "@/layouts/Modal";
-    const VueInputUi = () => import('vue-input-ui');
-    export default {
-        name: "List",
-        data() {
-            return {
-                show_pagination:true,
-                columns: [
-                    {
-                        label: 'عنوان فارسی',
-                        field: 'fa_title',
-                    },
-                    {
-                        label: 'عنوان لاتین',
-                        field: 'en_title',
-                    },
-                    {
-                        label: 'condition',
-                        field: 'condition',
-                        hidden: true
-                    },
-                    {
-                        label: 'وضعیت',
-                        field: 'status',
-                        html: true,
-                    }, {
-                        label: 'تغییر وضعیت',
-                        field: 'switch_condition',
-                        html: true
-                    },
-                    {
-                        label: 'ویرایش',
-                        field: 'edit',
-                        html: true
-                    },
-                    {
-                        label: 'انتخاب',
-                        field: 'delete',
-                        html: true
-                    }
-                ],
-                rows: [],
-                selected: [],
-                fa_title: '',
-                en_title: '',
-                status: '',
-                id: '',
-                current: 1,
-                search_value: '',
-                last_page: 0,
-            }
+import TagService from "@/services/Course/TagService";
+import HelperClass from "@/services/HelperClass";
+import Modal from "@/layouts/Modal";
+
+const VueInputUi = () => import('vue-input-ui');
+export default {
+  name: "List",
+  data() {
+    return {
+      show_pagination: true,
+      columns: [
+        {
+          label: 'عنوان فارسی',
+          field: 'fa_title',
         },
-        watch: {
-            current(value) {
-                this.$store.state.loading = true;
-                TagService.paginateTags(value)
-                    .then(res => {
-                        let list = [];
-                        res.data.data.data.forEach(item => {
-                            list.push(
-                                {
-                                    id: item.id,
-                                    fa_title: item.fa_title,
-                                    en_title: item.en_title,
-                                    condition: item.status,
-                                    status: item.status ? '<span class="active_button">فعال</span>' : '<span class="deactive_button">غیر فعال</span>',
-                                    switch_condition: item.status ? "<i class='active_it' title='غیر فعال کن'> <box-icon color='red' name='x'></box-icon></i>" : "<i title='فعال کن' class='active_it'><box-icon color='green' name='check'></box-icon></i>",
-                                    edit: '<i  title="ویرایش" class="active_it"><box-icon color="green" type=\'solid\' name=\'message-edit\'></box-icon></i>',
-                                    delete: '<input type="checkbox"  value="' + item.id + '">'
-                                })
-                        })
-                        this.rows = list;
-                        this.$store.state.loading = false;
-                    }).catch(error => {
-                    HelperClass.showErrors(error, this.$noty)
-                })
-            }
+        {
+          label: 'عنوان لاتین',
+          field: 'en_title',
         },
-        created() {
-            this.$store.state.pageTitle = 'لیست تگ های دوره ها';
-            this.getListOfTheTags();
+        {
+          label: 'condition',
+          field: 'condition',
+          hidden: true
         },
-        methods: {
-            searchInTable() {
-
-                if (this.search_value.trim() === '') {
-                    this.getListOfTheTags();
-                    return
-                }
-                this.last_page=0;
-                this.$store.state.loading = true;
-                TagService.search(this.search_value)
-                    .then((res) => {
-                        let list = [];
-                        if (res.status === 204) {
-                            this.rows = [];
-                            this.$store.state.loading = false;
-                            return
-                        }
-
-                        res.data.data.forEach(item => {
-
-                            list.push(
-                                {
-                                    id: item.id,
-                                    fa_title: item.fa_title,
-                                    en_title: item.en_title,
-                                    condition: item.status,
-                                    status: item.status ? '<span class="active_button">فعال</span>' : '<span class="deactive_button">غیر فعال</span>',
-                                    switch_condition: item.status ? "<i class='active_it' title='غیر فعال کن'> <box-icon color='red' name='x'></box-icon></i>" : "<i title='فعال کن' class='active_it'><box-icon color='green' name='check'></box-icon></i>",
-                                    edit: '<i  title="ویرایش" class="active_it"><box-icon color="green" type=\'solid\' name=\'message-edit\'></box-icon></i>',
-                                    delete: '<input type="checkbox"  value="' + item.id + '">'
-                                })
-                        })
-                        this.rows = list;
-                        this.$store.state.loading = false;
-                    }).catch(error => {
-                    HelperClass.showErrors(error, this.$noty);
-                })
-            },
-            update() {
-                this.$store.state.loading = true;
-                let data = {
-                    fa_title: this.fa_title,
-                    en_title: this.en_title,
-                    status: this.status
-                }
-                TagService.updateTag(this.id, data)
-                    .then(() => {
-                        this.getListOfTheTags();
-                        HelperClass.showSuccess(this.$noty);
-                        this.$store.state.modal_show = false;
-                    }).catch(error => {
-                    HelperClass.showErrors(error, this.$noty);
-                })
-            },
-            getListOfTheTags() {
-                this.$store.state.loading = true;
-                TagService.getListOfTheTags(this.current)
-                    .then(res => {
-                        let list = [];
-                        if (res.status === 204) {
-                            this.rows = list;
-                            this.$store.state.loading = false;
-                            this.last_page = 0;
-                            return
-                        }
-                        this.last_page = res.data.data.last_page;
-
-                        res.data.data.data.forEach(item => {
-
-                            list.push(
-                                {
-                                    id: item.id,
-                                    fa_title: item.fa_title,
-                                    en_title: item.en_title,
-                                    condition: item.status,
-                                    status: item.status ? '<span class="active_button">فعال</span>' : '<span class="deactive_button">غیر فعال</span>',
-                                    switch_condition: item.status ? "<i class='active_it' title='غیر فعال کن'> <box-icon color='red' name='x'></box-icon></i>" : "<i title='فعال کن' class='active_it'><box-icon color='green' name='check'></box-icon></i>",
-                                    edit: '<i  title="ویرایش" class="active_it"><box-icon color="green" type=\'solid\' name=\'message-edit\'></box-icon></i>',
-                                    delete: '<input type="checkbox"  value="' + item.id + '">'
-                                })
-                        })
-                        this.rows = list;
-                        this.$store.state.loading = false;
-                    }).catch(error => {
-                    if (error.response) {
-                        HelperClass.showErrors(error, this.$noty)
-                    }
-                })
-            },
-            onCellClick(params) {
-                let tagName = params.event.target.tagName;
-                let column_name = params.column.field;
-                let row_object = params.row
-                switch (tagName) {
-                    case ("BOX-ICON"):
-
-                        if (column_name === 'edit') {
-                            this.showEditModal(row_object)
-                        } else if (column_name === 'switch_condition') {
-                            this.switchCondition(row_object)
-                        }
-                        break
-                    case ('INPUT'):
-                        this.selectItems(params.event.target)
-                        break
-                    default:
-                        break
-                }
-            },
-            showEditModal(row) {
-                this.fa_title = row.fa_title;
-                this.en_title = row.en_title;
-                this.status = row.condition;
-                this.$store.state.modal_show = true;
-                this.id = row.id;
-            },
-            switchCondition(row) {
-                this.$store.state.loading = true;
-                let data = {
-                    fa_title: row.fa_title,
-                    en_title: row.en_title,
-                    status: row.condition ? 0 : 1
-                }
-                TagService.switchActivation(row.id, data)
-                    .then(() => {
-                        this.getListOfTheTags();
-                        HelperClass.showSuccess(this.$noty)
-                    }).catch(error => {
-                    HelperClass.showErrors(error, this.$noty)
-                })
-            },
-            selectItems(inputElement) {
-                let value = inputElement.value;
-                if (inputElement.checked) {
-                    this.selected.push(parseInt(value))
-                } else {
-                    const index = this.selected.indexOf(value);
-                    this.selected.splice(index, 1);
-                }
-
-            },
-            deleteItems() {
-                if (HelperClass.checkIsEmpty(this.selected)) {
-                    return
-                }
-                HelperClass.showSwalAsking().then(result => {
-
-                    if (result.value) {
-                        this.$store.state.loading = true
-                        let data = {
-                            ids: this.selected
-                        }
-                        TagService.deleteTags(data)
-                            .then(() => {
-                                this.selected = [];
-                                if (this.current > 1) {
-                                    this.current = this.current - 1;
-                                }
-
-                                this.getListOfTheTags();
-                                HelperClass.scrollTop();
-                                HelperClass.showSuccess(this.$noty)
-                            }).catch(error => {
-                            HelperClass.scrollTop();
-                            HelperClass.showErrors(error, this.$noty)
-                        });
-                    }
-                })
-
-            }
+        {
+          label: 'وضعیت',
+          field: 'status',
+          html: true,
+        }, {
+          label: 'تغییر وضعیت',
+          field: 'switch_condition',
+          html: true
         },
-        components: {
-            Modal,
-            VueInputUi,
+        {
+          label: 'ویرایش',
+          field: 'edit',
+          html: true
+        },
+        {
+          label: 'انتخاب',
+          field: 'delete',
+          html: true
         }
+      ],
+      rows: [],
+      selected: [],
+      fa_title: '',
+      en_title: '',
+      status: '',
+      id: '',
+      current: 1,
+      search_value: '',
+      last_page: 0,
     }
+  },
+  watch: {
+    current(value) {
+      this.$store.state.loading = true;
+      TagService.paginateListOfTheTag(value)
+          .then(res => {
+            let list = [];
+            res.data.data.data.forEach(item => {
+              list.push(
+                  {
+                    id: item.id,
+                    fa_title: item.fa_title,
+                    en_title: item.en_title,
+                    condition: item.status,
+                    status: item.status ? '<span class="active_button">فعال</span>' : '<span class="deactive_button">غیر فعال</span>',
+                    switch_condition: item.status ? "<i class='active_it' title='غیر فعال کن'> <box-icon color='red' name='x'></box-icon></i>" : "<i title='فعال کن' class='active_it'><box-icon color='green' name='check'></box-icon></i>",
+                    edit: '<i  title="ویرایش" class="active_it"><box-icon color="green" type=\'solid\' name=\'message-edit\'></box-icon></i>',
+                    delete: '<input type="checkbox"  value="' + item.id + '">'
+                  })
+            })
+            this.rows = list;
+            this.$store.state.loading = false;
+          }).catch(error => {
+        HelperClass.showErrors(error, this.$noty)
+      })
+    }
+  },
+  created() {
+    this.$store.state.pageTitle = 'لیست تگ های دوره ها';
+    this.getListOfTheTags();
+  },
+  methods: {
+    searchInTable() {
+
+      if (this.search_value.trim() === '') {
+        this.getListOfTheTags();
+        return
+      }
+      this.last_page = 0;
+      this.$store.state.loading = true;
+      TagService.search(this.search_value)
+          .then((res) => {
+            let list = [];
+            if (res.status === 204) {
+              this.rows = [];
+              this.$store.state.loading = false;
+              return
+            }
+
+            res.data.data.forEach(item => {
+
+              list.push(
+                  {
+                    id: item.id,
+                    fa_title: item.fa_title,
+                    en_title: item.en_title,
+                    condition: item.status,
+                    status: item.status ? '<span class="active_button">فعال</span>' : '<span class="deactive_button">غیر فعال</span>',
+                    switch_condition: item.status ? "<i class='active_it' title='غیر فعال کن'> <box-icon color='red' name='x'></box-icon></i>" : "<i title='فعال کن' class='active_it'><box-icon color='green' name='check'></box-icon></i>",
+                    edit: '<i  title="ویرایش" class="active_it"><box-icon color="green" type=\'solid\' name=\'message-edit\'></box-icon></i>',
+                    delete: '<input type="checkbox"  value="' + item.id + '">'
+                  })
+            })
+            this.rows = list;
+            this.$store.state.loading = false;
+          }).catch(error => {
+        HelperClass.showErrors(error, this.$noty);
+      })
+    },
+    update() {
+      this.$store.state.loading = true;
+      let data = {
+        fa_title: this.fa_title,
+        en_title: this.en_title,
+        status: this.status
+      }
+      TagService.updateTag(this.id, data)
+          .then(() => {
+            this.getListOfTheTags();
+            HelperClass.showSuccess(this.$noty);
+            this.$store.state.modal_show = false;
+          }).catch(error => {
+        HelperClass.showErrors(error, this.$noty);
+      })
+    },
+    getListOfTheTags() {
+      this.$store.state.loading = true;
+      TagService.getListOfTheTags()
+          .then(res => {
+            let list = [];
+
+            if (res.status === 204) {
+              this.rows = list;
+              this.$store.state.loading = false;
+              this.last_page = 0;
+              return
+            }
+
+            this.last_page = res.data.data.last_page;
+
+            res.data.data.data.forEach(item => {
+
+              list.push(
+                  {
+                    id: item.id,
+                    fa_title: item.fa_title,
+                    en_title: item.en_title,
+                    condition: item.status,
+                    status: item.status ? '<span class="active_button">فعال</span>' : '<span class="deactive_button">غیر فعال</span>',
+                    switch_condition: item.status ? "<i class='active_it' title='غیر فعال کن'> <box-icon color='red' name='x'></box-icon></i>" : "<i title='فعال کن' class='active_it'><box-icon color='green' name='check'></box-icon></i>",
+                    edit: '<i  title="ویرایش" class="active_it"><box-icon color="green" type="solid" name="message-edit"></box-icon></i>',
+                    delete: '<input type="checkbox"  value="' + item.id + '">'
+                  })
+            })
+            this.rows = list;
+            this.$store.state.loading = false;
+          }).catch(error => {
+        if (error.response) {
+          HelperClass.showErrors(error, this.$noty)
+        }
+      })
+    },
+    onCellClick(params) {
+      let tagName = params.event.target.tagName;
+      let column_name = params.column.field;
+      let row_object = params.row
+      switch (tagName) {
+        case ("BOX-ICON"):
+
+          if (column_name === 'edit') {
+            this.showEditModal(row_object)
+          } else if (column_name === 'switch_condition') {
+            this.switchCondition(row_object)
+          }
+          break
+        case ('INPUT'):
+          this.selectItems(params.event.target)
+          break
+        default:
+          break
+      }
+    },
+    showEditModal(row) {
+      this.fa_title = row.fa_title;
+      this.en_title = row.en_title;
+      this.status = row.condition;
+      this.$store.state.modal_show = true;
+      this.id = row.id;
+    },
+    switchCondition(row) {
+      this.$store.state.loading = true;
+      let data = {
+        fa_title: row.fa_title,
+        en_title: row.en_title,
+        status: row.condition ? 0 : 1
+      }
+      TagService.switchActivation(row.id, data)
+          .then(() => {
+            this.getListOfTheTags();
+            HelperClass.showSuccess(this.$noty)
+          }).catch(error => {
+        HelperClass.showErrors(error, this.$noty)
+      })
+    },
+    selectItems(inputElement) {
+      let value = inputElement.value;
+      if (inputElement.checked) {
+        this.selected.push(parseInt(value))
+      } else {
+        const index = this.selected.indexOf(value);
+        this.selected.splice(index, 1);
+      }
+
+    },
+    deleteItems() {
+      if (HelperClass.checkIsEmpty(this.selected)) {
+        return
+      }
+      HelperClass.showSwalAsking().then(result => {
+
+        if (result.value) {
+          this.$store.state.loading = true
+          let data = {
+            ids: this.selected
+          }
+          TagService.deleteTags(data)
+              .then(() => {
+                this.selected = [];
+                if (this.current > 1) {
+                  this.current = this.current - 1;
+                }
+
+                this.getListOfTheTags();
+                HelperClass.scrollTop();
+                HelperClass.showSuccess(this.$noty)
+              }).catch(error => {
+            HelperClass.scrollTop();
+            HelperClass.showErrors(error, this.$noty)
+          });
+        }
+      })
+
+    }
+  },
+  components: {
+    Modal,
+    VueInputUi,
+  }
+}
 </script>
 
 <style scoped lang="scss">

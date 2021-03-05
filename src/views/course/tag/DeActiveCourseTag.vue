@@ -103,7 +103,7 @@
         watch: {
             current(value) {
                 this.$store.state.loading = true;
-                TagService.paginateTags(value)
+                TagService.paginateListOfTheDeActiveTags(value)
                     .then(res => {
                         let list = [];
                         res.data.data.data.forEach(item => {

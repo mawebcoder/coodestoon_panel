@@ -13,6 +13,10 @@ class TagService {
         return axios.get('/v1/courses/tags')
     }
 
+    paginateListOfTheTag(page_number) {
+        return axios.get('/v1/courses/tags?page='+page_number)
+    }
+
     switchActivation(id, data) {
         return axios.put('/v1/courses/tags/' + id, data)
     }
@@ -32,6 +36,9 @@ class TagService {
     getListOfTheActiveCourseTags() {
         return axios.get('/v1/courses/tags/actives')
     }
+    paginateListOfTheActiveCourseTags(page_number) {
+        return axios.get('/v1/courses/tags/actives?page='+page_number)
+    }
 
     searchInActiveTags(search_value) {
         return axios.get('/v1/courses/tags/actives?search=' + search_value)
@@ -39,6 +46,9 @@ class TagService {
 
     getListOfTheDeActiveTags() {
         return axios.get('/v1/courses/tags/de-actives')
+    }
+    paginateListOfTheDeActiveTags(page_number) {
+        return axios.get('/v1/courses/tags/de-actives?page='+page_number)
     }
 
     searchInDeActiveTags(search_value) {
