@@ -261,13 +261,13 @@ export default {
       this.discount_value = course_information.discount_value
       this.price = course_information.price;
       this.teacher_id = course_information.teacher_id
-      this.status = course_information.is_active ? true :false;
+      this.status = course_information.is_active ? true : false;
       this.level = course_information.level
-      this.sell_to_special_memberships = course_information.is_special_subscription ? true :false;
+      this.sell_to_special_memberships = course_information.is_special_subscription ? true : false;
       this.description = course_information.description;
       this.short_description = course_information.short_description
       this.src = this.$store.state.baseUrl + '/storage/images/courses/covers/' + this.$route.params.id + '/' + course_information.course_image_cover
-      this.is_completed_course = course_information.is_completed_course ? false :true;
+      this.is_completed_course = course_information.is_completed_course ? true : false;
       console.log(course_information)
     },
     getCourseCategories() {
@@ -350,11 +350,11 @@ export default {
       formData.append('discount_value', this.discount_value);
       formData.append('price', this.price);
       formData.append('file', this.$store.state.file)
-      formData.append('is_active', this.status)
+      formData.append('is_active', this.status ? 1 : 0)
       formData.append('level', this.level);
-      formData.append('is_special_subscription', this.sell_to_special_memberships)
+      formData.append('is_special_subscription', this.sell_to_special_memberships ? 1 : 0)
       formData.append('teacher_id', this.teacher_id)
-      formData.append('is_completed_course', this.is_completed_course)
+      formData.append('is_completed_course', this.is_completed_course ? 1 : 0)
       return formData;
     },
     checkDiscountValidationKeyUp(event) {
@@ -365,11 +365,15 @@ export default {
     },
     submit() {
       let data = this.getValues()
-      CourseService.updateCourse(this.$route.params.id,data)
+      CourseService.updateCourse(this.$route.params.id, data)
           .then(() => {
             HelperClass.showSuccess(this.$noty)
-            if (this.$route.query.from_list){
-              this.$router.push({name:'course-list'})
+            if (this.$route.query.from_list) {
+              this.$router.push({name: 'course-list'})
+            } else if (this.$route.query.from_active_list) {
+              this.$router.push({name: 'course-actives'})
+            }else {
+              this.$router.push({name: 'course-deactives'})
             }
           }).catch(error => {
         HelperClass.showErrors(error, this.$noty)

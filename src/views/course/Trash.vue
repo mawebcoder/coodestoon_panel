@@ -1,7 +1,12 @@
 <template>
   <div>
-           <span @click="deleteItems" class="delete_button">
+
+    <span style="display: inline-block" @click="deleteItems" class="delete_button">
             <box-icon color="#fff" name='trash'></box-icon>
+        </span>
+    <span title="بازیابی موارد انتخابی" style="display: inline-block;background-color:rgba(54,166,184,0.95);"
+          @click="restoreItems" class="delete_button">
+            <box-icon color="#fff" name='recycle'></box-icon>
         </span>
     <div class="form-group">
       <VueInputUi @keyup="searchInTable" type="array" label="جستجو..." v-model="search_value"/>
@@ -31,8 +36,8 @@ export default {
   name: "List",
   created() {
     this.$store.state.loading = true;
-    this.$store.state.pageTitle = 'لیست دوره ها';
-    this.getAllCourses()
+    this.$store.state.pageTitle = 'زباله دان دوره ها';
+    this.getTrashesCourses()
   },
   data() {
     return {
@@ -44,46 +49,6 @@ export default {
         {
           label: 'عنوان فارسی',
           field: 'fa_title',
-        },
-        {
-          label: 'نام دسته',
-          field: 'category',
-          html: true
-        },
-        {
-          label: 'condition',
-          field: 'condition',
-          hidden: true
-        },
-        {
-          label: 'وضعیت',
-          field: 'status',
-          html: true,
-        },
-        {
-          label: 'تغییر وضعیت',
-          field: 'switch_condition',
-          html: true
-        },
-        {
-          label: 'ویرایش',
-          field: 'edit',
-          html: true
-        },
-        {
-          label: 'مدرس',
-          field: 'teacher',
-          html: true
-        },
-        {
-          label: 'قیمت',
-          field: 'price',
-          html: true
-        },
-        {
-          label: 'جزییات',
-          field: 'details',
-          html: true
         },
         {
           label: 'انتخاب',
@@ -99,22 +64,15 @@ export default {
   watch: {
     current(value) {
       this.$store.state.loading = true;
-      CourseService.paginateCourses(value)
+      CourseService.paginateInTrashesCourses(value)
           .then(res => {
-            this.rows=[];
+            this.rows = [];
             let result = res.data.data.data;
+
             result.forEach(item => {
               this.rows.push({
                 fa_title: item.fa_title,
                 id: item.id,
-                condition: item.is_active,
-                category: item.course_category != null ? item.course_category.fa_title : '<span class="deactive_button">حذف شده</span>',
-                status: item.is_active ? '<span class="active_button">فعال</span>' : '<span class="deactive_button">غیر فعال</span>',
-                switch_condition: item.is_active ? "<i class='active_it' title='غیر فعال کن'> <box-icon color='red' name='x'></box-icon></i>" : "<i title='فعال کن' class='active_it'><box-icon color='green' name='check'></box-icon></i>",
-                edit: '<i  title="ویرایش" class="active_it"><box-icon color="green" type="solid" name="message-edit"></box-icon></i>',
-                teacher: '<span>' + HelperClass.spliceTeacherName(item.teacher.name) + '</span>',
-                price: '<span style="color: red">' + HelperClass.numberFormat(parseInt(item.price)) + ' &nbspتومان  </span>',
-                details: '<i  title="جزییات" class="active_it"><box-icon name=\'detail\' type=\'solid\' rotate=\'180\' color=\'green\' ></box-icon></i>',
                 delete: '<input type="checkbox"  value="' + item.id + '">',
               })
             })
@@ -125,10 +83,37 @@ export default {
     }
   },
   methods: {
+    restoreItems() {
+      if (HelperClass.checkIsEmpty(this.selected)) {
+        return
+      }
+      HelperClass.showSwalAsking().then(result => {
 
-    getAllCourses() {
+        if (result.value) {
+          this.$store.state.loading = true
+          let data = {
+            ids: this.selected
+          }
+          CourseService.restoreCourses(data)
+              .then(() => {
+                this.selected = [];
+                if (this.current > 1) {
+                  this.current = this.current - 1;
+                }
+
+                this.getTrashesCourses();
+                HelperClass.scrollTop();
+                HelperClass.showSuccess(this.$noty)
+              }).catch(error => {
+            HelperClass.scrollTop();
+            HelperClass.showErrors(error, this.$noty)
+          });
+        }
+      })
+    },
+    getTrashesCourses() {
       this.rows = [];
-      CourseService.getCourses()
+      CourseService.getTrashesCourses()
           .then(res => {
             if (res.status === 204) {
               this.rows = [];
@@ -143,14 +128,6 @@ export default {
               this.rows.push({
                 fa_title: item.fa_title,
                 id: item.id,
-                condition: item.is_active,
-                category: item.course_category != null ? item.course_category.fa_title : '<span class="deactive_button">حذف شده</span>',
-                status: item.is_active ? '<span class="active_button">فعال</span>' : '<span class="deactive_button">غیر فعال</span>',
-                switch_condition: item.is_active ? "<i class='active_it' title='غیر فعال کن'> <box-icon color='red' name='x'></box-icon></i>" : "<i title='فعال کن' class='active_it'><box-icon color='green' name='check'></box-icon></i>",
-                edit: '<i  title="ویرایش" class="active_it"><box-icon color="green" type="solid" name="message-edit"></box-icon></i>',
-                teacher: '<span>' + HelperClass.spliceTeacherName(item.teacher.name) + '</span>',
-                price: '<span style="color: red">' + HelperClass.numberFormat(parseInt(item.price)) + ' &nbspتومان  </span>',
-                details: '<i  title="جزییات" class="active_it"><box-icon name=\'detail\' type=\'solid\' rotate=\'180\' color=\'green\' ></box-icon></i>',
                 delete: '<input type="checkbox"  value="' + item.id + '">',
               })
             })
@@ -163,11 +140,11 @@ export default {
       this.show_pagination = false
       if (this.search_value.trim() === '') {
         this.show_pagination = true;
-        this.getAllCourses();
+        this.getTrashesCourses();
         return
       }
       this.$store.state.loading = true;
-      CourseService.searchInCourses(this.search_value)
+      CourseService.searchInTrashesCourses(this.search_value)
           .then((res) => {
             if (res.status === 204) {
               this.rows = [];
@@ -180,34 +157,12 @@ export default {
               this.rows.push({
                 fa_title: item.fa_title,
                 id: item.id,
-                condition: item.is_active,
-                category: item.course_category != null ? item.course_category.fa_title : '<span class="deactive_button">حذف شده</span>',
-                status: item.is_active ? '<span class="active_button">فعال</span>' : '<span class="deactive_button">غیر فعال</span>',
-                switch_condition: item.is_active ? "<i class='active_it' title='غیر فعال کن'> <box-icon color='red' name='x'></box-icon></i>" : "<i title='فعال کن' class='active_it'><box-icon color='green' name='check'></box-icon></i>",
-                edit: '<i  title="ویرایش" class="active_it"><box-icon color="green" type="solid" name="message-edit"></box-icon></i>',
-                teacher: '<span>' + HelperClass.spliceTeacherName(item.teacher.name) + '</span>',
-                price: '<span style="color: red">' + HelperClass.numberFormat(parseInt(item.price)) + ' &nbspتومان  </span>',
-                details: '<i  title="جزییات" class="active_it"><box-icon name=\'detail\' type=\'solid\' rotate=\'180\' color=\'green\' ></box-icon></i>',
                 delete: '<input type="checkbox"  value="' + item.id + '">',
               })
             })
             this.$store.state.loading = false;
           }).catch(error => {
         HelperClass.showErrors(error, this.$noty);
-      })
-    },
-    switchCondition(row) {
-      this.$store.state.loading = true;
-      let data = {
-        status: row.condition ? 0 : 1,
-      }
-
-      CourseService.switchCourseStatus(data, row.id)
-          .then(() => {
-            this.getAllCourses();
-            HelperClass.showSuccess(this.$noty)
-          }).catch(error => {
-        HelperClass.showErrors(error, this.$noty)
       })
     },
     selectItems(inputElement) {
@@ -231,14 +186,14 @@ export default {
           let data = {
             ids: this.selected
           }
-          CourseService.deleteCourses(data)
+          CourseService.forceDeleteCourses(data)
               .then(() => {
                 this.selected = [];
                 if (this.current > 1) {
                   this.current = this.current - 1;
                 }
 
-                this.getAllCourses();
+                this.getTrashesCourses();
                 HelperClass.scrollTop();
                 HelperClass.showSuccess(this.$noty)
               }).catch(error => {
@@ -259,7 +214,7 @@ export default {
 
           if (column_name === 'edit') {
 
-            this.$router.push({name: 'course-edit', params: {id: row_object.id}, query: {from_list: true}})
+            this.$router.push({name: 'course-edit', params: {id: row_object.id}, query: {from_de_active_list: true}})
           } else if (column_name === 'switch_condition') {
             this.switchCondition(row_object)
           }

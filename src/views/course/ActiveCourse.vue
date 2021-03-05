@@ -31,8 +31,8 @@ export default {
   name: "List",
   created() {
     this.$store.state.loading = true;
-    this.$store.state.pageTitle = 'لیست دوره ها';
-    this.getAllCourses()
+    this.$store.state.pageTitle = 'لیست دوره های فعال';
+    this.getActiveCourses()
   },
   data() {
     return {
@@ -99,7 +99,7 @@ export default {
   watch: {
     current(value) {
       this.$store.state.loading = true;
-      CourseService.paginateCourses(value)
+      CourseService.paginateActiveCourses(value)
           .then(res => {
             this.rows=[];
             let result = res.data.data.data;
@@ -126,9 +126,9 @@ export default {
   },
   methods: {
 
-    getAllCourses() {
+    getActiveCourses() {
       this.rows = [];
-      CourseService.getCourses()
+      CourseService.getActiveCourses()
           .then(res => {
             if (res.status === 204) {
               this.rows = [];
@@ -163,11 +163,11 @@ export default {
       this.show_pagination = false
       if (this.search_value.trim() === '') {
         this.show_pagination = true;
-        this.getAllCourses();
+        this.getActiveCourses();
         return
       }
       this.$store.state.loading = true;
-      CourseService.searchInCourses(this.search_value)
+      CourseService.searchInActiveCourses(this.search_value)
           .then((res) => {
             if (res.status === 204) {
               this.rows = [];
@@ -204,7 +204,7 @@ export default {
 
       CourseService.switchCourseStatus(data, row.id)
           .then(() => {
-            this.getAllCourses();
+            this.getActiveCourses();
             HelperClass.showSuccess(this.$noty)
           }).catch(error => {
         HelperClass.showErrors(error, this.$noty)
@@ -238,7 +238,7 @@ export default {
                   this.current = this.current - 1;
                 }
 
-                this.getAllCourses();
+                this.getActiveCourses();
                 HelperClass.scrollTop();
                 HelperClass.showSuccess(this.$noty)
               }).catch(error => {
@@ -259,7 +259,7 @@ export default {
 
           if (column_name === 'edit') {
 
-            this.$router.push({name: 'course-edit', params: {id: row_object.id}, query: {from_list: true}})
+            this.$router.push({name: 'course-edit', params: {id: row_object.id}, query: {from_active_list: true}})
           } else if (column_name === 'switch_condition') {
             this.switchCondition(row_object)
           }

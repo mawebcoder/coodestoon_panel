@@ -257,13 +257,13 @@
                                 <router-link :to="{name:'course-list'}">لیست تمام دوره ها</router-link>
                             </li>
                             <li>
-                                <router-link :to="{name:'article-trashes'}">دوره های فعال</router-link>
+                                <router-link :to="{name:'course-actives'}">دوره های فعال</router-link>
                             </li>
                             <li>
-                                <router-link :to="{name:'article-trashes'}">دوره های غیر فعال</router-link>
+                                <router-link :to="{name:'course-deactives'}">دوره های غیر فعال</router-link>
                             </li>
                             <li>
-                                <router-link :to="{name:'article-trashes'}">دوره های حذف شده</router-link>
+                                <router-link :to="{name:'course-trash'}">دوره های حذف شده</router-link>
                             </li>
 
                         </ul>
