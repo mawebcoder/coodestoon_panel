@@ -13,12 +13,14 @@ const router = new VueRouter({
 
 router.beforeEach((to,from,next) => {
 
+    // show loading
     store.state.loading = true;
     next()
 })
 
 router.afterEach(() => {
 
+    //hide loading
     store.state.loading = false;
 })
 

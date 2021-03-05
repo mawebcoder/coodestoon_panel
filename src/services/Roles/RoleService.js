@@ -11,17 +11,29 @@ class RoleService {
         }
         return axios.get('/v1/roles')
     }
-    update(id,data){
-        return axios.put('/v1/roles/'+id,data)
+
+    update(id, data) {
+        return axios.put('/v1/roles/' + id, data)
     }
-    delete(data){
-        return axios.post('/v1/roles/multi/delete',data)
+
+    delete(data) {
+        return axios.post('/v1/roles/multi/delete', data)
     }
-    paginate(page_number){
-        return axios.get('/v1/roles?page='+page_number)
+
+    paginate(page_number) {
+        return axios.get('/v1/roles?page=' + page_number)
     }
-    search(search_value){
-        return axios.get('/v1/roles?search='+search_value)
+
+    search(search_value) {
+        return axios.get('/v1/roles?search=' + search_value)
+    }
+
+    getPermissions() {
+        return axios.get('/v1/roles/permissions');
+    }
+
+    assignPermissionsToRole(data, rol_id) {
+        return axios.post('/v1/roles/set-permissions/' + rol_id, data)
     }
 }
 

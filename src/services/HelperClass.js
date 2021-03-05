@@ -21,7 +21,7 @@ class HelperClass {
                     '403': 'دسترسی غیر مجاز',
                     '404': 'صفحه مورد نظر یافت نشد',
                     '500': 'خطای سرور رخ داده است',
-                    '503': 'سرور در حال تعمیر است',
+                    '503': 'سرور در حال به روزر رسانی است',
                     '401': 'ابتدا باید وارد شوید',
                     '429': 'تعداد دفعات درخواست به سرور بیش از حد مجاز',
                     '410': 'صفحه مورد نظر ناپدید شده است',
@@ -108,6 +108,8 @@ class HelperClass {
         }
         return true;
     }
+
+    // show image preview and store the file in store
     showImagePreview(inputElement, formElement) {
         store.state.file = null;
         let fileReader = new FileReader();
@@ -125,13 +127,16 @@ class HelperClass {
         store.state.file=inputElement.files[0];
         formElement.querySelector('i.remove').style.display = 'block'
     }
+
+    // remove  image previews in system
     removeImagePreview(inputElement, formElement) {
         store.state.file = null;
         formElement.querySelector('img').remove();
         formElement.querySelector('i.remove').style.display = 'none'
         formElement.reset()
-
     }
+
+    // remove all images previews in system
     removeAllImagePreviews() {
         store.state.file = null;
         let forms = document.querySelectorAll('form');
@@ -142,6 +147,7 @@ class HelperClass {
         })
 
     }
+
     checkNumberValidation(event) {
         let keyCode = event.keyCode;
         if (!event.target.value.length) {

@@ -38,7 +38,7 @@
                                 <router-link :to="{name:'users-create'}">ایجاد کاربر جدید</router-link>
                             </li>
                             <li>
-                                <router-link :to="{name:'role-list'}"> لیست کاربران</router-link>
+                                <router-link :to="{name:'users-list'}"> لیست کاربران</router-link>
                             </li>
                             <li>
                                 <router-link :to="{name:'article-category-deactive'}">لیست مدیران
@@ -93,7 +93,7 @@
                                 <router-link :to="{name:'role-list'}"> لیست نقش ها</router-link>
                             </li>
                             <li>
-                                <router-link :to="{name:'article-category-deactive'}">تخصیص مجوز به نقش ها
+                                <router-link :to="{name:'assign-permissions'}">تخصیص مجوز به نقش ها
                                 </router-link>
                             </li>
                         </ul>
