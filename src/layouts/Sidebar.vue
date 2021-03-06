@@ -233,7 +233,7 @@
                                 فصل بندی ها
                             </li>
                             <li>
-                                <router-link :to="{name:'article-store'}">ایجاد فصل جدید</router-link>
+                                <router-link :to="{name:'course-section-create'}">ایجاد فصل جدید</router-link>
                             </li>
                             <li>
                                 <router-link :to="{name:'article-list'}">لیست تمام فصل ها</router-link>

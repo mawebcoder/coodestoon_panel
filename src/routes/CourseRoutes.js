@@ -17,6 +17,8 @@ const Edit=()=>import('@/views/course/Edit')
 const ActiveCourse=()=>import('@/views/course/ActiveCourse')
 const DeActives=()=>import('@/views/course/DeActiveCourse')
 const Trash=()=>import('@/views/course/Trash')
+const CreateCourseSection=()=>import('@/views/course/sections/CreateCourseSection')
+const CourseSection=()=>import('@/views/course/sections/CourseSection')
 const CourseRoutes = {
     path: 'courses', component: Course,
     children: [
@@ -61,6 +63,14 @@ const CourseRoutes = {
                     path: 'trashed', component: CourseCategoryTrash, name: 'course-category-trash'
                 }
             ]
+        },
+        {
+          path:'sections',component:CourseSection,
+          children: [
+              {
+                  path:'create',component:CreateCourseSection,name:'course-section-create'
+              }
+          ]
         },
         {
             path: 'create', component: CreateCourse, name: 'course-create'
