@@ -111,7 +111,7 @@ export default {
     }
   },
   created() {
-    this.$store.state.pageTitle = 'لیست تگ های مقالات';
+    this.$store.state.pageTitle = 'لیست فصول  فعال';
     this.getList();
   },
   methods: {

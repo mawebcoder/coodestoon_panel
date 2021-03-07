@@ -42,6 +42,39 @@ class CourseSectionService {
     paginateActiveCourseSectionList(page_number) {
         return axios.get('/v1/courses/sections/actives?page=' + page_number)
     }
+
+    // deActives
+
+    getDeActiveCourseSections() {
+        return axios.get('/v1/courses/sections/de-actives')
+    }
+
+    searchInDeActiveCourseSection(search) {
+        return axios.get('/v1/courses/sections/de-actives?search=' + search)
+    }
+
+    paginateDeActiveCourseSectionList(page_number) {
+        return axios.get('/v1/courses/sections/de-actives?page=' + page_number)
+    }
+
+    // trashes
+
+
+    getTrashedCourseSections(){
+        return axios.get('/v1/courses/sections/trashed')
+    }
+    paginateInTrashedCourseSections(page_number){
+        return axios.get('/v1/courses/sections/trashed?page='+page_number)
+    }
+    searchInTrashedCourseSections(search){
+        return axios.get('/v1/courses/sections/trashed?search='+search)
+    }
+    restoreCourseSections(data){
+        return axios.post('/v1/courses/sections/restore',data)
+    }
+    forceDeleteCourseSections(data){
+        return axios.post('/v1/courses/sections/force-delete',data)
+    }
 }
 
 export default new CourseSectionService()

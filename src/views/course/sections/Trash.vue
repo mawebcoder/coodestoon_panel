@@ -4,6 +4,10 @@
     <span @click="deleteItems" class="delete_button">
             <box-icon color="#fff" name='trash'></box-icon>
         </span>
+    <span title="بازیابی موارد انتخابی" style="display: inline-block;background-color:rgba(54,166,184,0.95);"
+          @click="restoreItems" class="delete_button">
+            <box-icon color="#fff" name='recycle'></box-icon>
+        </span>
     <div class="form-group">
       <VueInputUi @keyup="searchInTable" type="array" label="جستجو..." v-model="search_value"/>
     </div>
@@ -40,26 +44,6 @@ export default {
           label: 'عنوان فارسی',
           field: 'fa_title',
         },
-
-        {
-          label: 'condition',
-          field: 'condition',
-          hidden: true
-        },
-        {
-          label: 'وضعیت',
-          field: 'status',
-          html: true,
-        }, {
-          label: 'تغییر وضعیت',
-          field: 'switch_condition',
-          html: true
-        },
-        {
-          label: 'ویرایش',
-          field: 'edit',
-          html: true
-        },
         {
           label: 'عنوان دوره',
           field: 'course',
@@ -85,7 +69,7 @@ export default {
   watch: {
     current(value) {
       this.$store.state.loading = true;
-      CourseSectionService.paginateCourseSectionList(value)
+      CourseSectionService.paginateInTrashedCourseSections(value)
           .then(res => {
             let list = [];
             res.data.data.data.forEach(item => {
@@ -93,13 +77,7 @@ export default {
                   {
                     id: item.id,
                     fa_title: item.fa_title,
-                    condition: item.status,
-                    course_id: item.course.id,
-                    meta: item.meta,
-                    status: item.status ? '<span class="active_button">فعال</span>' : '<span class="deactive_button">غیر فعال</span>',
-                    switch_condition: item.status ? "<i class='active_it' title='غیر فعال کن'> <box-icon color='red' name='x'></box-icon></i>" : "<i title='فعال کن' class='active_it'><box-icon color='green' name='check'></box-icon></i>",
-                    edit: '<i  title="ویرایش" class="active_it"><box-icon color="green" type=\'solid\' name=\'message-edit\'></box-icon></i>',
-                    course: HelperClass.spliceTeacherName(item.course.fa_title) ,
+                    course:item.course ? HelperClass.spliceTeacherName(item.course.fa_title):'وجود ندارد' ,
                     delete: '<input type="checkbox"  value="' + item.id + '">'
                   })
             })
@@ -111,10 +89,38 @@ export default {
     }
   },
   created() {
-    this.$store.state.pageTitle = 'لیست تمام فصول';
+    this.$store.state.pageTitle = 'لیست فصول حذف شده';
     this.getList();
   },
   methods: {
+    restoreItems(){
+      if (HelperClass.checkIsEmpty(this.selected)) {
+        return
+      }
+      HelperClass.showSwalAsking().then(result => {
+
+        if (result.value) {
+          this.$store.state.loading = true
+          let data = {
+            ids: this.selected
+          }
+          CourseSectionService.restoreCourseSections(data)
+              .then(() => {
+                this.selected = [];
+                if (this.current > 1) {
+                  this.current = this.current - 1;
+                }
+
+                this.getList();
+                HelperClass.scrollTop();
+                HelperClass.showSuccess(this.$noty)
+              }).catch(error => {
+            HelperClass.scrollTop();
+            HelperClass.showErrors(error, this.$noty)
+          });
+        }
+      })
+    },
     searchInTable() {
       if (this.search_value.trim() === '') {
         this.getList();
@@ -122,7 +128,7 @@ export default {
         return
       }
       this.$store.state.loading = true;
-      CourseSectionService.searchInCourseSection(this.search_value)
+      CourseSectionService.searchInTrashedCourseSections(this.search_value)
           .then((res) => {
             let list = [];
             if (res.status === 204) {
@@ -138,13 +144,7 @@ export default {
                   {
                     id: item.id,
                     fa_title: item.fa_title,
-                    condition: item.status,
-                    course_id: item.course.id,
-                    meta: item.meta,
-                    status: item.status ? '<span class="active_button">فعال</span>' : '<span class="deactive_button">غیر فعال</span>',
-                    switch_condition: item.status ? "<i class='active_it' title='غیر فعال کن'> <box-icon color='red' name='x'></box-icon></i>" : "<i title='فعال کن' class='active_it'><box-icon color='green' name='check'></box-icon></i>",
-                    edit: '<i  title="ویرایش" class="active_it"><box-icon color="green" type=\'solid\' name=\'message-edit\'></box-icon></i>',
-                    course: item.course.fa_title,
+                    course:item.course ? HelperClass.spliceTeacherName(item.course.fa_title):'وجود ندارد' ,
                     delete: '<input type="checkbox"  value="' + item.id + '">'
                   })
             })
@@ -156,7 +156,7 @@ export default {
     },
     getList() {
       this.$store.state.loading = true;
-      CourseSectionService.getCourseSections(this.current)
+      CourseSectionService.getTrashedCourseSections(this.current)
           .then(res => {
             let list = [];
             if (res.status === 204) {
@@ -165,6 +165,7 @@ export default {
               this.last_page = 0;
               return
             }
+
             this.last_page = res.data.data.last_page;
             res.data.data.data.forEach(item => {
 
@@ -172,13 +173,7 @@ export default {
                   {
                     id: item.id,
                     fa_title: item.fa_title,
-                    condition: item.status,
-                    course_id: item.course.id,
-                    meta: item.meta,
-                    status: item.status ? '<span class="active_button">فعال</span>' : '<span class="deactive_button">غیر فعال</span>',
-                    switch_condition: item.status ? "<i class='active_it' title='غیر فعال کن'> <box-icon color='red' name='x'></box-icon></i>" : "<i title='فعال کن' class='active_it'><box-icon color='green' name='check'></box-icon></i>",
-                    edit: '<i  title="ویرایش" class="active_it"><box-icon color="green" type=\'solid\' name=\'message-edit\'></box-icon></i>',
-                    course: HelperClass.spliceTeacherName(item.course.fa_title) ,
+                    course:item.course ? HelperClass.spliceTeacherName(item.course.fa_title):'وجود ندارد' ,
                     delete: '<input type="checkbox"  value="' + item.id + '">'
                   })
             })
@@ -248,7 +243,7 @@ export default {
           let data = {
             ids: this.selected
           }
-          CourseSectionService.deleteCourses(data)
+          CourseSectionService.forceDeleteCourseSections(data)
               .then(() => {
                 this.selected = [];
                 if (this.current > 1) {

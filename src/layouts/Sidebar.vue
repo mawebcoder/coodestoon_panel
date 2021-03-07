@@ -242,10 +242,10 @@
                                 <router-link :to="{name:'course-section-active'}"> لیست فصل های فعال</router-link>
                             </li>
                             <li>
-                                <router-link :to="{name:'article-de-actives'}"> لیست فصل های غیر فعال</router-link>
+                                <router-link :to="{name:'course-section-deactive'}"> لیست فصل های غیر فعال</router-link>
                             </li>
                             <li>
-                                <router-link :to="{name:'article-trashes'}">فصول حذف شده</router-link>
+                                <router-link :to="{name:'course-section-trashes'}">فصول حذف شده</router-link>
                             </li>
                             <li class="li_title">
                                 دوره ها

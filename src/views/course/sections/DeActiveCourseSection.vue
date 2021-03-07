@@ -85,7 +85,7 @@ export default {
   watch: {
     current(value) {
       this.$store.state.loading = true;
-      CourseSectionService.paginateCourseSectionList(value)
+      CourseSectionService.paginateDeActiveCourseSectionList(value)
           .then(res => {
             let list = [];
             res.data.data.data.forEach(item => {
@@ -111,7 +111,7 @@ export default {
     }
   },
   created() {
-    this.$store.state.pageTitle = 'لیست تمام فصول';
+    this.$store.state.pageTitle = 'لیست فصول غیر فعال';
     this.getList();
   },
   methods: {
@@ -122,7 +122,7 @@ export default {
         return
       }
       this.$store.state.loading = true;
-      CourseSectionService.searchInCourseSection(this.search_value)
+      CourseSectionService.searchInDeActiveCourseSection(this.search_value)
           .then((res) => {
             let list = [];
             if (res.status === 204) {
@@ -144,7 +144,7 @@ export default {
                     status: item.status ? '<span class="active_button">فعال</span>' : '<span class="deactive_button">غیر فعال</span>',
                     switch_condition: item.status ? "<i class='active_it' title='غیر فعال کن'> <box-icon color='red' name='x'></box-icon></i>" : "<i title='فعال کن' class='active_it'><box-icon color='green' name='check'></box-icon></i>",
                     edit: '<i  title="ویرایش" class="active_it"><box-icon color="green" type=\'solid\' name=\'message-edit\'></box-icon></i>',
-                    course: item.course.fa_title,
+                    course: HelperClass.spliceTeacherName(item.course.fa_title) ,
                     delete: '<input type="checkbox"  value="' + item.id + '">'
                   })
             })
@@ -156,7 +156,7 @@ export default {
     },
     getList() {
       this.$store.state.loading = true;
-      CourseSectionService.getCourseSections(this.current)
+      CourseSectionService.getDeActiveCourseSections(this.current)
           .then(res => {
             let list = [];
             if (res.status === 204) {
@@ -166,6 +166,7 @@ export default {
               return
             }
             this.last_page = res.data.data.last_page;
+
             res.data.data.data.forEach(item => {
 
               list.push(
