@@ -236,10 +236,10 @@
                                 <router-link :to="{name:'course-section-create'}">ایجاد فصل جدید</router-link>
                             </li>
                             <li>
-                                <router-link :to="{name:'article-list'}">لیست تمام فصل ها</router-link>
+                                <router-link :to="{name:'course-section-list'}">لیست تمام فصل ها</router-link>
                             </li>
                             <li>
-                                <router-link :to="{name:'article-actives'}"> لیست فصل های فعال</router-link>
+                                <router-link :to="{name:'course-section-active'}"> لیست فصل های فعال</router-link>
                             </li>
                             <li>
                                 <router-link :to="{name:'article-de-actives'}"> لیست فصل های غیر فعال</router-link>
