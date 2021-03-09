@@ -297,7 +297,7 @@
                 <router-link :to="{name:'videos-tag-create'}">ایجاد تگ جدید</router-link>
               </li>
               <li>
-                <router-link :to="{name:'course-category-list'}"> لیست تمام تگ ها</router-link>
+                <router-link :to="{name:'video-tag-list'}"> لیست تمام تگ ها</router-link>
               </li>
               <li>
                 <router-link :to="{name:'course-category-list'}"> لیست تگ های فعال</router-link>
