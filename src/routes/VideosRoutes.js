@@ -1,20 +1,32 @@
-const Videos=()=>import('@/views/videos/Videos')
-const VideoTag=()=>import('@/views/videos/tags/VideoTag')
-const CreateVideo=()=>import('@/views/videos/tags/CreateVideoTag')
-const VideoTagList=()=>import('@/views/videos/tags/VideoTagList')
+const Videos = () => import('@/views/videos/Videos')
+const VideoTag = () => import('@/views/videos/tags/VideoTag')
+const CreateVideoTag = () => import('@/views/videos/tags/CreateVideoTag')
+const VideoTagList = () => import('@/views/videos/tags/VideoTagList')
+const ActiveVideoTag = () => import('@/views/videos/tags/ActiveVideoTag')
+const DeActiveVideoTags = () => import('@/views/videos/tags/DeActiveVideoTags')
+const CreateVideo = () => import('@/views/videos/CreateVideo')
 const VideoRotues = {
-    path:'videos',component:Videos,
-    children:[
+    path: 'videos', component: Videos,
+    children: [
         {
-            path:'tags',component:VideoTag,
+            path: 'tags', component: VideoTag,
             children: [
                 {
-                    path:'create',component:CreateVideo,name:'videos-tag-create'
+                    path: 'create', component: CreateVideoTag, name: 'videos-tag-create'
                 },
                 {
-                    path:'list',component:VideoTagList,name:'video-tag-list'
+                    path: 'list', component: VideoTagList, name: 'video-tag-list'
+                },
+                {
+                    path: 'actives', component: ActiveVideoTag, name: 'video-tag-actives'
+                },
+                {
+                    path: 'deactives', component: DeActiveVideoTags, name: 'video-tag-deactives'
                 }
-            ]
+            ],
+        },
+        {
+            path: 'create', component: CreateVideo, name: 'video-store'
         }
     ]
 }

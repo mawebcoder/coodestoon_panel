@@ -6,7 +6,10 @@ class CourseSectionService {
         return axios.post('/v1/courses/sections', data)
     }
 
-    getCourseSections() {
+    getCourseSections(select_box = null) {
+        if (select_box != null) {
+            return axios.get('/v1/courses/sections?select_box=true')
+        }
         return axios.get('/v1/courses/sections')
     }
 
@@ -60,20 +63,27 @@ class CourseSectionService {
     // trashes
 
 
-    getTrashedCourseSections(){
+    getTrashedCourseSections() {
         return axios.get('/v1/courses/sections/trashed')
     }
-    paginateInTrashedCourseSections(page_number){
-        return axios.get('/v1/courses/sections/trashed?page='+page_number)
+
+    paginateInTrashedCourseSections(page_number) {
+        return axios.get('/v1/courses/sections/trashed?page=' + page_number)
     }
-    searchInTrashedCourseSections(search){
-        return axios.get('/v1/courses/sections/trashed?search='+search)
+
+    searchInTrashedCourseSections(search) {
+        return axios.get('/v1/courses/sections/trashed?search=' + search)
     }
-    restoreCourseSections(data){
-        return axios.post('/v1/courses/sections/restore',data)
+
+    restoreCourseSections(data) {
+        return axios.post('/v1/courses/sections/restore', data)
     }
-    forceDeleteCourseSections(data){
-        return axios.post('/v1/courses/sections/force-delete',data)
+
+    forceDeleteCourseSections(data) {
+        return axios.post('/v1/courses/sections/force-delete', data)
+    }
+    getCourseSection(course_id){
+        return axios.get('/v1/course/sections/'+course_id)
     }
 }
 

@@ -300,16 +300,16 @@
                 <router-link :to="{name:'video-tag-list'}"> لیست تمام تگ ها</router-link>
               </li>
               <li>
-                <router-link :to="{name:'course-category-list'}"> لیست تگ های فعال</router-link>
+                <router-link :to="{name:'video-tag-actives'}"> لیست تگ های فعال</router-link>
               </li>
               <li>
-                <router-link :to="{name:'course-category-list'}"> لیست تگ های غیر فعال</router-link>
+                <router-link :to="{name:'video-tag-deactives'}"> لیست تگ های غیر فعال</router-link>
               </li>
               <li class="li_title">
                 ویدیو ها
               </li>
               <li>
-                <router-link :to="{name:'course-tag-create'}">آپلود ویدیو جدید</router-link>
+                <router-link :to="{name:'video-store'}">آپلود ویدیو جدید</router-link>
               </li>
               <li>
                 <router-link :to="{name:'course-tag-list'}">لیست ویدیو ها</router-link>
