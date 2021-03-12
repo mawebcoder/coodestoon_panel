@@ -3,7 +3,7 @@ import swal from "sweetalert2";
 
 class HelperClass {
 
-    numberFormat( num ) {
+    numberFormat(num) {
         var str = num.toString().split('.');
         if (str[0].length >= 5) {
             str[0] = str[0].replace(/(\d)(?=(\d{3})+$)/g, '$1,');
@@ -13,6 +13,7 @@ class HelperClass {
         }
         return str.join('.');
     }
+
     // show the server errors
     showErrors(error, noty) {
         store.state.loading = false
@@ -35,7 +36,7 @@ class HelperClass {
                     '401': 'ابتدا باید وارد شوید',
                     '429': 'تعداد دفعات درخواست به سرور بیش از حد مجاز',
                     '410': 'صفحه مورد نظر ناپدید شده است',
-                    '405':'متد ارسالی نامعتبر است'
+                    '405': 'متد ارسالی نامعتبر است'
                 }
                 noty.error(object['' + status_code], {
                     timeout: 2000,
@@ -45,7 +46,6 @@ class HelperClass {
 
         }
     }
-
 
 
     // show success message
@@ -134,7 +134,7 @@ class HelperClass {
             img.src = src
         }
         fileReader.readAsDataURL(inputElement.files[0]);
-        store.state.file=inputElement.files[0];
+        store.state.file = inputElement.files[0];
         formElement.querySelector('i.remove').style.display = 'block'
     }
 
@@ -171,8 +171,17 @@ class HelperClass {
     }
 
     spliceTeacherName(teacher_name) {
-        return teacher_name.length < 20 ? teacher_name : teacher_name.slice(0, 20)+"..."
+        return teacher_name.length < 20 ? teacher_name : teacher_name.slice(0, 20) + "..."
     }
+
+    uploadVideoValidation(file) {
+        let file_size = file['size'];
+        if (file_size > 419430400) {
+            return false;
+        }
+        return true;
+    }
+
 }
 
 export default new HelperClass();

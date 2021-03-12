@@ -309,8 +309,10 @@ export default {
       let data = this.getValues();
 
       VideosService.storeVideo(data)
-          .then(() => {
+          .then((res) => {
+            let video_id=res.data.data;
            HelperClass.showSuccess(this.$noty)
+            this.$router.push({name:'video-upload',params:{id:video_id}})
           }).catch(error => {
         HelperClass.showErrors(error, this.$noty)
       })

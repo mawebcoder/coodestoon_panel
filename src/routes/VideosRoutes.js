@@ -5,6 +5,7 @@ const VideoTagList = () => import('@/views/videos/tags/VideoTagList')
 const ActiveVideoTag = () => import('@/views/videos/tags/ActiveVideoTag')
 const DeActiveVideoTags = () => import('@/views/videos/tags/DeActiveVideoTags')
 const CreateVideo = () => import('@/views/videos/CreateVideo')
+const UploadVideo=()=>import('@/views/videos/UploadVideo')
 const VideoRotues = {
     path: 'videos', component: Videos,
     children: [
@@ -27,6 +28,9 @@ const VideoRotues = {
         },
         {
             path: 'create', component: CreateVideo, name: 'video-store'
+        },
+        {
+            path:'upload/:id',component:UploadVideo,name: 'video-upload'
         }
     ]
 }
