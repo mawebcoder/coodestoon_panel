@@ -6,6 +6,10 @@ const ActiveVideoTag = () => import('@/views/videos/tags/ActiveVideoTag')
 const DeActiveVideoTags = () => import('@/views/videos/tags/DeActiveVideoTags')
 const CreateVideo = () => import('@/views/videos/CreateVideo')
 const UploadVideo=()=>import('@/views/videos/UploadVideo')
+const NotUploaded=()=>import('@/views/videos/NotUploaded')
+const VideoList=()=>import('@/views/videos/VideoList')
+const ActiveVideo=()=>import('@/views/videos/ActiveVideo')
+const DeActiveVideo=()=>import('@/views/videos/DeActiveVideo')
 const VideoRotues = {
     path: 'videos', component: Videos,
     children: [
@@ -31,6 +35,18 @@ const VideoRotues = {
         },
         {
             path:'upload/:id',component:UploadVideo,name: 'video-upload'
+        },
+        {
+            path:'not-uploaded',component:NotUploaded,name:'video-notuploaded'
+        },
+        {
+            path: 'list',component:VideoList,name: "video-list"
+        },
+        {
+            path:'actives',component:ActiveVideo,name:'video-active'
+        },
+        {
+            path:'de-actives',component:DeActiveVideo,name: 'video-deactive'
         }
     ]
 }

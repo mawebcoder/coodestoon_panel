@@ -309,16 +309,19 @@
                 ویدیو ها
               </li>
               <li>
-                <router-link :to="{name:'video-store'}">آپلود ویدیو جدید</router-link>
+                <router-link :to="{name:'video-store'}"> ایجاد قسمت جدید</router-link>
               </li>
               <li>
-                <router-link :to="{name:'course-tag-list'}">لیست ویدیو ها</router-link>
+                <router-link :to="{name:'video-notuploaded'}">قسمت های آپلود نشده</router-link>
               </li>
               <li>
-                <router-link :to="{name:'course-tag-active'}">لیست ویدیو های فعال</router-link>
+                <router-link :to="{name:'video-list'}">لیست ویدیو ها</router-link>
               </li>
               <li>
-                <router-link :to="{name:'course-tag-de-active'}">لیست ویدیو های غیر فعال</router-link>
+                <router-link :to="{name:'video-active'}">لیست قسمت های فعال</router-link>
+              </li>
+              <li>
+                <router-link :to="{name:'video-deactive'}">لیست قسمت های غیر فعال</router-link>
               </li>
               <li>
                 <router-link :to="{name:'course-tag-de-active'}">سطل زباله ویدیو ها</router-link>
