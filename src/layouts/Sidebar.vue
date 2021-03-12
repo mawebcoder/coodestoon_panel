@@ -324,7 +324,10 @@
                 <router-link :to="{name:'video-deactive'}">لیست قسمت های غیر فعال</router-link>
               </li>
               <li>
-                <router-link :to="{name:'course-tag-de-active'}">سطل زباله ویدیو ها</router-link>
+                <router-link :to="{name:'video-single'}">لیست تک ویدیو ها</router-link>
+              </li>
+              <li>
+                <router-link :to="{name:'video-trash'}">سطل زباله ویدیو ها</router-link>
               </li>
             </ul>
           </transition>

@@ -10,6 +10,8 @@ const NotUploaded=()=>import('@/views/videos/NotUploaded')
 const VideoList=()=>import('@/views/videos/VideoList')
 const ActiveVideo=()=>import('@/views/videos/ActiveVideo')
 const DeActiveVideo=()=>import('@/views/videos/DeActiveVideo')
+const VideoTrash=()=>import('@/views/videos/VideoTrash')
+const SingleVideoList=()=>import('@/views/videos/SingleVideoList')
 const VideoRotues = {
     path: 'videos', component: Videos,
     children: [
@@ -47,6 +49,12 @@ const VideoRotues = {
         },
         {
             path:'de-actives',component:DeActiveVideo,name: 'video-deactive'
+        },
+        {
+            path:'trashes',component:VideoTrash,name:'video-trash'
+        },
+        {
+            path:'singles',component:SingleVideoList,name:'video-single'
         }
     ]
 }

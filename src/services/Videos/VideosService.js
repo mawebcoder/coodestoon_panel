@@ -63,5 +63,35 @@ class VideosService {
         return axios.get('/v1/videos/de-actives?page='+page_number)
     }
 
+    // trashes
+
+    getVideoTrashes(){
+        return axios.get('/v1/videos/trashed')
+    }
+    restoreVideos(data){
+        return axios.post('/v1/videos/restore',data)
+    }
+    videosForceDelete(data){
+        return axios.post('/v1/videos/force-delete',data)
+    }
+    searchInTrashedVideos(search){
+        return axios.get('/v1/videos/trashed?search='+search)
+    }
+    paginateInVideoTrashes(page_number){
+        return axios.get('/v1/videos/trashed?page='+page_number)
+    }
+
+
+    // single videos
+    getSingleVideos(){
+        return axios.get('/v1/videos/single-videos')
+    }
+    searchInSingleVideos(search){
+        return axios.get('/v1/videos/single-videos?search='+search)
+    }
+    paginateInSingleVideos(page_number){
+        return axios.get('/v1/videos/single-videos?page='+page_number)
+    }
+
 }
 export  default new VideosService()
