@@ -169,5 +169,9 @@ main {
     transform: translate(24px, 0);
   }
 }
-
+i.vs-icon{
+  display: block !important;
+  width: 50px !important;
+  background-color: #fff !important;
+}
 </style>

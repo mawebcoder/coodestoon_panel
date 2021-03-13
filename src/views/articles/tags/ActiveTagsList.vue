@@ -1,26 +1,30 @@
 <template>
     <div>
-        <modal title="ویرایش تگ">
-            <div slot="content">
-                <label style="color: #fff;margin:4px 0">
-                    نام فارسی تگ :
-                </label>
-                <div class="form-group">
-                    <VueInputUi type="array" label="نام تگ به فارسی..." v-model="fa_title"/>
-                </div>
-                <label style="color: #fff;margin:4px 0">
-                    نام انگلیسی تگ :
-                </label>
-                <div class="form-group">
-                    <VueInputUi type="array" label="نام تگ به فارسی..." v-model="en_title"/>
-                </div>
-                <div class="form-group">
-                    <div @click="update" class="submit_button">
-                        ثبت
-                    </div>
-                </div>
+      <div class="centerx">
+        <vs-popup
+            style="color:rgb(255,255,255)"
+            dir="rtl"
+            background-color="rgba(255,255,255,.6)"
+            :background-color-popup="colorx" title="ویرایش" :active.sync="popupActivo5">
+          <label style="color: #fff;margin:4px 0">
+            نام فارسی تگ :
+          </label>
+          <div class="form-group">
+            <VueInputUi type="array" label="نام تگ به فارسی..." v-model="fa_title"/>
+          </div>
+          <label style="color: #fff;margin:4px 0">
+            نام انگلیسی تگ :
+          </label>
+          <div class="form-group">
+            <VueInputUi type="array" label="نام تگ به فارسی..." v-model="en_title"/>
+          </div>
+          <div class="form-group d-flex">
+            <div @click="update" class="submit_button">
+              ثبت
             </div>
-        </modal>
+          </div>
+        </vs-popup>
+      </div>
         <span @click="deleteItems" class="delete_button">
             <box-icon color="#fff" name='trash'></box-icon>
         </span>
@@ -42,13 +46,14 @@
 
 <script>
     import HelperClass from "@/services/HelperClass";
-    import Modal from "@/layouts/Modal";
     const VueInputUi = () => import('vue-input-ui');
     import TagService from "@/services/articles/TagService";
     export default {
         name: "ActiveTagsList",
         data() {
             return {
+              colorx: "#4a5153",
+              popupActivo5: false,
                 columns: [
                     {
                         label: 'عنوان فارسی',
@@ -171,7 +176,7 @@
                     .then(() => {
                        this.getActiveTagsList()
                         HelperClass.showSuccess(this.$noty);
-                        this.$store.state.modal_show = false;
+                        this.popupActivo5 = false;
                     }).catch(error => {
                     HelperClass.showErrors(error, this.$noty);
                     this.$store.state.modal_show = false;
@@ -228,7 +233,7 @@
                 this.fa_title = row.fa_title;
                 this.en_title = row.en_title;
                 this.status = row.condition;
-                this.$store.state.modal_show = true;
+                this.popupActivo5 = true;
                 this.id = row.id;
             },
             onCellClick(params) {
@@ -298,7 +303,6 @@
             },
         },
         components: {
-            Modal,
             VueInputUi
         }
     }

@@ -100,6 +100,12 @@ th {
   background-color: red;
   border-radius: 100%;
 }
+.close_modal{
+  display: block;
+  text-align: left;
+ cursor: pointer;
+  font-size: 1.5em;
+}
 .active_button {
   display: block;
   line-height: 27px;

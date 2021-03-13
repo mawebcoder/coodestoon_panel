@@ -9,9 +9,6 @@
         <p v-html="comment_content">
 
         </p>
-        <span @click="popupActivo5=false" style="margin-top: 10px;margin-right: 10px" class="submit_button">
-          بستن
-        </span>
       </vs-popup>
     </div>
     <span @click="deleteItems" class="delete_button">
@@ -213,6 +210,7 @@ export default {
         case ('SPAN'):
           if (column_name === 'see_text') {
             this.popupActivo5 = true;
+            document.querySelector('i.vs-icon').innerHTML='&times;'
             this.comment_content = row_object.text;
           }
           break;

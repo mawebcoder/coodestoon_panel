@@ -355,27 +355,21 @@
           <transition name="openertwo" mode="in-out">
             <ul v-show="openerSix" class="sidebar_ul_level_2">
               <li>
-                <span class="badge-notification">20</span>
                 <router-link :to="{name:'article-comments-un-accepted'}"> نظرات تایید نشده مقالات</router-link>
               </li>
               <li>
-                <span class="badge-notification">20</span>
                 <router-link :to="{name:'article-comments-accepted'}"> نظرات تایید شده مقالات</router-link>
               </li>
               <li>
-                <span class="badge-notification">20</span>
                 <router-link :to="{name:'video-comments-unaccepted'}"> نظرات تایید نشده ویدیو ها</router-link>
               </li>
               <li>
-                <span class="badge-notification">20</span>
                 <router-link :to="{name:'video-comments-accepted'}"> نظرات تایید شده ویدیو ها</router-link>
               </li>
               <li>
-                <span class="badge-notification">20</span>
                 <router-link :to="{name:'course-comments-un-accepted'}"> نظرات تایید نشده دوره ها</router-link>
               </li>
               <li>
-                <span class="badge-notification">20</span>
                 <router-link :to="{name:'course-comment-accepted'}"> نظرات تایید شده دوره ها</router-link>
               </li>
             </ul>
