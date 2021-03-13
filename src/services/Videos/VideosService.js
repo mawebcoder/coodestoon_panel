@@ -11,6 +11,9 @@ class VideosService {
     deleteVideos(data){
         return axios.post('/v1/videos/delete/multi',data)
     }
+    getVideoInformations(video_id){
+        return axios.get('/v1/videos/video/info/'+video_id)
+    }
 
     // not uploaded
     getNotUploadedVideos(){
@@ -38,6 +41,9 @@ class VideosService {
     searchInVideos(search){
         return axios.get('/v1/videos?search='+search)
 
+    }
+    updateVideo(video_id,data){
+        return axios.put('/v1/videos/'+video_id,data)
     }
 
     // active videos

@@ -12,6 +12,7 @@ const ActiveVideo=()=>import('@/views/videos/ActiveVideo')
 const DeActiveVideo=()=>import('@/views/videos/DeActiveVideo')
 const VideoTrash=()=>import('@/views/videos/VideoTrash')
 const SingleVideoList=()=>import('@/views/videos/SingleVideoList')
+const EditVideo=()=>import('@/views/videos/EditVideo')
 const VideoRotues = {
     path: 'videos', component: Videos,
     children: [
@@ -55,6 +56,9 @@ const VideoRotues = {
         },
         {
             path:'singles',component:SingleVideoList,name:'video-single'
+        },
+        {
+            path:'edit/:id',component:EditVideo,name: 'video-edit'
         }
     ]
 }

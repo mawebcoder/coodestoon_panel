@@ -71,6 +71,11 @@ export default {
           html: true
         },
         {
+          label: 'ویرایش',
+          field: 'update',
+          html: true
+        },
+        {
           label: 'انتخاب',
           field: 'delete',
           html: true
@@ -93,12 +98,13 @@ export default {
                 id: item.id,
                 fa_title: item.fa_title,
                 condition: item.status,
-                upload_condition:item.video_url_name ? '<span class="active_button">آپلود شده</span>' : '<span class="deactive_button">آپلود نشده</span>',
-                section_title:item.section ? item.section.fa_title :'<span class="deactive_button">تک ویدیو</span>',
-                course_title:item.course ? item.course.fa_title :'<span class="deactive_button">تک ویدیو</span>',
+                upload_condition: item.video_url_name ? '<span class="active_button">آپلود شده</span>' : '<span class="deactive_button">آپلود نشده</span>',
+                section_title: item.section ? item.section.fa_title : '<span class="deactive_button">تک ویدیو</span>',
+                course_title: item.course ? item.course.fa_title : '<span class="deactive_button">تک ویدیو</span>',
                 status: item.status ? '<span class="active_button">فعال</span>' : '<span class="deactive_button">غیر فعال</span>',
                 switch_condition: item.status ? "<i class='active_it' title='غیر فعال کن'> <box-icon color='red' name='x'></box-icon></i>" : "<i title='فعال کن' class='active_it'><box-icon color='green' name='check'></box-icon></i>",
                 edit: '<i  title="آپلود" class="active_it"><box-icon color="green" name="upload"></box-icon></i>',
+                update: '<i title="ویرایش" class="active_it"><box-icon type="solid" name="edit"></box-icon></i>',
                 delete: '<input type="checkbox"  value="' + item.id + '">'
               })
             })
@@ -133,12 +139,13 @@ export default {
                 id: item.id,
                 fa_title: item.fa_title,
                 condition: item.status,
-                upload_condition:item.video_url_name ? '<span class="active_button">آپلود شده</span>' : '<span class="deactive_button">آپلود نشده</span>',
-                section_title:item.section ? item.section.fa_title :'<span class="deactive_button">تک ویدیو</span>',
-                course_title:item.course ? item.course.fa_title :'<span class="deactive_button">تک ویدیو</span>',
+                upload_condition: item.video_url_name ? '<span class="active_button">آپلود شده</span>' : '<span class="deactive_button">آپلود نشده</span>',
+                section_title: item.section ? item.section.fa_title : '<span class="deactive_button">تک ویدیو</span>',
+                course_title: item.course ? item.course.fa_title : '<span class="deactive_button">تک ویدیو</span>',
                 status: item.status ? '<span class="active_button">فعال</span>' : '<span class="deactive_button">غیر فعال</span>',
                 switch_condition: item.status ? "<i class='active_it' title='غیر فعال کن'> <box-icon color='red' name='x'></box-icon></i>" : "<i title='فعال کن' class='active_it'><box-icon color='green' name='check'></box-icon></i>",
                 edit: '<i  title="آپلود" class="active_it"><box-icon color="green" name="upload"></box-icon></i>',
+                update: '<i title="ویرایش" class="active_it"><box-icon type="solid" name="edit"></box-icon></i>',
                 delete: '<input type="checkbox"  value="' + item.id + '">'
               })
             })
@@ -169,12 +176,13 @@ export default {
                 id: item.id,
                 fa_title: item.fa_title,
                 condition: item.status,
-                upload_condition:item.video_url_name ? '<span class="active_button">آپلود شده</span>' : '<span class="deactive_button">آپلود نشده</span>',
-                section_title:item.section ? item.section.fa_title :'<span class="deactive_button">تک ویدیو</span>',
-                course_title:item.course ? item.course.fa_title :'<span class="deactive_button">تک ویدیو</span>',
+                upload_condition: item.video_url_name ? '<span class="active_button">آپلود شده</span>' : '<span class="deactive_button">آپلود نشده</span>',
+                section_title: item.section ? item.section.fa_title : '<span class="deactive_button">تک ویدیو</span>',
+                course_title: item.course ? item.course.fa_title : '<span class="deactive_button">تک ویدیو</span>',
                 status: item.status ? '<span class="active_button">فعال</span>' : '<span class="deactive_button">غیر فعال</span>',
                 switch_condition: item.status ? "<i class='active_it' title='غیر فعال کن'> <box-icon color='red' name='x'></box-icon></i>" : "<i title='فعال کن' class='active_it'><box-icon color='green' name='check'></box-icon></i>",
                 edit: '<i  title="آپلود" class="active_it"><box-icon color="green" name="upload"></box-icon></i>',
+                update: '<i title="ویرایش" class="active_it"><box-icon type="solid" name="edit"></box-icon></i>',
                 delete: '<input type="checkbox"  value="' + item.id + '">'
               })
             })
@@ -241,10 +249,11 @@ export default {
         case ("BOX-ICON"):
 
           if (column_name === 'edit') {
-
             this.$router.push({name: 'video-upload', params: {id: row_object.id}, query: {from_video_list: true}})
-          }else if (column_name === 'switch_condition') {
+          } else if (column_name === 'switch_condition') {
             this.switchCondition(row_object)
+          }else if (column_name==='update'){
+              this.$router.push({name:'video-edit',params:{id:row_object.id},query:{from_list:true}})
           }
           break
         case ('INPUT'):
