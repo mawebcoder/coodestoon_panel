@@ -272,7 +272,7 @@
         </li>
 
 
-<!--        videos-->
+        <!--        videos-->
 
         <li>
                     <span @click="subFive=!subFive,openerFive=!openerFive" class="sidebar_opener">
@@ -333,6 +333,55 @@
           </transition>
 
         </li>
+
+
+        <!--        comments-->
+
+
+        <li>
+                    <span @click="subSix=!subSix,openerSix=!openerSix" class="sidebar_opener">
+                      <box-icon color="#596860" name='comment-detail'></box-icon>
+                      <p class="top_title">نظرات</p>
+                        <transition name="subtwo" mode="out-in">
+                             <span v-if="subSix" :key="0" class="down_arrow">
+                                     <box-icon size="xs" color="#596860" type='solid' name='down-arrow'></box-icon>
+                                 </span>
+                             <span v-else :key="1" class="up_arrow">
+                           <box-icon size="xs" color="#596860" name='up-arrow' type='solid'></box-icon>
+                         </span>
+                        </transition>
+
+                    </span>
+          <transition name="openertwo" mode="in-out">
+            <ul v-show="openerSix" class="sidebar_ul_level_2">
+              <li>
+                <span class="badge-notification">20</span>
+                <router-link :to="{name:'article-comments-un-accepted'}"> نظرات تایید نشده مقالات</router-link>
+              </li>
+              <li>
+                <span class="badge-notification">20</span>
+                <router-link :to="{name:'article-comments-accepted'}"> نظرات تایید شده مقالات</router-link>
+              </li>
+              <li>
+                <span class="badge-notification">20</span>
+                <router-link :to="{name:'video-comments-unaccepted'}"> نظرات تایید نشده ویدیو ها</router-link>
+              </li>
+              <li>
+                <span class="badge-notification">20</span>
+                <router-link :to="{name:'video-comments-accepted'}"> نظرات تایید شده ویدیو ها</router-link>
+              </li>
+              <li>
+                <span class="badge-notification">20</span>
+                <router-link :to="{name:'course-comments-un-accepted'}"> نظرات تایید نشده دوره ها</router-link>
+              </li>
+              <li>
+                <span class="badge-notification">20</span>
+                <router-link :to="{name:'course-comment-accepted'}"> نظرات تایید شده دوره ها</router-link>
+              </li>
+            </ul>
+          </transition>
+
+        </li>
       </ul>
     </aside>
   </div>
@@ -350,9 +399,11 @@ export default {
       subthree: true,
       openerthree: false,
       subFour: true,
-      openerFour: false  ,
+      openerFour: false,
       subFive: true,
-      openerFive: false
+      openerFive: false,
+      subSix: true,
+      openerSix: false
     }
   },
 }
@@ -477,6 +528,18 @@ aside {
   > li {
     height: 40px;
     padding-right: 10px;
+    position: relative;
+
+    span {
+      position: absolute;
+      z-index: 2;
+      left: 3px;
+      font-size: .8em;
+      line-height: 25px;
+      text-align: center;
+      top: 10px;
+    }
+
     border-radius: 4px;
 
     > a {
@@ -566,6 +629,8 @@ subFour-leave-active {
   opacity: 1;
   transform: translateY(0);
 }
+
+//five
 .subFive-enter {
   opacity: .4;
   transform: translateY(-5px);
@@ -581,6 +646,27 @@ subFive-leave-active {
 }
 
 .openerFive-leave-active {
+  max-height: 0;
+}
+
+
+//six
+
+.subSix-enter {
+  opacity: .4;
+  transform: translateY(-5px);
+}
+
+subSix-leave-active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.openerSix-enter {
+  max-height: 0;
+}
+
+.openerSix-leave-active {
   max-height: 0;
 }
 

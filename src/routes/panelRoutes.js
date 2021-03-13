@@ -4,6 +4,7 @@ import CourseRoutes from "./CourseRoutes";
 import RolesRoutes from "./RolesRoutes";
 import UserRoutes from "./UserRoutes";
 import VideosRoutes from "@/routes/VideosRoutes";
+import CommentRoutes from "@/routes/CommentRotues";
 const panel = {
     path: '/panel',
     component: Panel,
@@ -14,4 +15,5 @@ panel.children.push(CourseRoutes)
 panel.children.push(RolesRoutes)
 panel.children.push(UserRoutes)
 panel.children.push(VideosRoutes)
+panel.children.push(CommentRoutes)
 export default panel;
