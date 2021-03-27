@@ -396,7 +396,7 @@
           <transition name="openerSeven" mode="in-out">
             <ul v-show="openerSeven" class="sidebar_ul_level_2">
               <li>
-                <router-link :to="{name:'article-comments-un-accepted'}">ایجاد کد تخفیف</router-link>
+                <router-link :to="{name:'discount-create'}">ایجاد کد تخفیف</router-link>
               </li>
               <li>
                 <router-link :to="{name:'article-comments-accepted'}">لیست کدهای تخفیف</router-link>
