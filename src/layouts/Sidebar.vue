@@ -376,6 +376,36 @@
           </transition>
 
         </li>
+
+
+<!--        discounts-->
+        <li>
+                    <span @click="subSeven=!subSeven,openerSeven=!openerSeven" class="sidebar_opener">
+                      <box-icon color="#596860" name='comment-detail'></box-icon>
+                      <p class="top_title">کدهای تخفیف</p>
+                        <transition name="subSeven" mode="out-in">
+                             <span v-if="subSeven" :key="0" class="down_arrow">
+                                     <box-icon size="xs" color="#596860" type='solid' name='down-arrow'></box-icon>
+                                 </span>
+                             <span v-else :key="1" class="up_arrow">
+                           <box-icon size="xs" color="#596860" name='up-arrow' type='solid'></box-icon>
+                         </span>
+                        </transition>
+
+                    </span>
+          <transition name="openerSeven" mode="in-out">
+            <ul v-show="openerSeven" class="sidebar_ul_level_2">
+              <li>
+                <router-link :to="{name:'article-comments-un-accepted'}">ایجاد کد تخفیف</router-link>
+              </li>
+              <li>
+                <router-link :to="{name:'article-comments-accepted'}">لیست کدهای تخفیف</router-link>
+              </li>
+            </ul>
+          </transition>
+
+        </li>
+
       </ul>
     </aside>
   </div>
@@ -397,7 +427,9 @@ export default {
       subFive: true,
       openerFive: false,
       subSix: true,
-      openerSix: false
+      openerSix: false,
+      subSeven:false,
+      openerSeven:false
     }
   },
 }
@@ -661,6 +693,25 @@ subSix-leave-active {
 }
 
 .openerSix-leave-active {
+  max-height: 0;
+}
+
+//seven
+.subSeven-enter {
+  opacity: .4;
+  transform: translateY(-5px);
+}
+
+subSeven-leave-active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.openerSeven-enter {
+  max-height: 0;
+}
+
+.openerSeven-leave-active {
   max-height: 0;
 }
 
