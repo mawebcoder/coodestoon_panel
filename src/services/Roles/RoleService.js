@@ -12,6 +12,10 @@ class RoleService {
         return axios.get('/v1/roles')
     }
 
+    getAllAdmins() {
+        return axios.get('/v1/roles/admin');
+    }
+
     update(id, data) {
         return axios.put('/v1/roles/' + id, data)
     }

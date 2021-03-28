@@ -44,7 +44,9 @@ textarea {
 label.vs-select--label {
   margin-bottom: 10px;
 }
-
+.vs-select--input{
+  text-align: center;
+}
 i.vs-icon {
   display: none !important;
 }

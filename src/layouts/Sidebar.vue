@@ -378,10 +378,10 @@
         </li>
 
 
-<!--        discounts-->
+        <!--        discounts-->
         <li>
                     <span @click="subSeven=!subSeven,openerSeven=!openerSeven" class="sidebar_opener">
-                      <box-icon color="#596860" type='solid'  name='offer'></box-icon>
+                      <box-icon color="#596860" type='solid' name='offer'></box-icon>
                       <p class="top_title">کدهای تخفیف</p>
                         <transition name="subSeven" mode="out-in">
                              <span v-if="subSeven" :key="0" class="down_arrow">
@@ -407,10 +407,10 @@
         </li>
 
 
-<!--        departments-->
+        <!--        departments-->
         <li>
                     <span @click="subEight=!subEight,openerEight=!openerEight" class="sidebar_opener">
-                      <box-icon name='building' color="#596860" type='solid' ></box-icon>
+                      <box-icon name='building' color="#596860" type='solid'></box-icon>
                       <p class="top_title">دپارتمان ها</p>
                         <transition name="subEight" mode="out-in">
                              <span v-if="subEight" :key="0" class="down_arrow">
@@ -428,7 +428,7 @@
                 <router-link :to="{name:'department-create'}">ایجاد دپارتمان</router-link>
               </li>
               <li>
-                <router-link :to="{name:'discount-list'}">لیست کدهای تخفیف</router-link>
+                <router-link :to="{name:'department-assign-user'}">تخصیص وظایف</router-link>
               </li>
             </ul>
           </transition>
@@ -457,10 +457,10 @@ export default {
       openerFive: false,
       subSix: true,
       openerSix: false,
-      subSeven:false,
-      openerSeven:false,
-      subEight:false,
-      openerEight:false
+      subSeven: false,
+      openerSeven: false,
+      subEight: false,
+      openerEight: false
     }
   },
 }
