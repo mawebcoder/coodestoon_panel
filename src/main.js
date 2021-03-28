@@ -6,7 +6,21 @@ import 'boxicons';
 import VueRouter from "vue-router";
 import router from "./routes/router";
 import Vuesax from 'vuesax'
+import VuePersianDatetimePicker from 'vue-persian-datetime-picker';
 
+Vue.use(VuePersianDatetimePicker, {
+    name: 'custom-date-picker',
+    props: {
+        inputFormat: 'YYYY-MM-DD',
+        format: 'YYYY-MM-DD',
+        editable: false,
+        inputClass: 'form-control my-custom-class-name',
+        placeholder: 'تاریخ انقضا را مشخص کنید...',
+        altFormat: 'YYYY-MM-DD',
+        color: '#000',
+        autoSubmit: false,
+    }
+});
 import 'vuesax/dist/vuesax.css' //Vuesax styles
 Vue.use(Vuesax, {
     // options here

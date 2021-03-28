@@ -52,6 +52,7 @@ class HelperClass {
     showSuccess(noty) {
         store.state.loading = false;
         noty.success('عملیات با موفقیت انجام شد');
+        this.scrollTop()
     }
 
 

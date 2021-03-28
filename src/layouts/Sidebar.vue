@@ -399,7 +399,7 @@
                 <router-link :to="{name:'discount-create'}">ایجاد کد تخفیف</router-link>
               </li>
               <li>
-                <router-link :to="{name:'article-comments-accepted'}">لیست کدهای تخفیف</router-link>
+                <router-link :to="{name:'discount-list'}">لیست کدهای تخفیف</router-link>
               </li>
             </ul>
           </transition>
