@@ -381,7 +381,7 @@
 <!--        discounts-->
         <li>
                     <span @click="subSeven=!subSeven,openerSeven=!openerSeven" class="sidebar_opener">
-                      <box-icon color="#596860" name='comment-detail'></box-icon>
+                      <box-icon color="#596860" type='solid'  name='offer'></box-icon>
                       <p class="top_title">کدهای تخفیف</p>
                         <transition name="subSeven" mode="out-in">
                              <span v-if="subSeven" :key="0" class="down_arrow">
@@ -397,6 +397,35 @@
             <ul v-show="openerSeven" class="sidebar_ul_level_2">
               <li>
                 <router-link :to="{name:'discount-create'}">ایجاد کد تخفیف</router-link>
+              </li>
+              <li>
+                <router-link :to="{name:'discount-list'}">لیست کدهای تخفیف</router-link>
+              </li>
+            </ul>
+          </transition>
+
+        </li>
+
+
+<!--        departments-->
+        <li>
+                    <span @click="subEight=!subEight,openerEight=!openerEight" class="sidebar_opener">
+                      <box-icon name='building' color="#596860" type='solid' ></box-icon>
+                      <p class="top_title">دپارتمان ها</p>
+                        <transition name="subEight" mode="out-in">
+                             <span v-if="subEight" :key="0" class="down_arrow">
+                                     <box-icon size="xs" color="#596860" type='solid' name='down-arrow'></box-icon>
+                                 </span>
+                             <span v-else :key="1" class="up_arrow">
+                           <box-icon size="xs" color="#596860" name='up-arrow' type='solid'></box-icon>
+                         </span>
+                        </transition>
+
+                    </span>
+          <transition name="openerEight" mode="in-out">
+            <ul v-show="openerEight" class="sidebar_ul_level_2">
+              <li>
+                <router-link :to="{name:'department-create'}">ایجاد دپارتمان</router-link>
               </li>
               <li>
                 <router-link :to="{name:'discount-list'}">لیست کدهای تخفیف</router-link>
@@ -429,7 +458,9 @@ export default {
       subSix: true,
       openerSix: false,
       subSeven:false,
-      openerSeven:false
+      openerSeven:false,
+      subEight:false,
+      openerEight:false
     }
   },
 }
@@ -448,7 +479,6 @@ aside {
   color: red !important;
   transform: scale(1.09);
   background-color: #fff;
-  box-shadow: 0 0 4px #000;
   padding-right: 10px;
   line-height: 36px;
 }
@@ -654,6 +684,15 @@ subthree-leave-active {
 subFour-leave-active {
   opacity: 1;
   transform: translateY(0);
+}
+
+
+.openerFour-enter {
+  max-height: 0;
+}
+
+.openerFour-leave-active {
+  max-height: 0;
 }
 
 //five
