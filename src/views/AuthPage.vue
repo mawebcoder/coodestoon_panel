@@ -43,22 +43,27 @@ export default {
       password: ''
     }
   },
+  created() {
+    localStorage.removeItem('cell');
+    localStorage.removeItem('pass')
+  },
   methods: {
     submit() {
       let data = this.getValues();
-      this.$store.state.loading=true
+      this.$store.state.loading = true
       AuthService.login(data)
           .then(res => {
             localStorage.setItem('cell', res.data.data.username)
-            this.$router.push({name:'auth-verify-code'})
+            localStorage.setItem('pass', res.data.data.pass)
+            this.$router.push({name: 'auth-verify-code'})
 
           }).catch(error => {
-            if (error.response.status==401){
-              this.$store.state.loading=false
-              this.$noty.error('اطلاعات وارد شده صحیح نمیباشد')
-            }else{
-              HelperClass.showErrors(error,this.$noty)
-            }
+        if (error.response.status == 401) {
+          this.$store.state.loading = false
+          this.$noty.error('اطلاعات وارد شده صحیح نمیباشد')
+        } else {
+          HelperClass.showErrors(error, this.$noty)
+        }
       })
     },
     getValues() {

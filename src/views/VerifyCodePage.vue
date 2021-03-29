@@ -2,26 +2,19 @@
   <div>
     <div id="login_box">
       <div class="head">
-        ورود به پنل
+        تایید کد ارسال شده :
       </div>
       <div class="box">
         <label>
-          شماره تلفن :
+          کد تایید :
         </label>
         <div class="form-group">
 
-          <VueInputUi type="array" label="شماره تلفن خود را وارد کنید..." v-model="cell"/>
-        </div>
-
-        <label>
-          رمز عبور :
-        </label>
-        <div class="form-group">
-          <VueInputUi type="password" label="رمز عبور خود را وارد کنید..." v-model="password"/>
+          <VueInputUi type="array" label="کد تایید ارسال شده را اینجا وارد کنید..." v-model="code"/>
         </div>
         <div dir="ltr" id="button_box">
                     <span @click="submit" style="width: 100%;border-radius: 0" class="submit_button">
-                        ورود
+                        تایید
                     </span>
         </div>
       </div>
@@ -39,32 +32,35 @@ export default {
   name: "AuthPage",
   data() {
     return {
-      cell: '',
-      password: ''
+      code: ''
     }
   },
   methods: {
     submit() {
       let data = this.getValues();
-      this.$store.state.loading=true
-      AuthService.login(data)
+      this.$store.state.loading = true
+      AuthService.verifyCode(data)
           .then(res => {
-            localStorage.setItem('cell', res.data.data.username)
-            this.$router.push({name:'auth-verify-code'})
+
+            localStorage.setItem('token', res.data.data.token)
+            localStorage.setItem('role', res.data.data.role)
+
+            this.$store.state.loading = false
+            this.$noty.success('خوش آمدید')
+            this.$router.push({name:'article-tag-list'})
 
           }).catch(error => {
-        if (error.response.status==401){
-          this.$store.state.loading=false
+        if (error.response.status == 401) {
+          this.$store.state.loading = false
           this.$noty.error('اطلاعات وارد شده صحیح نمیباشد')
-        }else{
-          HelperClass.showErrors(error,this.$noty)
+        } else {
+          HelperClass.showErrors(error, this.$noty)
         }
       })
     },
     getValues() {
       return {
-        username: this.cell,
-        password: this.password
+        code: this.code,
       }
     }
   },
