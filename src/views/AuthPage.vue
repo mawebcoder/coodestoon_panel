@@ -17,7 +17,7 @@
           رمز عبور :
         </label>
         <div class="form-group">
-          <VueInputUi type="array" label="رمز عبور خود را وارد کنید..." v-model="password"/>
+          <VueInputUi type="password" label="رمز عبور خود را وارد کنید..." v-model="password"/>
         </div>
         <div dir="ltr" id="button_box">
                     <span @click="submit" style="width: 100%;border-radius: 0" class="submit_button">
@@ -32,6 +32,8 @@
 
 <script>
 const VueInputUi = () => import('vue-input-ui');
+import AuthService from "@/services/Auth/AuthService";
+import HelperClass from "@/services/HelperClass";
 
 export default {
   name: "AuthPage",
@@ -41,9 +43,29 @@ export default {
       password: ''
     }
   },
-  methods:{
-    submit(){
+  methods: {
+    submit() {
+      let data = this.getValues();
+      this.$store.state.loading=true
+      AuthService.login(data)
+          .then(res => {
+            localStorage.setItem('cell', res.data.data.username)
+            this.$router.push({name:'auth-verify-code'})
 
+          }).catch(error => {
+            if (error.response.status==401){
+              this.$store.state.loading=false
+              this.$noty.error('اطلاعات وارد شده صحیح نمیباشد')
+            }else{
+              HelperClass.showErrors(error,this.$noty)
+            }
+      })
+    },
+    getValues() {
+      return {
+        username: this.cell,
+        password: this.password
+      }
     }
   },
   components: {
