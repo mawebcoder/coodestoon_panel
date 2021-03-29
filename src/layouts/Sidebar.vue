@@ -430,6 +430,9 @@
               <li>
                 <router-link :to="{name:'department-assign-user'}">تخصیص وظایف</router-link>
               </li>
+              <li>
+                <router-link :to="{name:'department-list'}">لیست دپارتمان ها</router-link>
+              </li>
             </ul>
           </transition>
 

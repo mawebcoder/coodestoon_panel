@@ -95,6 +95,7 @@ export default {
       }
     },
     submit() {
+      this.$store.state.loading=true
       let data = this.getValues();
       DepartmentService.AssignUsersToDepartment(this.department_id, data)
           .then(() => {

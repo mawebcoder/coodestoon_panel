@@ -1,0 +1,370 @@
+<template>
+  <div>
+    <div class="centerx">
+      <vs-popup
+          style="color:rgb(255,255,255)"
+          dir="rtl"
+          background-color="rgba(255,255,255,.6)"
+          :background-color-popup="colorx" title="ویرایش دپارتمان" :active.sync="popupActivo5">
+        <label style="color: #fff;margin:4px 0">
+          نام فارسی دپارتمان :
+        </label>
+        <div class="form-group">
+          <VueInputUi type="array" label="نام دپارتمان به فارسی..." v-model="fa_title"/>
+        </div>
+        <label style="color: #fff;margin:4px 0">
+          نام انگلیسی دپارتمان :
+        </label>
+        <div class="form-group">
+          <VueInputUi type="array" label="نام دپارتمان به فارسی..." v-model="en_title"/>
+        </div>
+        <label>
+          وضعیت :
+        </label>
+        <div class="form-group" dir="ltr" style="height: 19px">
+          <p-check color="success" v-model="status" class="p-switch p-fill"></p-check>
+        </div>
+        <div class="form-group d-flex">
+          <div @click="update" class="submit_button">
+            ثبت
+          </div>
+        </div>
+      </vs-popup>
+    </div>
+
+    <div class="centerx">
+      <vs-popup
+          style="color:rgb(255,255,255)"
+          dir="rtl"
+          background-color="rgba(255,255,255,.6)"
+          :background-color-popup="colorx" title="اعضای دپارتمان" :active.sync="popupActivo6">
+        <div class="row first-row">
+          <div class="col-4">نام</div>
+          <div class="col-4">نقش</div>
+          <div class="col-4">جزییات</div>
+        </div>
+        <template v-if="no_members">
+            <div class="after-row row">
+              موردی برای نمایش وجود ندارد
+            </div>
+        </template>
+        <template v-else>
+          <div class="row after-row">
+            <div v-for="(value,index) in members" v-bind:key="index" class="col-12 row">
+              <div class="col-4">{{value.name+' '+value.family}}</div>
+              <div class="col-4">{{value.roles[0].name}}</div>
+              <div class="col-4"><span class="active_button"><box-icon style="width: 100%" color='#fff' name='show-alt'></box-icon></span></div>
+            </div>
+          </div>
+        </template>
+      </vs-popup>
+    </div>
+
+
+    <span @click="deleteItems" class="delete_button">
+            <box-icon color="#fff" name='trash'></box-icon>
+        </span>
+    <vue-good-table mode="remote"
+                    :line-numbers="true"
+                    :rtl="true"
+                    :columns="columns"
+                    :rows="rows"
+                    @on-cell-click="onCellClick"
+    />
+    <template v-if="show_pagination">
+      <div dir="ltr" style="margin-top: 20px;margin-bottom: 100px">
+        <vs-pagination :total="last_page" v-model="current"></vs-pagination>
+      </div>
+    </template>
+
+  </div>
+
+</template>
+
+<script>
+import HelperClass from "@/services/HelperClass";
+import DepartmentService from "@/services/Department/DepartmentService";
+
+const VueInputUi = () => import('vue-input-ui');
+export default {
+  name: "List",
+  data() {
+    return {
+      colorx: "#4a5153",
+      popupActivo5: false,
+      popupActivo6: false,
+      show_pagination: true,
+      no_members: false,
+      members: [],
+      columns: [
+        {
+          label: 'عنوان فارسی',
+          field: 'fa_title',
+        },
+        {
+          label: 'عنوان لاتین',
+          field: 'en_title',
+        },
+        {
+          label: 'condition',
+          field: 'condition',
+          hidden: true
+        },
+        {
+          label: 'وضعیت',
+          field: 'status',
+          html: true,
+        },
+        {
+          label: 'تغییر وضعیت',
+          field: 'switch_condition',
+          html: true
+        },
+        {
+          label: 'ویرایش',
+          field: 'edit',
+          html: true
+        },
+        {
+          label: 'اعضای دپارتمان',
+          field: 'members',
+          html: true
+        },
+        {
+          label: 'انتخاب',
+          field: 'delete',
+          html: true
+        }
+      ],
+      rows: [],
+      selected: [],
+      fa_title: '',
+      en_title: '',
+      status: '',
+      id: '',
+      current: 1,
+      search_value: '',
+      last_page: 0,
+    }
+  },
+  watch: {
+    current(value) {
+      this.$store.state.loading = true;
+      DepartmentService.paginateInDepartments(value)
+          .then(res => {
+            let list = [];
+            res.data.data.data.forEach(item => {
+              list.push(
+                  {
+                    id: item.id,
+                    fa_title: item.fa_name,
+                    en_title: item.en_name,
+                    condition: item.status,
+                    members: '<span class="active_button"><box-icon style="width: 100%" color=\'#fff\' name=\'show-alt\'></box-icon></span>',
+                    status: item.status ? '<span class="active_button">فعال</span>' : '<span class="deactive_button">غیر فعال</span>',
+                    switch_condition: item.status ? "<i class='active_it' title='غیر فعال کن'> <box-icon color='red' name='x'></box-icon></i>" : "<i title='فعال کن' class='active_it'><box-icon color='green' name='check'></box-icon></i>",
+                    edit: '<i  title="ویرایش" class="active_it"><box-icon color="green" type=\'solid\' name=\'message-edit\'></box-icon></i>',
+                    delete: '<input type="checkbox"  value="' + item.id + '">'
+                  })
+            })
+            this.rows = list;
+            this.$store.state.loading = false;
+          }).catch(error => {
+        HelperClass.showErrors(error, this.$noty)
+      })
+    }
+  },
+  created() {
+    this.$store.state.pageTitle = 'لیست دپارتمان ها';
+    this.getList();
+  },
+  methods: {
+    update() {
+      this.$store.state.loading = true;
+      let data = {
+        fa_name: this.fa_title,
+        en_name: this.en_title,
+        status: this.status
+      }
+      DepartmentService.updateDepartment(this.id, data)
+          .then(() => {
+            this.getList();
+            HelperClass.showSuccess(this.$noty);
+            this.popupActivo5 = false;
+          }).catch(error => {
+        HelperClass.showErrors(error, this.$noty);
+      })
+    },
+    getList() {
+      this.$store.state.loading = true;
+      DepartmentService.getListOfTheDepartments()
+          .then(res => {
+            let list = [];
+            if (res.status === 204) {
+              this.rows = list;
+              this.$store.state.loading = false;
+              this.last_page = 0;
+              return
+            }
+            this.last_page = res.data.data.last_page;
+
+            res.data.data.data.forEach(item => {
+
+              list.push(
+                  {
+                    id: item.id,
+                    fa_title: item.fa_name,
+                    en_title: item.en_name,
+                    condition: item.status,
+                    members: '<span class="active_button"><box-icon style="width: 100%" color=\'#fff\' name=\'show-alt\'></box-icon></span>',
+                    status: item.status ? '<span class="active_button">فعال</span>' : '<span class="deactive_button">غیر فعال</span>',
+                    switch_condition: item.status ? "<i class='active_it' title='غیر فعال کن'> <box-icon color='red' name='x'></box-icon></i>" : "<i title='فعال کن' class='active_it'><box-icon color='green' name='check'></box-icon></i>",
+                    edit: '<i  title="ویرایش" class="active_it"><box-icon color="green" type=\'solid\' name=\'message-edit\'></box-icon></i>',
+                    delete: '<input type="checkbox"  value="' + item.id + '">'
+                  })
+            })
+            this.rows = list;
+            this.$store.state.loading = false;
+          }).catch(error => {
+        if (error.response) {
+          HelperClass.showErrors(error, this.$noty)
+        }
+      })
+    },
+    onCellClick(params) {
+      let tagName = params.event.target.tagName;
+      let column_name = params.column.field;
+      let row_object = params.row
+      switch (tagName) {
+        case ("BOX-ICON"):
+
+          if (column_name === 'edit') {
+            this.showEditModal(row_object)
+          } else if (column_name === 'switch_condition') {
+
+            this.switchCondition(row_object)
+          } else if (column_name == 'members') {
+            this.showDepartmentMembers(row_object.id);
+          }
+          break
+        case ('INPUT'):
+          this.selectItems(params.event.target)
+          break
+        default:
+          break
+      }
+    },
+    showEditModal(row) {
+      this.fa_title = row.fa_title;
+      this.en_title = row.en_title;
+      this.status = row.condition;
+      this.popupActivo5 = true;
+      document.querySelector('i.vs-icon').innerHTML = '&times;'
+      this.id = row.id;
+    },
+    switchCondition(row) {
+      this.$store.state.loading = true;
+      let data = {
+        fa_name: row.fa_title,
+        en_name: row.en_title,
+        status: row.condition ? 0 : 1
+      }
+
+      DepartmentService.updateDepartment(row.id, data)
+          .then(() => {
+            this.getList();
+            HelperClass.showSuccess(this.$noty)
+          }).catch(error => {
+        HelperClass.showErrors(error, this.$noty)
+      })
+    },
+    selectItems(inputElement) {
+      let value = inputElement.value;
+      if (inputElement.checked) {
+        this.selected.push(parseInt(value))
+      } else {
+        const index = this.selected.indexOf(value);
+        this.selected.splice(index, 1);
+      }
+
+    },
+    deleteItems() {
+      if (HelperClass.checkIsEmpty(this.selected)) {
+        return
+      }
+      HelperClass.showSwalAsking().then(result => {
+
+        if (result.value) {
+          this.$store.state.loading = true
+          let data = {
+            ids: this.selected
+          }
+          DepartmentService.deleteDepartments(data)
+              .then(() => {
+                this.selected = [];
+                if (this.current > 1) {
+                  this.current = this.current - 1;
+                }
+
+                this.getList();
+                HelperClass.scrollTop();
+                HelperClass.showSuccess(this.$noty)
+              }).catch(error => {
+            HelperClass.scrollTop();
+            HelperClass.showErrors(error, this.$noty)
+          });
+        }
+      })
+
+    },
+    showDepartmentMembers(department_id) {
+
+      DepartmentService.getDepartmentsMembers(department_id)
+          .then(res => {
+            if (res.status === 204) {
+              this.members = [];
+              this.no_members = true;
+              this.popupActivo6 = true;
+              return;
+            }
+
+            this.members = res.data.data
+            this.no_members = false;
+            this.popupActivo6 = true;
+          }).catch(error => {
+        HelperClass.showErrors(error, this.$noty)
+      })
+    }
+  },
+  components: {
+    VueInputUi,
+  }
+}
+</script>
+
+<style scoped lang="scss">
+
+.first-row {
+  background-color: #fff;
+  color: rgba(217, 44, 39, 0.91);
+  text-align: center;
+  border-radius: 3px;
+  height: 40px;
+  line-height: 40px;
+}
+
+.after-row {
+  margin: 10px 0;
+  background: #fff;
+  text-align: center;
+  justify-content: center;
+  color: rgba(67, 65, 66, 0.84);
+  padding: 10px 0;
+  border-radius: 4px;
+  .col-4{
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+  }
+}
+</style>

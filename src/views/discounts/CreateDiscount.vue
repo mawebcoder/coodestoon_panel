@@ -136,7 +136,6 @@ export default {
         expire_date: this.date,
         percent: this.percent,
         prefix: this.prefix,
-        count_of_useable: this.count_of_useable,
         status: this.status ? 1 : 0,
         number: this.number
       }
