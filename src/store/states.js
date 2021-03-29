@@ -5,6 +5,7 @@ const state = {
     file: null,
     baseUrl: 'http://localhost:8000',
     role:'',
-    permissions:[]
+    permissions:[],
+    user_name:''
 }
 export default state

@@ -24,7 +24,8 @@ const panel = {
 
             store.state.role = res.data.data.role;
             store.state.permissions = res.data.data.permissions
-
+            store.state.fa_role=res.data.data.fa_role
+            store.state.user_name=res.data.data.user_name
             next()
 
         }).catch(() => {

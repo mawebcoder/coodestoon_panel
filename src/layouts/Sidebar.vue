@@ -7,10 +7,10 @@
         </div>
         <div class="user_info_section">
           <p class="user_name">
-            محمد امیری اسطلخ جانی
+         {{$store.state.user_name}}
           </p>
           <p class="user_role">
-            مدیر سیستم
+          {{$store.state.fa_role}}
           </p>
         </div>
       </div>
