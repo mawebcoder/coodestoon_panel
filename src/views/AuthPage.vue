@@ -10,9 +10,8 @@
         </label>
         <div class="form-group">
 
-          <VueInputUi type="array" label="شماره تلفن خود را وارد کنید..." v-model="cell"/>
+          <VueInputUi dir="ltr" v-mask="'(####) ###-####'" type="array" label="(0912) 712-4321" v-model="cell"/>
         </div>
-
         <label>
           رمز عبور :
         </label>
@@ -40,7 +39,8 @@ export default {
   data() {
     return {
       cell: '',
-      password: ''
+      password: '',
+      original_cell:''
     }
   },
   created() {
@@ -49,12 +49,19 @@ export default {
   },
   methods: {
     submit() {
+      let value_one=this.cell.replace('(','');
+      let value_two=value_one.replace(')','');
+      let value_three=value_two.replace(' ','');
+      let value_four=value_three.replace('-','')
+      this.cell=value_four;
+
       let data = this.getValues();
       this.$store.state.loading = true
       AuthService.login(data)
           .then(res => {
             localStorage.setItem('cell', res.data.data.username)
             localStorage.setItem('pass', res.data.data.pass)
+            localStorage.setItem('expire_date', res.data.data.expire_date);
             this.$router.push({name: 'auth-verify-code'})
 
           }).catch(error => {
@@ -68,7 +75,7 @@ export default {
     },
     getValues() {
       return {
-        username: this.cell,
+        username: this.cell.trim(),
         password: this.password
       }
     }

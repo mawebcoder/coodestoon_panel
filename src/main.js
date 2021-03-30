@@ -3,6 +3,9 @@ import App from './App.vue'
 import './assets/responsive/responsive.css'
 import './assets/css/fontiran.css'
 import 'boxicons';
+import VueMask from 'v-mask'
+
+Vue.use(VueMask);
 import VueRouter from "vue-router";
 import router from "./routes/router";
 import Vuesax from 'vuesax'

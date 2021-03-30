@@ -1,11 +1,5 @@
 <template>
   <div id="app">
-    <div id="timer">
-        <div class="days"></div>
-        <div class="hours"></div>
-        <div class="minutes"></div>
-        <div class="seconds"></div>
-    </div>
     <main>
       <div v-if="$store.state.loading" id="app_preloading">
         <div
@@ -24,23 +18,14 @@
 </template>
 
 <script>
-import Timer from "@/services/Timer";
+
 export default {
   name: 'App',
-  mounted() {
-    alert(new Date())
-
-    Timer.init({
-      element:'#timer',
-      date:'Mar 29 2021 23:14:21',
-      callback:function (){
-        alert('mohamamd')
-      }
-    })
-
-
+  data(){
+    return {
+      myInputModel:''
+    }
   }
-
 }
 </script>
 
@@ -55,7 +40,9 @@ export default {
   display: flex;
   justify-content: center !important;
 }
-
+.vue-input-ui__label{
+  top: -20px !important;
+}
 textarea {
   resize: none !important;
   display: block;

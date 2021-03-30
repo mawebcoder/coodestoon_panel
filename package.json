@@ -17,6 +17,7 @@
     "moment-jalaali": "^0.9.2",
     "pretty-checkbox-vue": "^1.1.9",
     "sweetalert2": "^10.14.0",
+    "v-mask": "^2.2.4",
     "vue": "^2.6.11",
     "vue-editor-md2": "^1.0.11",
     "vue-good-table": "^2.21.3",
