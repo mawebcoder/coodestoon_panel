@@ -1,5 +1,4 @@
-import axios from "axios";
-import store from "@/store/vuex";
+import AuthService from "@/services/Auth/AuthService";
 
 const Panel = () => import('@/views/Panel')
 import ArticleRoutes from "./ArticlesRoutes";
@@ -15,34 +14,7 @@ const panel = {
     path: '/panel',
 
     beforeEnter: (to, from, next) => {
-        localStorage.removeItem('pass');
-        localStorage.removeItem('cell');
-        axios.post('/v1/admin/authorization', {}, {
-            headers: {
-                Authorization: 'Bearer ' + localStorage.getItem('token')
-            }
-        }).then((res) => {
-
-            store.state.role = res.data.data.role;
-            store.state.permissions = res.data.data.permissions
-            store.state.fa_role = res.data.data.fa_role
-            store.state.user_name = res.data.data.user_name
-            if (new RegExp(/admin/).test(store.state.role)){
-                next()
-                return;
-            }
-
-            next({name: 'not-found'})
-
-
-        }).catch(() => {
-
-            localStorage.removeItem('token');
-
-            next({name: 'login'})
-
-        })
-
+        AuthService.checkLogin(next)
     },
 
     component: Panel,
