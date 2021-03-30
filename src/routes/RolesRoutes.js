@@ -6,9 +6,6 @@ const LIst = () => import("@/views/Roles/LIst");
 const AssignPermissions = () => import('@/views/Roles/AssignPermission')
 const RolesRoutes = {
     path: 'roles', component: Role,
-    beforeEnter: (to, from, next) => {
-        AuthService.checkLogin(next)
-    },
     children: [
         {
             path: 'create', component: CreateRole, name: 'role-create',

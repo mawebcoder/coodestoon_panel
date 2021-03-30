@@ -119,6 +119,7 @@ export default {
       }
     },
     resendCode() {
+      this.code='';
       let cell = localStorage.getItem('cell');
       let pass = localStorage.getItem('pass');
       let data = {

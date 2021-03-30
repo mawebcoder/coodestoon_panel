@@ -6,9 +6,6 @@ const DiscountList = () => import('@/views/discounts/DiscountsList')
 const DiscountRoutes = {
     path: 'discounts',
     component: Discount,
-    beforeEnter: (to, from, next) => {
-        AuthService.checkLogin(next)
-    },
     children: [
         {
             path: 'create', component: CreateDiscount, name: 'discount-create',

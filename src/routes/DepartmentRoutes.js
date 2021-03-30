@@ -6,9 +6,6 @@ const AssignUserToDepartment = () => import('@/views/department/AssingUserToDepa
 const DepartmentList = () => import('@/views/department/DepartmentsList')
 const DepartmentRoutes = {
     path: 'departments', component: Department,
-    beforeEnter: (to, from, next) => {
-        AuthService.checkLogin(next)
-    },
     children: [
         {
             path: 'create', component: CreateDepartment, name: 'department-create',

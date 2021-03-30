@@ -1,4 +1,3 @@
-import AuthService from "@/services/Auth/AuthService";
 
 const Panel = () => import('@/views/Panel')
 import ArticleRoutes from "./ArticlesRoutes";
@@ -12,11 +11,6 @@ import DepartmentRoutes from "@/routes/DepartmentRoutes";
 
 const panel = {
     path: '/panel',
-
-    beforeEnter: (to, from, next) => {
-        AuthService.checkLogin(next)
-    },
-
     component: Panel,
     children: []
 }

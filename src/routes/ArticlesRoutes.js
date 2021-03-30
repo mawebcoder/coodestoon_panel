@@ -25,16 +25,10 @@ const CreateArticleCategory = () => import('@/views/articles/categories/CreateAr
 let ArticleRoutes = {
 
     path: 'articles', component: Articles,
-    beforeEnter: (to, from, next) => {
-        AuthService.checkLogin(next)
-    },
     children: [
         {
             // articles tags
             path: 'tags', component: ArticleTags,
-            beforeEnter: (to, from, next) => {
-                AuthService.checkLogin(next)
-            },
             children: [
                 {
                     path: 'list', component: List, name: 'article-tag-list',
@@ -71,9 +65,6 @@ let ArticleRoutes = {
         {
             // articles categories
             path: 'categories', component: Categories,
-            beforeEnter: (to, from, next) => {
-                AuthService.checkLogin(next)
-            },
             children: [
                 {
                     path: 'store', component: CreateArticleCategory, name: 'article-category-create',
@@ -117,9 +108,6 @@ let ArticleRoutes = {
             // articles
             path: 'articles',
             component: Article,
-            beforeEnter: (to, from, next) => {
-                AuthService.checkLogin(next)
-            },
             children: [
                 {
                     path: 'create', component: StoreArticle, name: 'article-store',

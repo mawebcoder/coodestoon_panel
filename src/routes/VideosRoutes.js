@@ -17,15 +17,9 @@ const SingleVideoList = () => import('@/views/videos/SingleVideoList')
 const EditVideo = () => import('@/views/videos/EditVideo')
 const VideoRotues = {
     path: 'videos', component: Videos,
-    beforeEnter: (to, from, next) => {
-        AuthService.checkLogin(next)
-    },
     children: [
         {
             path: 'tags', component: VideoTag,
-            beforeEnter: (to, from, next) => {
-                AuthService.checkLogin(next)
-            },
             children: [
                 {
                     path: 'create', component: CreateVideoTag, name: 'videos-tag-create',

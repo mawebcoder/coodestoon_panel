@@ -3,6 +3,8 @@ import Vuex from 'vuex'
 import state from "./states";
 Vue.use(Vuex)
 const store = new Vuex.Store({
-    state
+    state,
+
+
 })
 export default store;

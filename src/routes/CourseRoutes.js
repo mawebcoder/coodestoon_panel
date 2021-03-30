@@ -28,16 +28,11 @@ const DeActiveCourseSection = () => import('@/views/course/sections/DeActiveCour
 const TrashedCourseSection = () => import('@/views/course/sections/Trash')
 const CourseRoutes = {
     path: 'courses', component: Course,
-    beforeEnter: (to, from, next) => {
-        AuthService.checkLogin(next)
-    },
+
     children: [
         // tags
         {
             path: 'tags', component: CourseTag,
-            beforeEnter: (to, from, next) => {
-                AuthService.checkLogin(next)
-            },
             children: [
                 {
                     path: 'create', component: CreateCourseTag, name: 'course-tag-create',
@@ -68,9 +63,6 @@ const CourseRoutes = {
         // categories
         {
             path: 'categories', component: Category,
-            beforeEnter: (to, from, next) => {
-                AuthService.checkLogin(next)
-            },
             children: [
                 {
                     path: 'store', component: StoreCourseCategory, name: 'course-category-store',
@@ -112,9 +104,6 @@ const CourseRoutes = {
         },
         {
             path: 'sections', component: CourseSection,
-            beforeEnter: (to, from, next) => {
-                AuthService.checkLogin(next)
-            },
             children: [
                 {
                     path: 'create', component: CreateCourseSection, name: 'course-section-create',

@@ -25,7 +25,7 @@ export default {
     return {
       myInputModel:''
     }
-  }
+  },
 }
 </script>
 

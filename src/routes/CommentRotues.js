@@ -9,9 +9,7 @@ const CourseCommentAccepted = () => import('@/views/comments/CourseCommentsAccep
 const CourseCommentUnAccepted = () => import('@/views/comments/CourseCommentUnAccepted')
 const CommentRoutes = {
     path: 'comments', component: Comment,
-    beforeEnter: (to, from, next) => {
-        AuthService.checkLogin(next)
-    },
+
     children: [
         {
             path: 'videos/comments/un-accepted',

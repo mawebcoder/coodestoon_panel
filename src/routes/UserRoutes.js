@@ -5,9 +5,6 @@ const CreateUser = () => import('@/views/users/CreateUser')
 const List = () => import('@/views/users/List')
 const UserRoutes = {
     path: 'users', component: User,
-    beforeEnter: (to, from, next) => {
-        AuthService.checkLogin(next)
-    },
     children: [
         {
             path: 'create', component: CreateUser, name: 'users-create',

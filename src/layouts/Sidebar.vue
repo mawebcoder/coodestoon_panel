@@ -7,17 +7,18 @@
         </div>
         <div class="user_info_section">
           <p class="user_name">
-         {{$store.state.user_name}}
+            {{ $store.state.user_name }}
           </p>
           <p class="user_role">
-          {{$store.state.fa_role}}
+            {{ $store.state.fa_role }}
           </p>
         </div>
       </div>
       <ul id="sidebar_ul">
 
         <!--        Users-->
-        <li>
+        <template v-if="checkHasPermissions($store.state.all_user_section_permissions)">
+          <li>
                     <span @click="subFour=!subFour,openerFour=!openerFour" class="sidebar_opener">
                         <box-icon type='solid' color="#596860" name='user-circle'></box-icon>
                         <p class="top_title">مدیریت کاربران</p>
@@ -31,43 +32,44 @@
                         </transition>
 
                     </span>
-          <transition name="openerFour" mode="in-out">
-            <ul v-show="openerFour" class="sidebar_ul_level_2">
+            <transition name="openerFour" mode="in-out">
+              <ul v-show="openerFour" class="sidebar_ul_level_2">
 
-              <li>
-                <router-link :to="{name:'users-create'}">ایجاد کاربر جدید</router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'users-list'}"> لیست کاربران</router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'article-category-deactive'}">لیست مدیران
-                </router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'article-category-deactive'}">لیست مدرسین
-                </router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'article-category-deactive'}">لیست مدرسین فعال
-                </router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'article-category-deactive'}">لیست مدرسین غیر فعال
-                </router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'article-category-deactive'}">لیست کاربران حذف شده
-                </router-link>
-              </li>
-            </ul>
-          </transition>
+                <li>
+                  <router-link :to="{name:'users-create'}">ایجاد کاربر جدید</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'users-list'}"> لیست کاربران</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'article-category-deactive'}">لیست مدیران
+                  </router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'article-category-deactive'}">لیست مدرسین
+                  </router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'article-category-deactive'}">لیست مدرسین فعال
+                  </router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'article-category-deactive'}">لیست مدرسین غیر فعال
+                  </router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'article-category-deactive'}">لیست کاربران حذف شده
+                  </router-link>
+                </li>
+              </ul>
+            </transition>
 
-        </li>
-
+          </li>
+        </template>
 
         <!--        ACL-->
-        <li>
+        <template v-if="checkHasPermissions($store.state.all_permission_section_values)">
+          <li>
                     <span @click="subthree=!subthree,openerthree=!openerthree" class="sidebar_opener">
                         <box-icon type='solid' color="#596860" name='lock'></box-icon>
                         <p class="top_title">سطوح دسترسی</p>
@@ -81,28 +83,31 @@
                         </transition>
 
                     </span>
-          <transition name="openerthree" mode="in-out">
-            <ul v-show="openerthree" class="sidebar_ul_level_2">
-              <li class="li_title">
-                نقش ها
-              </li>
-              <li>
-                <router-link :to="{name:'role-create'}">ایجاد نقش جدید</router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'role-list'}"> لیست نقش ها</router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'assign-permissions'}">تخصیص مجوز به نقش ها
-                </router-link>
-              </li>
-            </ul>
-          </transition>
+            <transition name="openerthree" mode="in-out">
+              <ul v-show="openerthree" class="sidebar_ul_level_2">
+                <li class="li_title">
+                  نقش ها
+                </li>
+                <li>
+                  <router-link :to="{name:'role-create'}">ایجاد نقش جدید</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'role-list'}"> لیست نقش ها</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'assign-permissions'}">تخصیص مجوز به نقش ها
+                  </router-link>
+                </li>
+              </ul>
+            </transition>
 
-        </li>
+          </li>
+        </template>
+
 
         <!--                blogs-->
-        <li>
+        <template v-if="checkHasPermissions($store.state.article_section_permissions)">
+          <li>
                     <span @click="subone=!subone,openerone=!openerone" class="sidebar_opener">
                         <box-icon type='solid' color="#596860" name='book-alt'></box-icon>
                         <p class="top_title">مقالات</p>
@@ -116,70 +121,73 @@
                         </transition>
 
                     </span>
-          <transition name="openerone" mode="in-out">
-            <ul v-if="openerone" class="sidebar_ul_level_2">
-              <li class="li_title">
-                دسته بندی ها
-              </li>
-              <li>
-                <router-link :to="{name:'article-category-create'}">ایجاد دسته بندی</router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'article-category-list'}"> لیست دسته بندی ها</router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'article-category-active'}">دسته بندی های فعال</router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'article-category-deactive'}">دسته بندی های غیر فعال
-                </router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'article-category-trash'}">دسته های حذف شده</router-link>
-              </li>
-              <li class="li_title">
-                تگ ها
-              </li>
-              <li>
-                <router-link :to="{name:'article-tag-create'}">ایجاد تگ</router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'article-tag-list'}">لیست تگ ها</router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'article-tags-active'}">لیست تگ های فعال</router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'article-tags-de-active'}">لیست تگ غیر فعال</router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'article-tags-trashes'}">تگ های حذف شده</router-link>
-              </li>
-              <li class="li_title">
-                مقالات
-              </li>
-              <li>
-                <router-link :to="{name:'article-store'}">ایجاد مقاله</router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'article-list'}">لیست مقالات</router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'article-actives'}"> لیست مقالات فعال</router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'article-de-actives'}"> لیست مقالات غیر فعال</router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'article-trashes'}">مقالات حذف شده</router-link>
-              </li>
-            </ul>
-          </transition>
+            <transition name="openerone" mode="in-out">
+              <ul v-if="openerone" class="sidebar_ul_level_2">
+                <li class="li_title">
+                  دسته بندی ها
+                </li>
+                <li>
+                  <router-link :to="{name:'article-category-create'}">ایجاد دسته بندی</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'article-category-list'}"> لیست دسته بندی ها</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'article-category-active'}">دسته بندی های فعال</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'article-category-deactive'}">دسته بندی های غیر فعال
+                  </router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'article-category-trash'}">دسته های حذف شده</router-link>
+                </li>
+                <li class="li_title">
+                  تگ ها
+                </li>
+                <li>
+                  <router-link :to="{name:'article-tag-create'}">ایجاد تگ</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'article-tag-list'}">لیست تگ ها</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'article-tags-active'}">لیست تگ های فعال</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'article-tags-de-active'}">لیست تگ غیر فعال</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'article-tags-trashes'}">تگ های حذف شده</router-link>
+                </li>
+                <li class="li_title">
+                  مقالات
+                </li>
+                <li>
+                  <router-link :to="{name:'article-store'}">ایجاد مقاله</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'article-list'}">لیست مقالات</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'article-actives'}"> لیست مقالات فعال</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'article-de-actives'}"> لیست مقالات غیر فعال</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'article-trashes'}">مقالات حذف شده</router-link>
+                </li>
+              </ul>
+            </transition>
 
-        </li>
+          </li>
+        </template>
+
 
         <!--                course-->
-        <li>
+        <template v-if="checkHasPermissions($store.state.course_section_permissions)">
+          <li>
                     <span @click="subtwo=!subtwo,openertwo=!openertwo" class="sidebar_opener">
                         <box-icon color="#596860" type='solid' name='camera-movie'></box-icon>
                         <p class="top_title">دوره ها</p>
@@ -193,88 +201,89 @@
                         </transition>
 
                     </span>
-          <transition name="openertwo" mode="in-out">
-            <ul v-show="openertwo" class="sidebar_ul_level_2">
-              <li class="li_title">
-                دسته بندی ها
-              </li>
-              <li>
-                <router-link :to="{name:'course-category-store'}">ایجاد دسته بندی</router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'course-category-list'}"> لیست دسته بندی ها</router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'course-category-active'}">دسته بندی های فعال</router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'course-category-de-active'}">دسته بندی های غیر فعال
-                </router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'course-category-trash'}">دسته های حذف شده</router-link>
-              </li>
-              <li class="li_title">
-                تگ ها
-              </li>
-              <li>
-                <router-link :to="{name:'course-tag-create'}">ایجاد تگ</router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'course-tag-list'}">لیست تگ ها</router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'course-tag-active'}">لیست تگ های فعال</router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'course-tag-de-active'}">لیست تگ غیر فعال</router-link>
-              </li>
-              <li class="li_title">
-                فصل بندی ها
-              </li>
-              <li>
-                <router-link :to="{name:'course-section-create'}">ایجاد فصل جدید</router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'course-section-list'}">لیست تمام فصل ها</router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'course-section-active'}"> لیست فصل های فعال</router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'course-section-deactive'}"> لیست فصل های غیر فعال</router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'course-section-trashes'}">فصول حذف شده</router-link>
-              </li>
-              <li class="li_title">
-                دوره ها
-              </li>
-              <li>
-                <router-link :to="{name:'course-create'}">ایجاد دوره جدید</router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'course-list'}">لیست تمام دوره ها</router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'course-actives'}">دوره های فعال</router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'course-deactives'}">دوره های غیر فعال</router-link>
-              </li>
-              <li>
-                <router-link tag="a" :to="{name:'course-trash'}">دوره های حذف شده</router-link>
-              </li>
+            <transition name="openertwo" mode="in-out">
+              <ul v-show="openertwo" class="sidebar_ul_level_2">
+                <li class="li_title">
+                  دسته بندی ها
+                </li>
+                <li>
+                  <router-link :to="{name:'course-category-store'}">ایجاد دسته بندی</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'course-category-list'}"> لیست دسته بندی ها</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'course-category-active'}">دسته بندی های فعال</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'course-category-de-active'}">دسته بندی های غیر فعال
+                  </router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'course-category-trash'}">دسته های حذف شده</router-link>
+                </li>
+                <li class="li_title">
+                  تگ ها
+                </li>
+                <li>
+                  <router-link :to="{name:'course-tag-create'}">ایجاد تگ</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'course-tag-list'}">لیست تگ ها</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'course-tag-active'}">لیست تگ های فعال</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'course-tag-de-active'}">لیست تگ غیر فعال</router-link>
+                </li>
+                <li class="li_title">
+                  فصل بندی ها
+                </li>
+                <li>
+                  <router-link :to="{name:'course-section-create'}">ایجاد فصل جدید</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'course-section-list'}">لیست تمام فصل ها</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'course-section-active'}"> لیست فصل های فعال</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'course-section-deactive'}"> لیست فصل های غیر فعال</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'course-section-trashes'}">فصول حذف شده</router-link>
+                </li>
+                <li class="li_title">
+                  دوره ها
+                </li>
+                <li>
+                  <router-link :to="{name:'course-create'}">ایجاد دوره جدید</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'course-list'}">لیست تمام دوره ها</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'course-actives'}">دوره های فعال</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'course-deactives'}">دوره های غیر فعال</router-link>
+                </li>
+                <li>
+                  <router-link tag="a" :to="{name:'course-trash'}">دوره های حذف شده</router-link>
+                </li>
 
-            </ul>
-          </transition>
+              </ul>
+            </transition>
 
-        </li>
+          </li>
+        </template>
 
 
         <!--        videos-->
-
-        <li>
+        <template v-if="checkHasPermissions($store.state.video_section_permissions)">
+          <li>
                     <span @click="subFive=!subFive,openerFive=!openerFive" class="sidebar_opener">
                       <box-icon color="#596860" type='solid' name='movie-play'></box-icon>
                         <p class="top_title">ویدیوها</p>
@@ -288,57 +297,58 @@
                         </transition>
 
                     </span>
-          <transition name="openertwo" mode="in-out">
-            <ul v-show="openerFive" class="sidebar_ul_level_2">
-              <li class="li_title">
-                تگ ها
-              </li>
-              <li>
-                <router-link :to="{name:'videos-tag-create'}">ایجاد تگ جدید</router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'video-tag-list'}"> لیست تمام تگ ها</router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'video-tag-actives'}"> لیست تگ های فعال</router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'video-tag-deactives'}"> لیست تگ های غیر فعال</router-link>
-              </li>
-              <li class="li_title">
-                ویدیو ها
-              </li>
-              <li>
-                <router-link :to="{name:'video-store'}"> ایجاد قسمت جدید</router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'video-notuploaded'}">قسمت های آپلود نشده</router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'video-list'}">لیست ویدیو ها</router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'video-active'}">لیست قسمت های فعال</router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'video-deactive'}">لیست قسمت های غیر فعال</router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'video-single'}">لیست تک ویدیو ها</router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'video-trash'}">سطل زباله ویدیو ها</router-link>
-              </li>
-            </ul>
-          </transition>
+            <transition name="openertwo" mode="in-out">
+              <ul v-show="openerFive" class="sidebar_ul_level_2">
+                <li class="li_title">
+                  تگ ها
+                </li>
+                <li>
+                  <router-link :to="{name:'videos-tag-create'}">ایجاد تگ جدید</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'video-tag-list'}"> لیست تمام تگ ها</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'video-tag-actives'}"> لیست تگ های فعال</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'video-tag-deactives'}"> لیست تگ های غیر فعال</router-link>
+                </li>
+                <li class="li_title">
+                  ویدیو ها
+                </li>
+                <li>
+                  <router-link :to="{name:'video-store'}"> ایجاد قسمت جدید</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'video-notuploaded'}">قسمت های آپلود نشده</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'video-list'}">لیست ویدیو ها</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'video-active'}">لیست قسمت های فعال</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'video-deactive'}">لیست قسمت های غیر فعال</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'video-single'}">لیست تک ویدیو ها</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'video-trash'}">سطل زباله ویدیو ها</router-link>
+                </li>
+              </ul>
+            </transition>
 
-        </li>
+          </li>
+        </template>
 
 
         <!--        comments-->
 
-
-        <li>
+        <template v-if="checkHasPermissions($store.state.comments_section_permissions)">
+          <li>
                     <span @click="subSix=!subSix,openerSix=!openerSix" class="sidebar_opener">
                       <box-icon color="#596860" name='comment-detail'></box-icon>
                       <p class="top_title">نظرات</p>
@@ -352,34 +362,36 @@
                         </transition>
 
                     </span>
-          <transition name="openertwo" mode="in-out">
-            <ul v-show="openerSix" class="sidebar_ul_level_2">
-              <li>
-                <router-link :to="{name:'article-comments-un-accepted'}"> نظرات تایید نشده مقالات</router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'article-comments-accepted'}"> نظرات تایید شده مقالات</router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'video-comments-unaccepted'}"> نظرات تایید نشده ویدیو ها</router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'video-comments-accepted'}"> نظرات تایید شده ویدیو ها</router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'course-comments-un-accepted'}"> نظرات تایید نشده دوره ها</router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'course-comment-accepted'}"> نظرات تایید شده دوره ها</router-link>
-              </li>
-            </ul>
-          </transition>
+            <transition name="openertwo" mode="in-out">
+              <ul v-show="openerSix" class="sidebar_ul_level_2">
+                <li>
+                  <router-link :to="{name:'article-comments-un-accepted'}"> نظرات تایید نشده مقالات</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'article-comments-accepted'}"> نظرات تایید شده مقالات</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'video-comments-unaccepted'}"> نظرات تایید نشده ویدیو ها</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'video-comments-accepted'}"> نظرات تایید شده ویدیو ها</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'course-comments-un-accepted'}"> نظرات تایید نشده دوره ها</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'course-comment-accepted'}"> نظرات تایید شده دوره ها</router-link>
+                </li>
+              </ul>
+            </transition>
 
-        </li>
+          </li>
+        </template>
 
 
         <!--        discounts-->
-        <li>
+        <template v-if="checkHasPermissions($store.state.discount_section_permissions)">
+          <li>
                     <span @click="subSeven=!subSeven,openerSeven=!openerSeven" class="sidebar_opener">
                       <box-icon color="#596860" type='solid' name='offer'></box-icon>
                       <p class="top_title">کدهای تخفیف</p>
@@ -393,22 +405,24 @@
                         </transition>
 
                     </span>
-          <transition name="openerSeven" mode="in-out">
-            <ul v-show="openerSeven" class="sidebar_ul_level_2">
-              <li>
-                <router-link :to="{name:'discount-create'}">ایجاد کد تخفیف</router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'discount-list'}">لیست کدهای تخفیف</router-link>
-              </li>
-            </ul>
-          </transition>
+            <transition name="openerSeven" mode="in-out">
+              <ul v-show="openerSeven" class="sidebar_ul_level_2">
+                <li>
+                  <router-link :to="{name:'discount-create'}">ایجاد کد تخفیف</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'discount-list'}">لیست کدهای تخفیف</router-link>
+                </li>
+              </ul>
+            </transition>
 
-        </li>
+          </li>
+        </template>
 
 
         <!--        departments-->
-        <li>
+        <template v-if="checkHasPermissions($store.state.department_section_values)">
+          <li>
                     <span @click="subEight=!subEight,openerEight=!openerEight" class="sidebar_opener">
                       <box-icon name='building' color="#596860" type='solid'></box-icon>
                       <p class="top_title">دپارتمان ها</p>
@@ -422,21 +436,21 @@
                         </transition>
 
                     </span>
-          <transition name="openerEight" mode="in-out">
-            <ul v-show="openerEight" class="sidebar_ul_level_2">
-              <li>
-                <router-link :to="{name:'department-create'}">ایجاد دپارتمان</router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'department-assign-user'}">تخصیص وظایف</router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'department-list'}">لیست دپارتمان ها</router-link>
-              </li>
-            </ul>
-          </transition>
-
-        </li>
+            <transition name="openerEight" mode="in-out">
+              <ul v-show="openerEight" class="sidebar_ul_level_2">
+                <li>
+                  <router-link :to="{name:'department-create'}">ایجاد دپارتمان</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'department-assign-user'}">تخصیص وظایف</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'department-list'}">لیست دپارتمان ها</router-link>
+                </li>
+              </ul>
+            </transition>
+          </li>
+        </template>
 
       </ul>
     </aside>
@@ -444,8 +458,11 @@
 </template>
 
 <script>
+import AuthorizationService from "@/services/Authorization/AuthorizationService";
+
 export default {
   name: "Sidebar",
+
   data() {
     return {
       subone: true,
@@ -466,6 +483,13 @@ export default {
       openerEight: false
     }
   },
+  methods: {
+    checkHasPermissions(target_permissions) {
+      return AuthorizationService.checkHasPermissions(target_permissions)
+    }
+  }
+
+
 }
 </script>
 
