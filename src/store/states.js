@@ -8,9 +8,11 @@ import department_section_values from "@/store/permissions-values/DepartmentSect
 import discount_section_permissions from "@/store/permissions-values/DiscountSectionPermissions";
 const state = {
     loading: false,
+    user_profile_image:'',
     pageTitle: '',
     modal_show: false,
     file: null,
+    user_id:'',
     department_section_values,
     discount_section_permissions,
     comments_section_permissions,

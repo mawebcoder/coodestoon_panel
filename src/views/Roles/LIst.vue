@@ -9,12 +9,6 @@
                 <div class="form-group">
                     <VueInputUi type="array" label="نام نقش به فارسی..." v-model="fa_name"/>
                 </div>
-                <label style="color: #fff;margin:4px 0">
-                    نام انگلیسی نقش :
-                </label>
-                <div class="form-group">
-                    <VueInputUi type="array" label="نام نقش به فارسی..." v-model="name"/>
-                </div>
                 <div class="form-group">
                     <div @click="update" class="submit_button">
                         ثبت
@@ -63,11 +57,6 @@
                         field: 'fa_name',
                     },
                     {
-                        label: 'عنوان لاتین',
-                        field: 'name',
-                    },
-
-                    {
                         label: 'ویرایش',
                         field: 'edit',
                         html: true
@@ -99,7 +88,6 @@
                                 {
                                     id: item.id,
                                     fa_name: item.fa_name,
-                                    name: item.name,
                                     edit: '<i  title="ویرایش" class="active_it"><box-icon color="green" type=\'solid\' name=\'message-edit\'></box-icon></i>',
                                     delete: '<input type="checkbox"  value="' + item.id + '">'
                                 })
@@ -138,7 +126,6 @@
                                 {
                                     id: item.id,
                                     fa_name: item.fa_name,
-                                    name: item.name,
                                     edit: '<i  title="ویرایش" class="active_it"><box-icon color="green" type=\'solid\' name=\'message-edit\'></box-icon></i>',
                                     delete: '<input type="checkbox"  value="' + item.id + '">'
                                 })
@@ -153,7 +140,6 @@
                 this.$store.state.loading = true;
                 let data = {
                     fa_name: this.fa_name,
-                    name: this.name,
                 }
                 RoleService.update(this.id, data)
                     .then(() => {
@@ -184,7 +170,6 @@
                                 {
                                     id: item.id,
                                     fa_name: item.fa_name,
-                                    name: item.name,
                                     edit: '<i  title="ویرایش" class="active_it"><box-icon color="green" type=\'solid\' name=\'message-edit\'></box-icon></i>',
                                     delete: '<input type="checkbox"  value="' + item.id + '">'
                                 })

@@ -20,14 +20,14 @@
     </label>
     <div class="form-group">
 
-      <VueInputUi autocomplete="off" type="array" label="شماره همراه کاربر..." v-model="cell"/>
+      <VueInputUi dir="ltr" label="(0912) 712-4321" v-mask="'(####) ###-####'" autocomplete="off" type="array"  v-model="cell"/>
     </div>
     <label>
       تکرا شماره تماس کاربر :
     </label>
     <div class="form-group">
 
-      <VueInputUi autocomplete="off" type="array" label="شماره همراه کاربر..." v-model="confirm_cell"/>
+      <VueInputUi dir="ltr" label="(0912) 712-4321" v-mask="'(####) ###-####'" autocomplete="off" type="array"  v-model="confirm_cell"/>
     </div>
     <label>
       ایمیل کاربر :
@@ -55,7 +55,7 @@
     </label>
     <div class="form-group">
 
-      <VueInputUi autocomplete="off" type="array" label="شماره همراه کاربر..." v-model="confirm_password"/>
+      <VueInputUi  autocomplete="off" type="array" label="شماره همراه کاربر..." v-model="confirm_password"/>
     </div>
 
     <div style="margin-bottom: 40px">
@@ -153,6 +153,19 @@ export default {
       this.password='';
     },
     getValues() {
+      let value_one=this.cell.replace('(','');
+      let value_two=value_one.replace(')','');
+      let value_three=value_two.replace(' ','');
+      let value_four=value_three.replace('-','')
+      this.cell=value_four;
+
+      let value_one_confirm=this.confirm_cell.replace('(','');
+      let value_two_confirm=value_one_confirm.replace(')','');
+      let value_three_confirm=value_two_confirm.replace(' ','');
+      let value_four_confirm=value_three_confirm.replace('-','')
+      this.confirm_cell=value_four_confirm;
+
+
       let formData = new FormData();
       formData.append('name', this.name);
       formData.append('family', this.family);

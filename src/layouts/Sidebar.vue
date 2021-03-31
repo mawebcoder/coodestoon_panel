@@ -3,7 +3,9 @@
     <aside id="panel_side_bar">
       <div class="user_profile_info">
         <div class="profile_image">
-          <img src="@/assets/avatars/profile_avatar.jpg" alt="" id="avatar_image">
+<!--          user profile image-->
+          <img :src="`${$store.state.baseUrl}/storage/images/users/profile-image/${$store.state.user_id}/${$store.state.user_profile_image}`" alt="" id="avatar_image">
+
         </div>
         <div class="user_info_section">
           <p class="user_name">

@@ -22,10 +22,13 @@ class AuthService {
             }
         }).then((res) => {
 
-            store.state.role = res.data.data.role;
-            store.state.permissions = res.data.data.permissions
-            store.state.fa_role = res.data.data.fa_role
-            store.state.user_name = res.data.data.user_name
+            let values=res.data.data;
+            store.state.role = values.role;
+            store.state.user_id=values.user_id;
+            store.state.user_profile_image=values.user_image;
+            store.state.permissions = values.permissions
+            store.state.fa_role = values.fa_role
+            store.state.user_name = values.user_name
             if (new RegExp(/admin/).test(store.state.role)){
                 next()
                 return;

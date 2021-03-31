@@ -21,9 +21,9 @@
 
 export default {
   name: 'App',
-  data(){
+  data() {
     return {
-      myInputModel:''
+      myInputModel: ''
     }
   },
 }
@@ -35,14 +35,23 @@ export default {
 @import "./assets/globalStyles/app.scss";
 @import "~vue-multiselect/dist/vue-multiselect.min.css";
 @import '~vuejs-noty-2/dist/vuejs-noty.css';
+.vs-select--item{
+  text-align: right!important;
+}
+
+.con-icon{
+  text-align: right !important;
+}
 
 .vs-pagination--mb {
   display: flex;
   justify-content: center !important;
 }
-.vue-input-ui__label{
+
+.vue-input-ui__label {
   top: -20px !important;
 }
+
 textarea {
   resize: none !important;
   display: block;
@@ -51,9 +60,11 @@ textarea {
 label.vs-select--label {
   margin-bottom: 10px;
 }
-.vs-select--input{
+
+.vs-select--input {
   text-align: center;
 }
+
 i.vs-icon {
   display: none !important;
 }
@@ -178,7 +189,8 @@ main {
     transform: translate(24px, 0);
   }
 }
-i.vs-icon{
+
+i.vs-icon {
   display: block !important;
   width: 50px !important;
   background-color: #fff !important;

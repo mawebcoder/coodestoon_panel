@@ -12,6 +12,10 @@ class RoleService {
         return axios.get('/v1/roles')
     }
 
+    getRolePermissions(role_id){
+        return axios.get('/v1/roles/permissions/'+role_id)
+    }
+
     getAllAdmins() {
         return axios.get('/v1/roles/admin');
     }
