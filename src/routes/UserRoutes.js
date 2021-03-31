@@ -1,4 +1,5 @@
 import AuthService from "@/services/Auth/AuthService";
+import EditUser from "@/views/users/EditUser";
 
 const User = () => import('@/views/users/User')
 const CreateUser = () => import('@/views/users/CreateUser')
@@ -14,6 +15,14 @@ const UserRoutes = {
         },
         {
             path: 'list', component: List, name: 'users-list',
+            beforeEnter: (to, from, next) => {
+                AuthService.checkLogin(next)
+            },
+        },
+        {
+            path: 'edit/:id',
+            component: EditUser,
+            name: 'users-edit',
             beforeEnter: (to, from, next) => {
                 AuthService.checkLogin(next)
             },

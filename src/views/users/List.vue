@@ -23,7 +23,6 @@
 </template>
 
 <script>
-import ArticleService from "@/services/articles/ArticleService";
 import HelperClass from "@/services/HelperClass";
 import UserService from "@/services/User/UserService";
 const VueInputUi = () => import('vue-input-ui');
@@ -45,6 +44,7 @@ export default {
           label: 'نام و نام خانوادگی',
           field: 'full_name',
         },
+
         {
           label: 'ایمیل',
           field: 'email',
@@ -52,6 +52,11 @@ export default {
         {
           label:'شماره تلفن',
           field: 'cell'
+        },
+        {
+          label: 'اطلاعات کاربری',
+          field: 'information',
+          html: true
         },
         {
           label: 'مشاهده سفارشات',
@@ -77,7 +82,7 @@ export default {
   watch: {
     current(value) {
       this.$store.state.loading = true;
-      ArticleService.paginateArticles(value)
+      UserService.paginateInUserList(value)
           .then(res => {
             let list = [];
             res.data.data.data.forEach(item => {
@@ -87,7 +92,8 @@ export default {
                     full_name: item.name+' '+item.family,
                     email:item.email,
                     cell:item.cell,
-                    orders: '<i  title="سفارشات" class="active_it"><box-icon color="green" type="solid" name="message-edit"></box-icon></i>',
+                    orders: '<i  title="سفارشات" class="active_it"><box-icon type=\'solid\' color="green" name=\'shopping-bags\'></box-icon></i>',
+                    information: '<i  title="اطلاعات کاربری" class="active_it"><box-icon type=\'solid\' color="green" name=\'bar-chart-alt-2\'></box-icon></i>',
                     edit: '<i  title="ویرایش" class="active_it"><box-icon color="green" type="solid" name="message-edit"></box-icon></i>',
                     description: item.description,
                     delete: '<input type="checkbox"  value="' + item.id + '">'
@@ -120,7 +126,8 @@ export default {
                     full_name: item.name+' '+item.family,
                     email:item.email,
                     cell:item.cell,
-                    orders: '<i  title="سفارشات" class="active_it"><box-icon color="green" type="solid" name="message-edit"></box-icon></i>',
+                    orders: '<i  title="سفارشات" class="active_it"><box-icon type=\'solid\' color="green" name=\'shopping-bags\'></box-icon></i>',
+                    information: '<i  title="اطلاعات کاربری" class="active_it"><box-icon type=\'solid\' color="green" name=\'bar-chart-alt-2\'></box-icon></i>',
                     edit: '<i  title="ویرایش" class="active_it"><box-icon color="green" type="solid" name="message-edit"></box-icon></i>',
                     description: item.description,
                     delete: '<input type="checkbox"  value="' + item.id + '">'
@@ -136,11 +143,11 @@ export default {
       this.show_pagination = false
       if (this.search_value.trim() === '') {
         this.show_pagination = true;
-        this.getListOfTheArticles();
+        this.getList();
         return
       }
       this.$store.state.loading = true;
-      ArticleService.searchInArticles(this.search_value)
+      UserService.searchInUserList(this.search_value)
           .then((res) => {
             let list = [];
             if (res.status === 204) {
@@ -156,7 +163,8 @@ export default {
                     full_name: item.name+' '+item.family,
                     email:item.email,
                     cell:item.cell,
-                    orders: '<i  title="سفارشات" class="active_it"><box-icon color="green" type="solid" name="message-edit"></box-icon></i>',
+                    orders: '<i  title="سفارشات" class="active_it"><box-icon type=\'solid\' color="green" name=\'shopping-bags\'></box-icon></i>',
+                    information: '<i  title="اطلاعات کاربری" class="active_it"><box-icon type=\'solid\' color="green" name=\'bar-chart-alt-2\'></box-icon></i>',
                     edit: '<i  title="ویرایش" class="active_it"><box-icon color="green" type="solid" name="message-edit"></box-icon></i>',
                     description: item.description,
                     delete: '<input type="checkbox"  value="' + item.id + '">'
@@ -166,20 +174,6 @@ export default {
             this.$store.state.loading = false;
           }).catch(error => {
         HelperClass.showErrors(error, this.$noty);
-      })
-    },
-    switchCondition(row) {
-      this.$store.state.loading = true;
-      let data = {
-        status: row.condition ? 0 : 1,
-      }
-
-      ArticleService.switchArticleStatus(row.id, data)
-          .then(() => {
-            this.getListOfTheArticles();
-            HelperClass.showSuccess(this.$noty)
-          }).catch(error => {
-        HelperClass.showErrors(error, this.$noty)
       })
     },
     selectItems(inputElement) {
@@ -202,14 +196,14 @@ export default {
           let data = {
             ids: this.selected
           }
-          ArticleService.deleteArticles(data)
+          UserService.deleteUser(data)
               .then(() => {
                 this.selected = [];
                 if (this.current > 1) {
                   this.current = this.current - 1;
                 }
 
-                this.getListOfTheArticles();
+                this.getList();
                 HelperClass.scrollTop();
                 HelperClass.showSuccess(this.$noty)
               }).catch(error => {
@@ -228,7 +222,7 @@ export default {
         case ("BOX-ICON"):
 
           if (column_name === 'edit') {
-            this.$router.push({name: 'article-edit',params: {article: row_object.id},query:{from_list:true}})
+            this.$router.push({name: 'users-edit',params: {id: row_object.id},query:{from_list:true}})
           } else if (column_name === 'switch_condition') {
             this.switchCondition(row_object)
           }
