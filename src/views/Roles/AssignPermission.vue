@@ -113,6 +113,9 @@ export default {
       }
     },
     getValues() {
+      this.permissions_ids=this.permissions_ids.filter(item=>{
+        return item!==0;
+      })
       return {
         ids: this.permissions_ids
       }

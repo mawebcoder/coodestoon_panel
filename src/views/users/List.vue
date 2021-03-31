@@ -25,14 +25,14 @@
 <script>
 import ArticleService from "@/services/articles/ArticleService";
 import HelperClass from "@/services/HelperClass";
-
+import UserService from "@/services/User/UserService";
 const VueInputUi = () => import('vue-input-ui');
 export default {
   name: "List",
   created() {
     this.$store.state.loading = true;
     this.$store.state.pageTitle = 'لیست مقالات';
-    this.getListOfTheArticles();
+    this.getList();
   },
   data() {
     return {
@@ -42,37 +42,20 @@ export default {
       selected: [],
       columns: [
         {
-          label: 'عنوان فارسی',
-          field: 'fa_title',
+          label: 'نام و نام خانوادگی',
+          field: 'full_name',
         },
         {
-          label: 'عنوان لاتین',
-          field: 'en_title_show',
-          html: true,
-          hidden: true
+          label: 'ایمیل',
+          field: 'email',
         },
         {
-          label: 'en_title',
-          field: 'en_title',
-          hidden: true
+          label:'شماره تلفن',
+          field: 'cell'
         },
         {
-          label: 'condition',
-          field: 'condition',
-          hidden: true
-        },
-        {
-          label: 'نام دسته',
-          field: 'category',
-          html: true
-        },
-        {
-          label: 'وضعیت',
-          field: 'status',
-          html: true,
-        }, {
-          label: 'تغییر وضعیت',
-          field: 'switch_condition',
+          label: 'مشاهده سفارشات',
+          field: 'orders',
           html: true
         },
         {
@@ -101,17 +84,12 @@ export default {
               list.push(
                   {
                     id: item.id,
-                    fa_title: item.fa_title,
-                    en_title_show: item.en_title ? item.en_title : '<span class="deactive_button">ندارد</span>',
-                    en_title: item.en_title,
-                    condition: item.status,
-                    status: item.status ? '<span class="active_button">فعال</span>' : '<span class="deactive_button">غیر فعال</span>',
-                    father: item.father ? item.father.fa_title : '<span class="deactive_button">ندارد</span>',
-                    switch_condition: item.status ? "<i class='active_it' title='غیر فعال کن'> <box-icon color='red' name='x'></box-icon></i>" : "<i title='فعال کن' class='active_it'><box-icon color='green' name='check'></box-icon></i>",
+                    full_name: item.name+' '+item.family,
+                    email:item.email,
+                    cell:item.cell,
+                    orders: '<i  title="سفارشات" class="active_it"><box-icon color="green" type="solid" name="message-edit"></box-icon></i>',
                     edit: '<i  title="ویرایش" class="active_it"><box-icon color="green" type="solid" name="message-edit"></box-icon></i>',
                     description: item.description,
-
-                    category: item.category!=null? item.category.fa_title :'<span class="deactive_button">حذف شده</span>',
                     delete: '<input type="checkbox"  value="' + item.id + '">'
                   })
             })
@@ -123,8 +101,8 @@ export default {
     }
   },
   methods: {
-    getListOfTheArticles() {
-      ArticleService.getArticleList()
+    getList() {
+      UserService.getUserList()
           .then(res => {
             let list = [];
             if (res.status === 204) {
@@ -139,16 +117,12 @@ export default {
               list.push(
                   {
                     id: item.id,
-                    fa_title: item.fa_title,
-                    en_title_show: item.en_title ? item.en_title : '<span class="deactive_button">ندارد</span>',
-                    en_title: item.en_title,
-                    condition: item.status,
-                    status: item.status ? '<span class="active_button">فعال</span>' : '<span class="deactive_button">غیر فعال</span>',
-                    father: item.father ? item.father.fa_title : '<span class="deactive_button">ندارد</span>',
-                    switch_condition: item.status ? "<i class='active_it' title='غیر فعال کن'> <box-icon color='red' name='x'></box-icon></i>" : "<i title='فعال کن' class='active_it'><box-icon color='green' name='check'></box-icon></i>",
+                    full_name: item.name+' '+item.family,
+                    email:item.email,
+                    cell:item.cell,
+                    orders: '<i  title="سفارشات" class="active_it"><box-icon color="green" type="solid" name="message-edit"></box-icon></i>',
                     edit: '<i  title="ویرایش" class="active_it"><box-icon color="green" type="solid" name="message-edit"></box-icon></i>',
                     description: item.description,
-                    category: item.category!=null? item.category.fa_title :'<span class="deactive_button">حذف شده</span>',
                     delete: '<input type="checkbox"  value="' + item.id + '">'
                   })
             })
@@ -179,16 +153,12 @@ export default {
               list.push(
                   {
                     id: item.id,
-                    fa_title: item.fa_title,
-                    en_title_show: item.en_title ? item.en_title : '<span class="deactive_button">ندارد</span>',
-                    en_title: item.en_title,
-                    condition: item.status,
-                    status: item.status ? '<span class="active_button">فعال</span>' : '<span class="deactive_button">غیر فعال</span>',
-                    father: item.father ? item.father.fa_title : '<span class="deactive_button">ندارد</span>',
-                    switch_condition: item.status ? "<i class='active_it' title='غیر فعال کن'> <box-icon color='red' name='x'></box-icon></i>" : "<i title='فعال کن' class='active_it'><box-icon color='green' name='check'></box-icon></i>",
+                    full_name: item.name+' '+item.family,
+                    email:item.email,
+                    cell:item.cell,
+                    orders: '<i  title="سفارشات" class="active_it"><box-icon color="green" type="solid" name="message-edit"></box-icon></i>',
                     edit: '<i  title="ویرایش" class="active_it"><box-icon color="green" type="solid" name="message-edit"></box-icon></i>',
                     description: item.description,
-                    category: item.category!=null? item.category.fa_title :'<span class="deactive_button">حذف شده</span>',
                     delete: '<input type="checkbox"  value="' + item.id + '">'
                   })
             })

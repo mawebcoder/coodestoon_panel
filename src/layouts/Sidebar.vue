@@ -4,7 +4,8 @@
       <div class="user_profile_info">
         <div class="profile_image">
 <!--          user profile image-->
-          <img :src="`${$store.state.baseUrl}/storage/images/users/profile-image/${$store.state.user_id}/${$store.state.user_profile_image}`" alt="" id="avatar_image">
+          <img v-if="!$store.state.user_profile_image" src="@/assets/avatars/profile_avatar.jpg" >
+          <img v-else :src="`${$store.state.baseUrl}/storage/images/users/profile-image/${$store.state.user_id}/${$store.state.user_profile_image}`" alt="" id="avatar_image">
 
         </div>
         <div class="user_info_section">
@@ -779,10 +780,27 @@ subSeven-leave-active {
   max-height: 0;
 }
 
-.openerSeven-leave-active {
+.openerEight-leave-active {
+  max-height: 0;
+}
+//eight
+.subEight-enter {
+  opacity: .4;
+  transform: translateY(-5px);
+}
+
+subEight-leave-active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.openerEight-enter {
   max-height: 0;
 }
 
+.openerSeven-leave-active {
+  max-height: 0;
+}
 
 .li_title {
   font-weight: bold;

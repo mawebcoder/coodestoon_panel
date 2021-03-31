@@ -132,7 +132,7 @@ export default {
               return
             }
             res.data.data.forEach(item => {
-              this.role_list.push({text: item.name, value: item.id})
+              this.role_list.push({text: item.fa_name, value: item.id})
             })
             this.role_id = this.role_list[0].value;
           }).catch(error => {
