@@ -27,6 +27,10 @@ class UserService {
     updateUserInfo(user_id,data){
         return axios.post('/v1/users/update/user/'+user_id,data)
     }
+
+    getAdminList(){
+        return axios.get('/v1/users/admins/list')
+    }
 }
 
 export default new UserService()
