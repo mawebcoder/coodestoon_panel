@@ -44,6 +44,10 @@ export default {
           label: 'نام و نام خانوادگی',
           field: 'full_name',
         },
+        {
+          label:'نقش',
+          field: 'role',
+        },
 
         {
           label: 'ایمیل',
@@ -52,16 +56,6 @@ export default {
         {
           label:'شماره تلفن',
           field: 'cell'
-        },
-        {
-          label: 'اطلاعات کاربری',
-          field: 'information',
-          html: true
-        },
-        {
-          label: 'مشاهده سفارشات',
-          field: 'orders',
-          html: true
         },
         {
           label: 'ویرایش',
@@ -82,7 +76,7 @@ export default {
   watch: {
     current(value) {
       this.$store.state.loading = true;
-      UserService.paginateInUserList(value)
+      UserService.paginateInAdminList(value)
           .then(res => {
             let list = [];
             res.data.data.data.forEach(item => {
@@ -92,10 +86,8 @@ export default {
                     full_name: item.name+' '+item.family,
                     email:item.email,
                     cell:item.cell,
-                    orders: '<i  title="سفارشات" class="active_it"><box-icon type=\'solid\' color="green" name=\'shopping-bags\'></box-icon></i>',
-                    information: '<i  title="اطلاعات کاربری" class="active_it"><box-icon type=\'solid\' color="green" name=\'bar-chart-alt-2\'></box-icon></i>',
+                    role:item.roles[0].fa_name,
                     edit: '<i  title="ویرایش" class="active_it"><box-icon color="green" type="solid" name="message-edit"></box-icon></i>',
-                    description: item.description,
                     delete: '<input type="checkbox"  value="' + item.id + '">'
                   })
             })
@@ -108,7 +100,7 @@ export default {
   },
   methods: {
     getList() {
-      UserService.getUserList()
+      UserService.getAdminList()
           .then(res => {
             let list = [];
             if (res.status === 204) {
@@ -126,10 +118,8 @@ export default {
                     full_name: item.name+' '+item.family,
                     email:item.email,
                     cell:item.cell,
-                    orders: '<i  title="سفارشات" class="active_it"><box-icon type=\'solid\' color="green" name=\'shopping-bags\'></box-icon></i>',
-                    information: '<i  title="اطلاعات کاربری" class="active_it"><box-icon type=\'solid\' color="green" name=\'bar-chart-alt-2\'></box-icon></i>',
+                    role:item.roles[0].fa_name,
                     edit: '<i  title="ویرایش" class="active_it"><box-icon color="green" type="solid" name="message-edit"></box-icon></i>',
-                    description: item.description,
                     delete: '<input type="checkbox"  value="' + item.id + '">'
                   })
             })
@@ -147,7 +137,7 @@ export default {
         return
       }
       this.$store.state.loading = true;
-      UserService.searchInUserList(this.search_value)
+      UserService.searchInAdminList(this.search_value)
           .then((res) => {
             let list = [];
             if (res.status === 204) {
@@ -163,10 +153,8 @@ export default {
                     full_name: item.name+' '+item.family,
                     email:item.email,
                     cell:item.cell,
-                    orders: '<i  title="سفارشات" class="active_it"><box-icon type=\'solid\' color="green" name=\'shopping-bags\'></box-icon></i>',
-                    information: '<i  title="اطلاعات کاربری" class="active_it"><box-icon type=\'solid\' color="green" name=\'bar-chart-alt-2\'></box-icon></i>',
+                    role:item.roles[0].fa_name,
                     edit: '<i  title="ویرایش" class="active_it"><box-icon color="green" type="solid" name="message-edit"></box-icon></i>',
-                    description: item.description,
                     delete: '<input type="checkbox"  value="' + item.id + '">'
                   })
             })
@@ -222,7 +210,7 @@ export default {
         case ("BOX-ICON"):
 
           if (column_name === 'edit') {
-            this.$router.push({name: 'users-edit',params: {id: row_object.id},query:{from_list:true}})
+            this.$router.push({name: 'users-admin-edit',params: {id: row_object.id},query:{from_list:true}})
           } else if (column_name === 'switch_condition') {
             this.switchCondition(row_object)
           }

@@ -95,7 +95,6 @@ export default {
                     orders: '<i  title="سفارشات" class="active_it"><box-icon type=\'solid\' color="green" name=\'shopping-bags\'></box-icon></i>',
                     information: '<i  title="اطلاعات کاربری" class="active_it"><box-icon type=\'solid\' color="green" name=\'bar-chart-alt-2\'></box-icon></i>',
                     edit: '<i  title="ویرایش" class="active_it"><box-icon color="green" type="solid" name="message-edit"></box-icon></i>',
-                    description: item.description,
                     delete: '<input type="checkbox"  value="' + item.id + '">'
                   })
             })
@@ -129,7 +128,6 @@ export default {
                     orders: '<i  title="سفارشات" class="active_it"><box-icon type=\'solid\' color="green" name=\'shopping-bags\'></box-icon></i>',
                     information: '<i  title="اطلاعات کاربری" class="active_it"><box-icon type=\'solid\' color="green" name=\'bar-chart-alt-2\'></box-icon></i>',
                     edit: '<i  title="ویرایش" class="active_it"><box-icon color="green" type="solid" name="message-edit"></box-icon></i>',
-                    description: item.description,
                     delete: '<input type="checkbox"  value="' + item.id + '">'
                   })
             })
@@ -166,7 +164,6 @@ export default {
                     orders: '<i  title="سفارشات" class="active_it"><box-icon type=\'solid\' color="green" name=\'shopping-bags\'></box-icon></i>',
                     information: '<i  title="اطلاعات کاربری" class="active_it"><box-icon type=\'solid\' color="green" name=\'bar-chart-alt-2\'></box-icon></i>',
                     edit: '<i  title="ویرایش" class="active_it"><box-icon color="green" type="solid" name="message-edit"></box-icon></i>',
-                    description: item.description,
                     delete: '<input type="checkbox"  value="' + item.id + '">'
                   })
             })

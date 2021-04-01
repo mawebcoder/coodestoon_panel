@@ -3,9 +3,11 @@
     <aside id="panel_side_bar">
       <div class="user_profile_info">
         <div class="profile_image">
-<!--          user profile image-->
-          <img v-if="!$store.state.user_profile_image" src="@/assets/avatars/profile_avatar.jpg" >
-          <img v-else :src="`${$store.state.baseUrl}/storage/images/users/profile-image/${$store.state.user_id}/${$store.state.user_profile_image}`" alt="" id="avatar_image">
+          <!--          user profile image-->
+          <img v-if="!$store.state.user_profile_image" src="@/assets/avatars/profile_avatar.jpg">
+          <img v-else
+               :src="`${$store.state.baseUrl}/storage/images/users/profile-image/${$store.state.user_id}/${$store.state.user_profile_image}`"
+               alt="" id="avatar_image">
 
         </div>
         <div class="user_info_section">
@@ -18,6 +20,34 @@
         </div>
       </div>
       <ul id="sidebar_ul">
+
+        <!--dashboard-->
+        <li>
+                    <span @click="subNine=!subNine,openerNine=!openerNine" class="sidebar_opener">
+                      <box-icon name='building' color="#596860" type='solid'></box-icon>
+                      <p class="top_title">داشبورد مدیریت</p>
+                        <transition name="subNine" mode="out-in">
+                             <span v-if="subEight" :key="0" class="down_arrow">
+                                     <box-icon size="xs" color="#596860" type='solid' name='down-arrow'></box-icon>
+                                 </span>
+                             <span v-else :key="1" class="up_arrow">
+                           <box-icon size="xs" color="#596860" name='up-arrow' type='solid'></box-icon>
+                         </span>
+                        </transition>
+
+                    </span>
+          <transition name="openerNine" mode="in-out">
+            <ul v-show="openerNine" class="sidebar_ul_level_2">
+              <li>
+                <router-link :to="{name:'department-create'}">لیست پیام های کاربران</router-link>
+              </li>
+              <li>
+                <router-link :to="{name:'department-assign-user'}">لیست پیام های مربیان</router-link>
+              </li>
+            </ul>
+          </transition>
+        </li>
+
 
         <!--        Users-->
         <template v-if="checkHasPermissions($store.state.all_user_section_permissions)">
@@ -45,7 +75,7 @@
                   <router-link :to="{name:'users-list'}"> لیست کاربران</router-link>
                 </li>
                 <li>
-                  <router-link :to="{name:'article-category-deactive'}">لیست مدیران
+                  <router-link :to="{name:'users-admin-list'}">لیست مدیران
                   </router-link>
                 </li>
                 <li>
@@ -455,6 +485,319 @@
           </li>
         </template>
 
+
+        <!--        teacher_messages-->
+
+        <li>
+                    <span @click="subNine=!subNine,openerNine=!openerNine" class="sidebar_opener">
+                      <box-icon name='message-rounded-detail' color="#596860" type='solid'></box-icon>
+                      <p class="top_title">پیام های مدرسین</p>
+                        <transition name="subNine" mode="out-in">
+                             <span v-if="subEight" :key="0" class="down_arrow">
+                                     <box-icon size="xs" color="#596860" type='solid' name='down-arrow'></box-icon>
+                                 </span>
+                             <span v-else :key="1" class="up_arrow">
+                           <box-icon size="xs" color="#596860" name='up-arrow' type='solid'></box-icon>
+                         </span>
+                        </transition>
+
+                    </span>
+          <transition name="openerNine" mode="in-out">
+            <ul v-show="openerNine" class="sidebar_ul_level_2">
+              <li>
+                <router-link :to="{name:'department-create'}">ایجاد دپارتمان</router-link>
+              </li>
+              <li>
+                <router-link :to="{name:'department-assign-user'}">تخصیص وظایف</router-link>
+              </li>
+              <li>
+                <router-link :to="{name:'department-list'}">لیست دپارتمان ها</router-link>
+              </li>
+            </ul>
+          </transition>
+        </li>
+
+
+        <!--recommends-->
+
+        <li>
+                    <span @click="subNine=!subNine,openerNine=!openerNine" class="sidebar_opener">
+                      <box-icon name='donate-heart' color="#596860" type='solid'></box-icon>
+                      <p class="top_title">پیشنهادات</p>
+                        <transition name="subNine" mode="out-in">
+                             <span v-if="subEight" :key="0" class="down_arrow">
+                                     <box-icon size="xs" color="#596860" type='solid' name='down-arrow'></box-icon>
+                                 </span>
+                             <span v-else :key="1" class="up_arrow">
+                           <box-icon size="xs" color="#596860" name='up-arrow' type='solid'></box-icon>
+                         </span>
+                        </transition>
+
+                    </span>
+          <transition name="openerNine" mode="in-out">
+            <ul v-show="openerNine" class="sidebar_ul_level_2">
+              <li>
+                <router-link :to="{name:'department-create'}">پیشنهادات(مدرسین)</router-link>
+              </li>
+              <li>
+                <router-link :to="{name:'department-assign-user'}">پیشنهادات(کاربران)</router-link>
+              </li>
+            </ul>
+          </transition>
+        </li>
+
+
+        <!--Complaints -->
+
+        <li>
+                    <span @click="subNine=!subNine,openerNine=!openerNine" class="sidebar_opener">
+                      <box-icon name='message-alt-error' color="#596860" type='solid'></box-icon>
+                      <p class="top_title">شکایات</p>
+                        <transition name="subNine" mode="out-in">
+                             <span v-if="subEight" :key="0" class="down_arrow">
+                                     <box-icon size="xs" color="#596860" type='solid' name='down-arrow'></box-icon>
+                                 </span>
+                             <span v-else :key="1" class="up_arrow">
+                           <box-icon size="xs" color="#596860" name='up-arrow' type='solid'></box-icon>
+                         </span>
+                        </transition>
+
+                    </span>
+          <transition name="openerNine" mode="in-out">
+            <ul v-show="openerNine" class="sidebar_ul_level_2">
+              <li>
+                <router-link :to="{name:'department-create'}">شکایات(مدرسین)</router-link>
+              </li>
+              <li>
+                <router-link :to="{name:'department-assign-user'}">شکایات(کاربران)</router-link>
+              </li>
+            </ul>
+          </transition>
+        </li>
+
+
+        <!--Violations -->
+        <li>
+                    <span @click="subNine=!subNine,openerNine=!openerNine" class="sidebar_opener">
+                      <box-icon name='alarm-exclamation' color="#596860" type='solid'></box-icon>
+                      <p class="top_title">گزارش تخلفات</p>
+                        <transition name="subNine" mode="out-in">
+                             <span v-if="subEight" :key="0" class="down_arrow">
+                                     <box-icon size="xs" color="#596860" type='solid' name='down-arrow'></box-icon>
+                                 </span>
+                             <span v-else :key="1" class="up_arrow">
+                           <box-icon size="xs" color="#596860" name='up-arrow' type='solid'></box-icon>
+                         </span>
+                        </transition>
+
+                    </span>
+          <transition name="openerNine" mode="in-out">
+            <ul v-show="openerNine" class="sidebar_ul_level_2">
+              <li>
+                <router-link :to="{name:'department-create'}">شکایات(مدرسین)</router-link>
+              </li>
+              <li>
+                <router-link :to="{name:'department-assign-user'}">شکایات(کاربران)</router-link>
+              </li>
+            </ul>
+          </transition>
+        </li>
+
+
+        <!--        messages-->
+        <li>
+                    <span @click="subNine=!subNine,openerNine=!openerNine" class="sidebar_opener">
+                      <box-icon name='message-alt-detail' color="#596860" type='solid'></box-icon>
+                      <p class="top_title">پیام ها</p>
+                        <transition name="subNine" mode="out-in">
+                             <span v-if="subEight" :key="0" class="down_arrow">
+                                     <box-icon size="xs" color="#596860" type='solid' name='down-arrow'></box-icon>
+                                 </span>
+                             <span v-else :key="1" class="up_arrow">
+                           <box-icon size="xs" color="#596860" name='up-arrow' type='solid'></box-icon>
+                         </span>
+                        </transition>
+
+                    </span>
+          <transition name="openerNine" mode="in-out">
+            <ul v-show="openerNine" class="sidebar_ul_level_2">
+              <li>
+                <router-link :to="{name:'department-create'}">لیست پیام های کاربران</router-link>
+              </li>
+              <li>
+                <router-link :to="{name:'department-assign-user'}">لیست پیام های مربیان</router-link>
+              </li>
+            </ul>
+          </transition>
+        </li>
+
+        <!--tickets-->
+        <li>
+                    <span @click="subNine=!subNine,openerNine=!openerNine" class="sidebar_opener">
+                      <box-icon name='badge-check' color="#596860" type='solid'></box-icon>
+                      <p class="top_title">تیکت ها</p>
+                        <transition name="subNine" mode="out-in">
+                             <span v-if="subEight" :key="0" class="down_arrow">
+                                     <box-icon size="xs" color="#596860" type='solid' name='down-arrow'></box-icon>
+                                 </span>
+                             <span v-else :key="1" class="up_arrow">
+                           <box-icon size="xs" color="#596860" name='up-arrow' type='solid'></box-icon>
+                         </span>
+                        </transition>
+
+                    </span>
+          <transition name="openerNine" mode="in-out">
+            <ul v-show="openerNine" class="sidebar_ul_level_2">
+              <li>
+                <router-link :to="{name:'department-create'}">لیست پیام های کاربران</router-link>
+              </li>
+              <li>
+                <router-link :to="{name:'department-assign-user'}">لیست پیام های مربیان</router-link>
+              </li>
+            </ul>
+          </transition>
+        </li>
+
+        <!--send messages-->
+        <li>
+                    <span @click="subNine=!subNine,openerNine=!openerNine" class="sidebar_opener">
+                      <box-icon name='mail-send' color="#596860" type='solid'></box-icon>
+                      <p class="top_title">ارسال پیام</p>
+                        <transition name="subNine" mode="out-in">
+                             <span v-if="subEight" :key="0" class="down_arrow">
+                                     <box-icon size="xs" color="#596860" type='solid' name='down-arrow'></box-icon>
+                                 </span>
+                             <span v-else :key="1" class="up_arrow">
+                           <box-icon size="xs" color="#596860" name='up-arrow' type='solid'></box-icon>
+                         </span>
+                        </transition>
+
+                    </span>
+          <transition name="openerNine" mode="in-out">
+            <ul v-show="openerNine" class="sidebar_ul_level_2">
+              <li>
+                <router-link :to="{name:'department-create'}">لیست پیام های کاربران</router-link>
+              </li>
+              <li>
+                <router-link :to="{name:'department-assign-user'}">لیست پیام های مربیان</router-link>
+              </li>
+            </ul>
+          </transition>
+        </li>
+
+
+        <!--edit personal info-->
+        <li>
+                    <span @click="subNine=!subNine,openerNine=!openerNine" class="sidebar_opener">
+                      <box-icon name='user-detail' color="#596860" type='solid'></box-icon>
+                      <p class="top_title">ویرایش اطلاعات</p>
+                        <transition name="subNine" mode="out-in">
+                             <span v-if="subEight" :key="0" class="down_arrow">
+                                     <box-icon size="xs" color="#596860" type='solid' name='down-arrow'></box-icon>
+                                 </span>
+                             <span v-else :key="1" class="up_arrow">
+                           <box-icon size="xs" color="#596860" name='up-arrow' type='solid'></box-icon>
+                         </span>
+                        </transition>
+
+                    </span>
+          <transition name="openerNine" mode="in-out">
+            <ul v-show="openerNine" class="sidebar_ul_level_2">
+              <li>
+                <router-link :to="{name:'department-create'}">لیست پیام های کاربران</router-link>
+              </li>
+              <li>
+                <router-link :to="{name:'department-assign-user'}">لیست پیام های مربیان</router-link>
+              </li>
+            </ul>
+          </transition>
+        </li>
+
+        <!--orders-->
+        <li>
+                    <span @click="subNine=!subNine,openerNine=!openerNine" class="sidebar_opener">
+                     <box-icon  color="#596860" type='logo' name='shopify'></box-icon>
+                      <p class="top_title">سفارشات</p>
+                        <transition name="subNine" mode="out-in">
+                             <span v-if="subEight" :key="0" class="down_arrow">
+                                     <box-icon size="xs" color="#596860" type='solid' name='down-arrow'></box-icon>
+                                 </span>
+                             <span v-else :key="1" class="up_arrow">
+                           <box-icon size="xs" color="#596860" name='up-arrow' type='solid'></box-icon>
+                         </span>
+                        </transition>
+
+                    </span>
+          <transition name="openerNine" mode="in-out">
+            <ul v-show="openerNine" class="sidebar_ul_level_2">
+              <li>
+                <router-link :to="{name:'department-create'}">لیست پیام های کاربران</router-link>
+              </li>
+              <li>
+                <router-link :to="{name:'department-assign-user'}">لیست پیام های مربیان</router-link>
+              </li>
+            </ul>
+          </transition>
+        </li>
+
+        <!--special_membership-->
+        <li>
+                    <span @click="subNine=!subNine,openerNine=!openerNine" class="sidebar_opener">
+                      <box-icon name='medal' color="#596860" type='solid'></box-icon>
+                      <p class="top_title">عضویت ویژه</p>
+                        <transition name="subNine" mode="out-in">
+                             <span v-if="subEight" :key="0" class="down_arrow">
+                                     <box-icon size="xs" color="#596860" type='solid' name='down-arrow'></box-icon>
+                                 </span>
+                             <span v-else :key="1" class="up_arrow">
+                           <box-icon size="xs" color="#596860" name='up-arrow' type='solid'></box-icon>
+                         </span>
+                        </transition>
+
+                    </span>
+          <transition name="openerNine" mode="in-out">
+            <ul v-show="openerNine" class="sidebar_ul_level_2">
+              <li>
+                <router-link :to="{name:'department-create'}">لیست پیام های کاربران</router-link>
+              </li>
+              <li>
+                <router-link :to="{name:'department-assign-user'}">لیست پیام های مربیان</router-link>
+              </li>
+            </ul>
+          </transition>
+        </li>
+
+        <!--settings-->
+        <li>
+                    <span @click="subNine=!subNine,openerNine=!openerNine" class="sidebar_opener">
+                      <box-icon name='wrench' color="#596860" type='solid'></box-icon>
+                      <p class="top_title">تنظیمات</p>
+                        <transition name="subNine" mode="out-in">
+                             <span v-if="subEight" :key="0" class="down_arrow">
+                                     <box-icon size="xs" color="#596860" type='solid' name='down-arrow'></box-icon>
+                                 </span>
+                             <span v-else :key="1" class="up_arrow">
+                           <box-icon size="xs" color="#596860" name='up-arrow' type='solid'></box-icon>
+                         </span>
+                        </transition>
+
+                    </span>
+          <transition name="openerNine" mode="in-out">
+            <ul v-show="openerNine" class="sidebar_ul_level_2">
+              <li>
+                <router-link :to="{name:'department-create'}">لیست پیام های کاربران</router-link>
+              </li>
+              <li>
+                <router-link :to="{name:'department-assign-user'}">لیست پیام های مربیان</router-link>
+              </li>
+            </ul>
+          </transition>
+        </li>
+
+
+
+
+
       </ul>
     </aside>
   </div>
@@ -483,7 +826,9 @@ export default {
       subSeven: false,
       openerSeven: false,
       subEight: false,
-      openerEight: false
+      openerEight: false,
+      subNine: false,
+      openerNine: false,
     }
   },
   methods: {
@@ -783,6 +1128,7 @@ subSeven-leave-active {
 .openerEight-leave-active {
   max-height: 0;
 }
+
 //eight
 .subEight-enter {
   opacity: .4;
@@ -798,9 +1144,30 @@ subEight-leave-active {
   max-height: 0;
 }
 
-.openerSeven-leave-active {
+.openerEight-leave-active {
   max-height: 0;
 }
+
+//nine
+
+.subNine-enter {
+  opacity: .4;
+  transform: translateY(-5px);
+}
+
+subNine-leave-active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.openerNine-enter {
+  max-height: 0;
+}
+
+.openerNine-leave-active {
+  max-height: 0;
+}
+
 
 .li_title {
   font-weight: bold;

@@ -31,6 +31,15 @@ class UserService {
     getAdminList(){
         return axios.get('/v1/users/admins/list')
     }
+    searchInAdminList(search){
+        return axios.get('/v1/users/admins/list?search='+search)
+    }
+    paginateInAdminList(page_number){
+        return axios.get('/v1/users/admins/list?page='+page_number)
+    }
+    updateAdmin(user_id,data){
+        return axios.post('/v1/users/admin/update/'+user_id,data)
+    }
 }
 
 export default new UserService()
