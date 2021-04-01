@@ -40,6 +40,16 @@ class UserService {
     updateAdmin(user_id,data){
         return axios.post('/v1/users/admin/update/'+user_id,data)
     }
+    getTeachersList(){
+        return axios.get('/v1/users/teachers/list')
+    }
+    searchInTeacherList(search){
+        return axios.get('/v1/users/teachers/list?search='+search)
+    }
+    getTeacherInfo(user_id){
+        return axios.get('/v1/users/teachers/info/'+user_id)
+    }
+
 }
 
 export default new UserService()

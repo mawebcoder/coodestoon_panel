@@ -79,7 +79,7 @@
                   </router-link>
                 </li>
                 <li>
-                  <router-link :to="{name:'article-category-deactive'}">لیست مدرسین
+                  <router-link :to="{name:'users-teachers-list'}">لیست مدرسین
                   </router-link>
                 </li>
                 <li>
@@ -91,7 +91,7 @@
                   </router-link>
                 </li>
                 <li>
-                  <router-link :to="{name:'article-category-deactive'}">لیست کاربران حذف شده
+                  <router-link :to="{name:'users-teachers-list'}">لیست کاربران حذف شده
                   </router-link>
                 </li>
               </ul>
