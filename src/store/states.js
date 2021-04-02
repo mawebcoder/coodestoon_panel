@@ -12,6 +12,7 @@ const state = {
     pageTitle: '',
     modal_show: false,
     file: null,
+    csrfToken:'',
     user_id:'',
     department_section_values,
     discount_section_permissions,

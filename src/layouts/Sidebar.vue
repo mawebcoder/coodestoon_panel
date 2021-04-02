@@ -24,7 +24,7 @@
         <!--dashboard-->
         <li>
                     <span @click="subNine=!subNine,openerNine=!openerNine" class="sidebar_opener">
-                      <box-icon name='building' color="#596860" type='solid'></box-icon>
+                      <box-icon style="position: absolute;right: 12px" name='building' color="#596860" type='solid'></box-icon>
                       <p class="top_title">داشبورد مدیریت</p>
                         <transition name="subNine" mode="out-in">
                              <span v-if="subEight" :key="0" class="down_arrow">
@@ -53,7 +53,7 @@
         <template v-if="checkHasPermissions($store.state.all_user_section_permissions)">
           <li>
                     <span @click="subFour=!subFour,openerFour=!openerFour" class="sidebar_opener">
-                        <box-icon type='solid' color="#596860" name='user-circle'></box-icon>
+                        <box-icon style="position: absolute;right: 12px" type='solid' color="#596860" name='user-circle'></box-icon>
                         <p class="top_title">مدیریت کاربران</p>
                         <transition name="subFour" mode="out-in">
                              <span v-if="subFour" :key="0" class="down_arrow">
@@ -104,7 +104,7 @@
         <template v-if="checkHasPermissions($store.state.all_permission_section_values)">
           <li>
                     <span @click="subthree=!subthree,openerthree=!openerthree" class="sidebar_opener">
-                        <box-icon type='solid' color="#596860" name='lock'></box-icon>
+                        <box-icon style="position: absolute;right: 12px" type='solid' color="#596860" name='lock'></box-icon>
                         <p class="top_title">سطوح دسترسی</p>
                         <transition name="subthree" mode="out-in">
                              <span v-if="subthree" :key="0" class="down_arrow">
@@ -142,7 +142,7 @@
         <template v-if="checkHasPermissions($store.state.article_section_permissions)">
           <li>
                     <span @click="subone=!subone,openerone=!openerone" class="sidebar_opener">
-                        <box-icon type='solid' color="#596860" name='book-alt'></box-icon>
+                        <box-icon style="position: absolute;right: 12px" type='solid' color="#596860" name='book-alt'></box-icon>
                         <p class="top_title">مقالات</p>
                         <transition name="subone" mode="out-in">
                              <span v-if="subone" :key="0" class="down_arrow">
@@ -222,7 +222,7 @@
         <template v-if="checkHasPermissions($store.state.course_section_permissions)">
           <li>
                     <span @click="subtwo=!subtwo,openertwo=!openertwo" class="sidebar_opener">
-                        <box-icon color="#596860" type='solid' name='camera-movie'></box-icon>
+                        <box-icon style="position: absolute;right: 12px" color="#596860" type='solid' name='camera-movie'></box-icon>
                         <p class="top_title">دوره ها</p>
                         <transition name="subtwo" mode="out-in">
                              <span v-if="subtwo" :key="0" class="down_arrow">
@@ -318,7 +318,7 @@
         <template v-if="checkHasPermissions($store.state.video_section_permissions)">
           <li>
                     <span @click="subFive=!subFive,openerFive=!openerFive" class="sidebar_opener">
-                      <box-icon color="#596860" type='solid' name='movie-play'></box-icon>
+                      <box-icon style="position: absolute;right: 12px" color="#596860" type='solid' name='movie-play'></box-icon>
                         <p class="top_title">ویدیوها</p>
                         <transition name="subtwo" mode="out-in">
                              <span v-if="subFive" :key="0" class="down_arrow">
@@ -383,7 +383,7 @@
         <template v-if="checkHasPermissions($store.state.comments_section_permissions)">
           <li>
                     <span @click="subSix=!subSix,openerSix=!openerSix" class="sidebar_opener">
-                      <box-icon color="#596860" name='comment-detail'></box-icon>
+                      <box-icon style="position: absolute;right: 12px" color="#596860" name='comment-detail'></box-icon>
                       <p class="top_title">نظرات</p>
                         <transition name="subtwo" mode="out-in">
                              <span v-if="subSix" :key="0" class="down_arrow">
@@ -426,7 +426,7 @@
         <template v-if="checkHasPermissions($store.state.discount_section_permissions)">
           <li>
                     <span @click="subSeven=!subSeven,openerSeven=!openerSeven" class="sidebar_opener">
-                      <box-icon color="#596860" type='solid' name='offer'></box-icon>
+                      <box-icon style="position: absolute;right: 12px" color="#596860" type='solid' name='offer'></box-icon>
                       <p class="top_title">کدهای تخفیف</p>
                         <transition name="subSeven" mode="out-in">
                              <span v-if="subSeven" :key="0" class="down_arrow">
@@ -457,7 +457,7 @@
         <template v-if="checkHasPermissions($store.state.department_section_values)">
           <li>
                     <span @click="subEight=!subEight,openerEight=!openerEight" class="sidebar_opener">
-                      <box-icon name='building' color="#596860" type='solid'></box-icon>
+                      <box-icon style="position: absolute;right: 12px" name='building' color="#596860" type='solid'></box-icon>
                       <p class="top_title">دپارتمان ها</p>
                         <transition name="subEight" mode="out-in">
                              <span v-if="subEight" :key="0" class="down_arrow">
@@ -490,7 +490,7 @@
 
         <li>
                     <span @click="subNine=!subNine,openerNine=!openerNine" class="sidebar_opener">
-                      <box-icon name='message-rounded-detail' color="#596860" type='solid'></box-icon>
+                      <box-icon style="position: absolute;right: 12px" name='message-rounded-detail' color="#596860" type='solid'></box-icon>
                       <p class="top_title">پیام های مدرسین</p>
                         <transition name="subNine" mode="out-in">
                              <span v-if="subEight" :key="0" class="down_arrow">
@@ -522,7 +522,7 @@
 
         <li>
                     <span @click="subNine=!subNine,openerNine=!openerNine" class="sidebar_opener">
-                      <box-icon name='donate-heart' color="#596860" type='solid'></box-icon>
+                      <box-icon style="position: absolute;right: 12px" name='donate-heart' color="#596860" type='solid'></box-icon>
                       <p class="top_title">پیشنهادات</p>
                         <transition name="subNine" mode="out-in">
                              <span v-if="subEight" :key="0" class="down_arrow">
@@ -551,7 +551,7 @@
 
         <li>
                     <span @click="subNine=!subNine,openerNine=!openerNine" class="sidebar_opener">
-                      <box-icon name='message-alt-error' color="#596860" type='solid'></box-icon>
+                      <box-icon style="position: absolute;right: 12px" name='message-alt-error' color="#596860" type='solid'></box-icon>
                       <p class="top_title">شکایات</p>
                         <transition name="subNine" mode="out-in">
                              <span v-if="subEight" :key="0" class="down_arrow">
@@ -579,7 +579,7 @@
         <!--Violations -->
         <li>
                     <span @click="subNine=!subNine,openerNine=!openerNine" class="sidebar_opener">
-                      <box-icon name='alarm-exclamation' color="#596860" type='solid'></box-icon>
+                      <box-icon style="position: absolute;right: 12px" name='alarm-exclamation' color="#596860" type='solid'></box-icon>
                       <p class="top_title">گزارش تخلفات</p>
                         <transition name="subNine" mode="out-in">
                              <span v-if="subEight" :key="0" class="down_arrow">
@@ -607,7 +607,7 @@
         <!--        messages-->
         <li>
                     <span @click="subNine=!subNine,openerNine=!openerNine" class="sidebar_opener">
-                      <box-icon name='message-alt-detail' color="#596860" type='solid'></box-icon>
+                      <box-icon style="position: absolute;right: 12px" name='message-alt-detail' color="#596860" type='solid'></box-icon>
                       <p class="top_title">پیام ها</p>
                         <transition name="subNine" mode="out-in">
                              <span v-if="subEight" :key="0" class="down_arrow">
@@ -634,7 +634,7 @@
         <!--tickets-->
         <li>
                     <span @click="subNine=!subNine,openerNine=!openerNine" class="sidebar_opener">
-                      <box-icon name='badge-check' color="#596860" type='solid'></box-icon>
+                      <box-icon style="position: absolute;right: 12px" name='badge-check' color="#596860" type='solid'></box-icon>
                       <p class="top_title">تیکت ها</p>
                         <transition name="subNine" mode="out-in">
                              <span v-if="subEight" :key="0" class="down_arrow">
@@ -661,7 +661,7 @@
         <!--send messages-->
         <li>
                     <span @click="subNine=!subNine,openerNine=!openerNine" class="sidebar_opener">
-                      <box-icon name='mail-send' color="#596860" type='solid'></box-icon>
+                      <box-icon style="position: absolute;right: 12px" name='mail-send' color="#596860" type='solid'></box-icon>
                       <p class="top_title">ارسال پیام</p>
                         <transition name="subNine" mode="out-in">
                              <span v-if="subEight" :key="0" class="down_arrow">
@@ -689,7 +689,7 @@
         <!--edit personal info-->
         <li>
                     <span @click="subNine=!subNine,openerNine=!openerNine" class="sidebar_opener">
-                      <box-icon name='user-detail' color="#596860" type='solid'></box-icon>
+                      <box-icon style="position: absolute;right: 12px" name='user-detail' color="#596860" type='solid'></box-icon>
                       <p class="top_title">ویرایش اطلاعات</p>
                         <transition name="subNine" mode="out-in">
                              <span v-if="subEight" :key="0" class="down_arrow">
@@ -716,7 +716,7 @@
         <!--orders-->
         <li>
                     <span @click="subNine=!subNine,openerNine=!openerNine" class="sidebar_opener">
-                     <box-icon  color="#596860" type='logo' name='shopify'></box-icon>
+                     <box-icon style="position: absolute;right: 12px" color="#596860" type='logo' name='shopify'></box-icon>
                       <p class="top_title">سفارشات</p>
                         <transition name="subNine" mode="out-in">
                              <span v-if="subEight" :key="0" class="down_arrow">
@@ -743,7 +743,7 @@
         <!--special_membership-->
         <li>
                     <span @click="subNine=!subNine,openerNine=!openerNine" class="sidebar_opener">
-                      <box-icon name='medal' color="#596860" type='solid'></box-icon>
+                      <box-icon style="position: absolute;right: 12px" name='medal' color="#596860" type='solid'></box-icon>
                       <p class="top_title">عضویت ویژه</p>
                         <transition name="subNine" mode="out-in">
                              <span v-if="subEight" :key="0" class="down_arrow">
@@ -770,7 +770,7 @@
         <!--settings-->
         <li>
                     <span @click="subNine=!subNine,openerNine=!openerNine" class="sidebar_opener">
-                      <box-icon name='wrench' color="#596860" type='solid'></box-icon>
+                      <box-icon style="position: absolute;right: 12px" name='wrench' color="#596860" type='solid'></box-icon>
                       <p class="top_title">تنظیمات</p>
                         <transition name="subNine" mode="out-in">
                              <span v-if="subEight" :key="0" class="down_arrow">
@@ -794,8 +794,62 @@
           </transition>
         </li>
 
+        <!--        question and ask-->
+
+        <li>
+                    <span @click="subNine=!subNine,openerNine=!openerNine" class="sidebar_opener">
+                     <box-icon style="position: absolute;right: 12px" type='solid' color="#596860" name='institution'></box-icon>
+                      <p class="top_title">انجمن</p>
+                        <transition name="subNine" mode="out-in">
+                             <span v-if="subEight" :key="0" class="down_arrow">
+                                     <box-icon size="xs" color="#596860" type='solid' name='down-arrow'></box-icon>
+                                 </span>
+                             <span v-else :key="1" class="up_arrow">
+                           <box-icon size="xs" color="#596860" name='up-arrow' type='solid'></box-icon>
+                         </span>
+                        </transition>
+
+                    </span>
+          <transition name="openerNine" mode="in-out">
+            <ul v-show="openerNine" class="sidebar_ul_level_2">
+              <li>
+                <router-link :to="{name:'department-create'}">لیست پیام های کاربران</router-link>
+              </li>
+              <li>
+                <router-link :to="{name:'department-assign-user'}">لیست پیام های مربیان</router-link>
+              </li>
+            </ul>
+          </transition>
+        </li>
 
 
+        <!--نظر سنجی-->
+
+        <li>
+                    <span @click="subNine=!subNine,openerNine=!openerNine" class="sidebar_opener">
+                      <box-icon style="position: absolute;right: 12px" name='slider-alt' color="#596860" type='solid'></box-icon>
+                      <p class="top_title">نظر سنجی</p>
+                        <transition name="subNine" mode="out-in">
+                             <span v-if="subEight" :key="0" class="down_arrow">
+                                     <box-icon size="xs" color="#596860" type='solid' name='down-arrow'></box-icon>
+                                 </span>
+                             <span v-else :key="1" class="up_arrow">
+                           <box-icon size="xs" color="#596860" name='up-arrow' type='solid'></box-icon>
+                         </span>
+                        </transition>
+
+                    </span>
+          <transition name="openerNine" mode="in-out">
+            <ul v-show="openerNine" class="sidebar_ul_level_2">
+              <li>
+                <router-link :to="{name:'department-create'}">لیست پیام های کاربران</router-link>
+              </li>
+              <li>
+                <router-link :to="{name:'department-assign-user'}">لیست پیام های مربیان</router-link>
+              </li>
+            </ul>
+          </transition>
+        </li>
 
 
       </ul>
@@ -912,6 +966,7 @@ aside {
       background-color: rgba(157, 174, 166, 0.4);
       margin-bottom: 5px;
 
+
       .down_arrow {
         position: absolute;
         left: 5px;
@@ -944,7 +999,8 @@ aside {
   display: inline-block;
   position: relative;
   bottom: 5px;
-  right: 10px;
+  width: 100%;
+  text-align: center;
   color: rgba(28, 31, 29, 0.74);
 }
 
@@ -981,6 +1037,7 @@ aside {
       font-size: .9em;
       display: block;
       transition: .1s;
+      text-align: right;
 
     }
 

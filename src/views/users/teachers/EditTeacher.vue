@@ -53,8 +53,8 @@
       </file-upload>
     </template>
     <template v-else>
-        <file-upload>
-        </file-upload>
+      <file-upload>
+      </file-upload>
     </template>
     <label style="display: block;margin-bottom: 20px">
       وضعیت :
@@ -82,10 +82,11 @@
       عکس کارت کارت ملی از جلو :
     </label>
     <template v-if="nationality_card_front">
-        <file-upload :disable_file_input="true" :src="nationality_card_front">
-        </file-upload>
+      <file-upload :disable_file_input="true" :src="nationality_card_front">
+      </file-upload>
 
-      <span @click="showBiggerImage('front')" style="margin-bottom: 20px" title="مشاهده عکس از نزدیک" class="active_it"> <box-icon name="show-alt" type="solid" color="green"></box-icon> </span>
+      <span @click="showBiggerImage('front')" style="margin-bottom: 20px" title="مشاهده عکس از نزدیک" class="active_it"> <box-icon
+          name="show-alt" type="solid" color="green"></box-icon> </span>
     </template>
     <template v-else>
       <div style="margin: 30px">عکسی آپلود نشده است</div>
@@ -96,13 +97,31 @@
       عکس کارت کارت ملی از پشت :
     </label>
     <template v-if="nationality_card_back">
-        <file-upload :disable_file_input="true" :src="nationality_card_back">
-        </file-upload>
-      <span @click="showBiggerImage('back')" title="مشاهده عکس از نزدیک" style="margin-bottom: 20px" class="active_it"> <box-icon name="show-alt" type="solid" color="green"></box-icon> </span>
+      <file-upload :disable_file_input="true" :src="nationality_card_back">
+      </file-upload>
+      <span @click="showBiggerImage('back')" title="مشاهده عکس از نزدیک" style="margin-bottom: 20px" class="active_it"> <box-icon
+          name="show-alt" type="solid" color="green"></box-icon> </span>
     </template>
     <template v-else>
       <div style="margin: 30px">عکسی آپلود نشده است</div>
     </template>
+
+    <label style="display: block;margin: 20px 0">
+      لینک رزومه :
+    </label>
+    <template v-if="resume">
+      <a :href="resume" class="resume_link">
+        <box-icon type='solid' color="red" name='file-pdf'></box-icon>
+      </a>
+    </template>
+    <template v-else>
+      <div style="margin: 20px 0">
+        رزومه آپلود نشده است
+      </div>
+    </template>
+    <div class="chat_box_room">
+      <basic-vue-chat @newOwnMessage="onNewOwnMessage" :initial-feed="feed" title="ali is typing..."></basic-vue-chat>
+    </div>
 
 
     <div class="form-group">
@@ -116,6 +135,7 @@
 </template>
 
 <script>
+import BasicVueChat from 'basic-vue-chat'
 import UserService from "@/services/User/UserService";
 import FileUpload from "@/components/FileUpload";
 import HelperClass from "@/services/HelperClass";
@@ -134,31 +154,54 @@ export default {
       name: '',
       family: '',
       email: '',
-      bigger_image:'',
+      bigger_image: '',
       cell: '',
       description: '',
       password: '',
-      popupTitle:'',
+      popupTitle: '',
       status: false,
       confirm_password: '',
       profile_image_name: false,
       address: '',
-      resume: '',
+      resume: false,
       nationality_card_front: false,
       nationality_card_back: false,
+      feed: [
+        {
+          id: 1,
+          author: 'jafar',
+          contents: 'hi there',
+          date: '16:30'
+        },
+        {
+          id: 2,
+          author: 'ali',
+          contents: 'i am here lorem dsljflsdfldsjfdsfsa;dfasd;fds;f;safiglsjd;lfsdofg;rfjoasdfsdf',
+          date: '16:30'
+        },
+        {
+          id: 0,
+          author: 'Me',
+          contents: 'hello',
+          date: '16:30'
+        }
+      ]
     }
   },
 
   methods: {
-    showBiggerImage(image_type){
-      this.popupActivo5=true;
-      if (image_type=='back'){
-        this.bigger_image=this.nationality_card_back
-        this.popupTitle='عکس کارت ملی از پشت'
+    onNewOwnMessage(message) {
+      this.new_message = message
+    },
+    showBiggerImage(image_type) {
+      this.popupActivo5 = true;
+      if (image_type == 'back') {
+        this.bigger_image = this.nationality_card_back
+        this.popupTitle = 'عکس کارت ملی از پشت'
         return;
       }
-      this.popupTitle='عکس کارت ملی از جلو'
-      this.bigger_image=this.nationality_card_front
+      this.popupTitle = 'عکس کارت ملی از جلو'
+      this.bigger_image = this.nationality_card_front
     },
     getValues() {
       let value_one = this.cell.replace('(', '');
@@ -217,6 +260,10 @@ export default {
               this.nationality_card_back = `${this.$store.state.baseUrl}/api/v1/users/show/teachers_document_file/card_back/${this.$route.params.teacher_id}?token=` + localStorage.getItem('token');
             }
 
+            if (teacher_info.resume != null) {
+              this.resume = `${this.$store.state.baseUrl}/api/v1/users/show/resume/${this.$route.params.teacher_id}?token=` + localStorage.getItem('token');
+            }
+
 
           }).catch(error => {
         if (error.response.status === 404) {
@@ -228,23 +275,42 @@ export default {
   },
   components: {
     VueInputUi,
-    FileUpload
+    FileUpload,
+    BasicVueChat
   },
   computed: {
     statusCondition() {
       return this.status ? 'فعال' : 'غیر فعال'
     }
   },
-  mounted() {
-
-  }
 }
 </script>
 
-<style scoped>
-.bigger_image{
+<style scoped lang="scss">
+.bigger_image {
   max-height: 200px;
   max-width: 300px;
   transform: scale(1.9);
+}
+
+.resume_link {
+  height: 50px;
+  width: 50px;
+  box-shadow: 0 0 4px #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+}
+
+.chat_box_room {
+  margin: 20px auto;
+  display: flex;
+  justify-content: center;
+  direction: ltr;
+}
+
+.message__contents img {
+  width: 6% !important;
 }
 </style>

@@ -3,9 +3,31 @@ import App from './App.vue'
 import './assets/responsive/responsive.css'
 import './assets/css/fontiran.css'
 import 'boxicons';
-import VueMask from 'v-mask'
 
+// pusher.js
+window.pusher = require('pusher-js')
+window.pusher.logToConsole = true;
+
+// laravel echo
+import Echo from "laravel-echo";
+let echo = new Echo({
+    broadcaster: 'pusher',
+    host: 'http://localhost:8000',
+    key: 'b7efbdea7f26e0d30367',
+    cluster: 'eu',
+    encrypted: true
+})
+
+
+export {
+    echo
+}
+
+
+import VueMask from 'v-mask'
 Vue.use(VueMask);
+
+
 import VueRouter from "vue-router";
 import router from "./routes/router";
 import Vuesax from 'vuesax'
