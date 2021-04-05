@@ -7,6 +7,7 @@ const CreateUser = () => import('@/views/users/CreateUser')
 const List = () => import('@/views/users/List')
 const EditAdmin = () => import('@/views/users/EditAdmin')
 const EditTeacher=()=>import('@/views/users/teachers/EditTeacher')
+const ActiveTeacherList=()=>import('@/views/users/teachers/ActiveTeacherList')
 const UserRoutes = {
     path: 'users', component: User,
     children: [
@@ -52,6 +53,9 @@ const UserRoutes = {
             beforeEnter: (to, from, next) => {
                 AuthService.checkLogin(next)
             },
+        },
+        {
+            path:'teachers/actives',component:ActiveTeacherList,name: 'teachers-actives'
         }
 
     ]

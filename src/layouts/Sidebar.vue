@@ -83,7 +83,7 @@
                   </router-link>
                 </li>
                 <li>
-                  <router-link :to="{name:'article-category-deactive'}">لیست مدرسین فعال
+                  <router-link :to="{name:'teachers-actives'}">لیست مدرسین فعال
                   </router-link>
                 </li>
                 <li>

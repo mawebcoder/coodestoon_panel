@@ -9,6 +9,7 @@ class TeacherService {
     updateTeacherInfo(user_id,data) {
         return axios.post('/v1/users/update/teacher/'+user_id,data)
     }
+
 }
 
 export default new TeacherService();

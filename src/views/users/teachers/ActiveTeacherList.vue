@@ -76,7 +76,7 @@ export default {
   watch: {
     current(value) {
       this.$store.state.loading = true;
-      UserService.paginateInTeachersList(value)
+      UserService.paginateInActiveTeacherList(value)
           .then(res => {
             let list = [];
             res.data.data.data.forEach(item => {
@@ -100,7 +100,7 @@ export default {
   },
   methods: {
     getList() {
-      UserService.getTeachersList()
+      UserService.getActiveTeacherList()
           .then(res => {
             let list = [];
             if (res.status === 204) {
@@ -137,7 +137,7 @@ export default {
         return
       }
       this.$store.state.loading = true;
-      UserService.searchInTeacherList(this.search_value)
+      UserService.searchInActiveTeacherList(this.search_value)
           .then((res) => {
             let list = [];
             if (res.status === 204) {

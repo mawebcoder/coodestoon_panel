@@ -43,11 +43,24 @@ class UserService {
     getTeachersList(){
         return axios.get('/v1/users/teachers/list')
     }
+    paginateInTeachersList(page_number){
+        return axios.get('/v1/users/teachers/list?page='+page_number)
+    }
     searchInTeacherList(search){
         return axios.get('/v1/users/teachers/list?search='+search)
     }
     getTeacherInfo(user_id){
         return axios.get('/v1/users/teachers/info/'+user_id)
+    }
+
+    getActiveTeacherList(){
+        return axios.get('/v1/users/teachers/list/actives')
+    }
+    paginateInActiveTeacherList(page_number){
+        return axios.get('/v1/users/teachers/list/actives?page='+page_number)
+    }
+    searchInActiveTeacherList(search){
+        return axios.get('/v1/users/teachers/list/actives?search='+search)
     }
 
 }

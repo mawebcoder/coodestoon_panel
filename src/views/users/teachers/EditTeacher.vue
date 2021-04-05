@@ -67,7 +67,7 @@
       توضیحات کوتاه(الزامی) :
     </label>
     <div class="form-group" style="min-height: 200px">
-      <vs-textarea disabled="true" height="300"  v-model="description"/>
+      <vs-textarea disabled="true" height="300" v-model="description"/>
     </div>
 
 
@@ -75,7 +75,7 @@
       آدرس :
     </label>
     <div class="form-group" style="min-height: 200px">
-      <vs-textarea disabled="true" height="300"  v-model="address"/>
+      <vs-textarea disabled="true" height="300" v-model="address"/>
     </div>
 
     <label style="display: block;margin: 20px 0">
@@ -83,7 +83,7 @@
     </label>
     <div class="form-group" style="min-height: 200px">
       <div class="form-group">
-        <VueInputUi type="numeric" disabled="true" label=" "  v-model="nationality_code"/>
+        <VueInputUi type="numeric" disabled="true" label=" " v-model="nationality_code"/>
       </div>
 
     </div>
@@ -155,6 +155,7 @@ import UserService from "@/services/User/UserService";
 import FileUpload from "@/components/FileUpload";
 import HelperClass from "@/services/HelperClass";
 import TeacherService from "@/services/Teachers/TeacherService";
+
 const VueInputUi = () => import('vue-input-ui');
 export default {
   name: "CreateTag",
@@ -184,11 +185,13 @@ export default {
       let value_three = value_two.replace(' ', '');
       let value_four = value_three.replace('-', '')
       this.cell = value_four;
-      let formData = new FormData();
-      formData.append('cell', this.cell);
-      formData.append('password', this.password.trim() === '' ? 0 : this.password)
-      formData.append('confirm_password', this.confirm_password);
-      return formData;
+      let data = {
+        cell: this.cell,
+        status: this.status ? 1 : 0,
+        password: this.password.trim() === '' ? 0 : 1,
+        confirm_password: this.confirm_password
+      };
+      return data;
     },
     submit() {
       this.$store.state.loading = true;
@@ -197,7 +200,8 @@ export default {
       TeacherService.updateTeacherInfo(this.$route.params.teacher_id, values)
           .then(() => {
 
-            this.$router.push({name: 'users-admin-list'})
+            HelperClass.showSuccess(this.$noty)
+            this.$router.push({name: 'users-teachers-list'})
 
           }).catch(error => {
 
@@ -216,8 +220,8 @@ export default {
             this.email = user_basic_info.email;
             this.name = user_basic_info.name;
             this.family = user_basic_info.family;
-            this.address=teacher_info.address;
-            this.nationality_code=teacher_info.nationality_code;
+            this.address = teacher_info.address;
+            this.nationality_code = teacher_info.nationality_code;
             if (user_basic_info.profile_image_name != null) {
               this.profile_image_name = `${this.$store.state.baseUrl}/storage/images/users/profile-image/${this.$route.params.teacher_id}/${user_basic_info.profile_image_name}`;
             }
@@ -286,7 +290,7 @@ export default {
       confirm_password: '',
       profile_image_name: false,
       address: '',
-      nationality_code:'',
+      nationality_code: '',
       resume: false,
       nationality_card_front: false,
       nationality_card_back: false,
