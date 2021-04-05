@@ -14,20 +14,20 @@
       نام کاربر:
     </label>
     <div class="form-group">
-      <VueInputUi type="array" label="نام تگ به فارسی..." v-model="name"/>
+      <VueInputUi disabled="true" type="array" label="نام تگ به فارسی..." v-model="name"/>
     </div>
     <label>
       نام خانوادگی:
     </label>
     <div class="form-group">
-      <VueInputUi type="array" label="نام تگ به انگلیسی..." v-model="family"/>
+      <VueInputUi disabled="true" type="array" label="نام تگ به انگلیسی..." v-model="family"/>
     </div>
 
     <label>
       ایمیل:
     </label>
     <div class="form-group">
-      <VueInputUi type="array" label="نام تگ به انگلیسی..." v-model="email"/>
+      <VueInputUi disabled="true" type="array" label="نام تگ به انگلیسی..." v-model="email"/>
     </div>
     <label>
       شماره تلفن:
@@ -67,16 +67,27 @@
       توضیحات کوتاه(الزامی) :
     </label>
     <div class="form-group" style="min-height: 200px">
-      <vs-textarea height="300" label="اینجا وارد کنید..." v-model="description"/>
+      <vs-textarea disabled="true" height="300"  v-model="description"/>
     </div>
 
 
     <label style="display: block;margin: 20px 0">
-      توضیحات کوتاه(الزامی) :
+      آدرس :
     </label>
     <div class="form-group" style="min-height: 200px">
-      <vs-textarea height="300" label="اینجا وارد کنید..." v-model="address"/>
+      <vs-textarea disabled="true" height="300"  v-model="address"/>
     </div>
+
+    <label style="display: block;margin: 20px 0">
+      کد ملی :
+    </label>
+    <div class="form-group" style="min-height: 200px">
+      <div class="form-group">
+        <VueInputUi type="numeric" disabled="true" label=" "  v-model="nationality_code"/>
+      </div>
+
+    </div>
+
 
     <label>
       عکس کارت کارت ملی از جلو :
@@ -119,8 +130,12 @@
         رزومه آپلود نشده است
       </div>
     </template>
+
+
+    <!--    chat box-->
     <div class="chat_box_room">
-      <basic-vue-chat @newOwnMessage="onNewOwnMessage" :initial-feed="feed" title="ali is typing..."></basic-vue-chat>
+      <basic-vue-chat :new-message="message" @newOwnMessage="onNewOwnMessage" :initial-feed="feed"
+                      title="ارسال پیام به علی"></basic-vue-chat>
     </div>
 
 
@@ -139,57 +154,17 @@ import BasicVueChat from 'basic-vue-chat'
 import UserService from "@/services/User/UserService";
 import FileUpload from "@/components/FileUpload";
 import HelperClass from "@/services/HelperClass";
-
+import TeacherService from "@/services/Teachers/TeacherService";
 const VueInputUi = () => import('vue-input-ui');
 export default {
   name: "CreateTag",
   created() {
+
     this.$store.state.pageTitle = 'ویرایش مدیر';
     this.getUserInfo()
   },
-  data() {
-    return {
-      colorx: "#4a5153",
-      popupActivo5: false,
-      name: '',
-      family: '',
-      email: '',
-      bigger_image: '',
-      cell: '',
-      description: '',
-      password: '',
-      popupTitle: '',
-      status: false,
-      confirm_password: '',
-      profile_image_name: false,
-      address: '',
-      resume: false,
-      nationality_card_front: false,
-      nationality_card_back: false,
-      feed: [
-        {
-          id: 1,
-          author: 'jafar',
-          contents: 'hi there',
-          date: '16:30'
-        },
-        {
-          id: 2,
-          author: 'ali',
-          contents: 'i am here lorem dsljflsdfldsjfdsfsa;dfasd;fds;f;safiglsjd;lfsdofg;rfjoasdfsdf',
-          date: '16:30'
-        },
-        {
-          id: 0,
-          author: 'Me',
-          contents: 'hello',
-          date: '16:30'
-        }
-      ]
-    }
-  },
-
   methods: {
+
     onNewOwnMessage(message) {
       this.new_message = message
     },
@@ -211,20 +186,15 @@ export default {
       this.cell = value_four;
       let formData = new FormData();
       formData.append('cell', this.cell);
-      formData.append('email', this.email);
       formData.append('password', this.password.trim() === '' ? 0 : this.password)
       formData.append('confirm_password', this.confirm_password);
-      formData.append('name', this.name);
-      formData.append('family', this.family);
-      formData.append('role_id', this.role_id)
-      formData.append('file', this.$store.state.file === null ? 0 : this.$store.state.file)
       return formData;
     },
     submit() {
       this.$store.state.loading = true;
       let values = this.getValues();
 
-      UserService.updateAdmin(this.$route.params.id, values)
+      TeacherService.updateTeacherInfo(this.$route.params.teacher_id, values)
           .then(() => {
 
             this.$router.push({name: 'users-admin-list'})
@@ -239,12 +209,15 @@ export default {
     getUserInfo() {
       UserService.getTeacherInfo(this.$route.params.teacher_id)
           .then(res => {
+
             let user_basic_info = res.data.data.user_info;
             let teacher_info = res.data.data.teacher_information;
             this.cell = user_basic_info.cell;
             this.email = user_basic_info.email;
             this.name = user_basic_info.name;
             this.family = user_basic_info.family;
+            this.address=teacher_info.address;
+            this.nationality_code=teacher_info.nationality_code;
             if (user_basic_info.profile_image_name != null) {
               this.profile_image_name = `${this.$store.state.baseUrl}/storage/images/users/profile-image/${this.$route.params.teacher_id}/${user_basic_info.profile_image_name}`;
             }
@@ -271,8 +244,76 @@ export default {
         }
         HelperClass.showErrors(error, this.$noty)
       })
+    },
+    // isTyping() {
+    //   let channel = echo.private('chat');
+    //   setTimeout(() => {
+    //     channel.whisper('typing', {
+    //       user: this.$store.state.user_id,
+    //       typing: true
+    //     });
+    //   }, 300);
+    // },
+  },
+  // mounted() {
+  //
+  //   echo.private('chat')
+  //       .listenForWhisper('typing', function (e) {
+  //         alert(e.user_name)
+  //         setTimeout(function () {
+  //           this.typing = false
+  //         }, 900);
+  //       });
+  // },
+  data() {
+    return {
+      message: {},
+      colorx: "#4a5153",
+      popupActivo5: false,
+      name: '',
+
+      user: '',
+      typing: '',
+
+      family: '',
+      email: '',
+      bigger_image: '',
+      cell: '',
+      description: '',
+      password: '',
+      popupTitle: '',
+      status: false,
+      confirm_password: '',
+      profile_image_name: false,
+      address: '',
+      nationality_code:'',
+      resume: false,
+      nationality_card_front: false,
+      nationality_card_back: false,
+      feed: [
+        {
+          id: 1,
+          author: 'jafar',
+          contents: 'hi there',
+          date: '16:30'
+        },
+        {
+          id: 2,
+          author: 'ali',
+          contents: 'i am here lorem dsljflsdfldsjfdsfsa;dfasd;fds;f;safiglsjd;lfsdofg;rfjoasdfsdf',
+          date: '16:30'
+        },
+        {
+          id: 0,
+          author: 'Me',
+          contents: 'hello',
+          date: '16:30'
+        }
+      ]
     }
   },
+
+
   components: {
     VueInputUi,
     FileUpload,

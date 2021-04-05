@@ -15,7 +15,14 @@ let echo = new Echo({
     host: 'http://localhost:8000',
     key: 'b7efbdea7f26e0d30367',
     cluster: 'eu',
-    encrypted: true
+    encrypted: true,
+    auth:{
+        headers: {
+            Accept: 'application/json',
+            Authorization: 'Bearer '+localStorage.getItem('token'),
+        },
+    },
+    authEndpoint: 'http://localhost:8000/api/broadcasting/auth'
 })
 
 

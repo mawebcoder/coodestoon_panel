@@ -25,6 +25,7 @@ class AuthService {
             let values=res.data.data;
             store.state.role = values.role;
             store.state.user_id=values.user_id;
+            store.state.user=values.user;
             store.state.user_profile_image=values.user_image;
             store.state.permissions = values.permissions
             store.state.fa_role = values.fa_role

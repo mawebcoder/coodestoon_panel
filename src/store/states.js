@@ -13,6 +13,7 @@ const state = {
     modal_show: false,
     file: null,
     csrfToken:'',
+    user:'',
     user_id:'',
     department_section_values,
     discount_section_permissions,
