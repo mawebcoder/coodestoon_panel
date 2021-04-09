@@ -120,6 +120,27 @@ class UserService {
     }
 
     
+    // admins
+
+
+    getTrashesAdmins(){
+        return axios.get('/v1/user/admin/trashes')
+    }
+
+    paginateInTrashesAdmins(page_number){
+        return axios.get('/v1/user/admin/trashes?page='+page_number)
+    }
+
+    searchInTrashesAdmins(search){
+        return axios.get('/v1/user/admin/trashes?search='+search)
+    }
+
+    forceDeleteTheAdmins(data){
+        return axios.post('/v1/users/teachers/force-delete',data)
+    }
+
+
+    
 
 
 

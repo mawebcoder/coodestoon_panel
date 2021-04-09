@@ -67,7 +67,7 @@ export default {
   watch: {
     current(value) {
       this.$store.state.loading = true;
-      UserService.paginateInTrashedTeacher(value)
+      UserService.paginateInTrashesAdmins(value)
           .then(res => {
             let list = [];
             res.data.data.data.forEach(item => {
@@ -88,7 +88,7 @@ export default {
   },
   methods: {
     getList() {
-      UserService.getTrashedTeachers()
+      UserService.getTrashesAdmins()
           .then(res => {
             let list = [];
             if (res.status === 204) {
@@ -122,7 +122,7 @@ export default {
         return
       }
       this.$store.state.loading = true;
-      UserService.searchInTrashUsers(this.search_value)
+      UserService.searchInTrashesAdmins(this.search_value)
           .then((res) => {
             let list = [];
             if (res.status === 204) {
@@ -134,7 +134,7 @@ export default {
             result.forEach(item => {
               list.push(
                   {
-                    id: item.id,
+                     id: item.id,
                     full_name: item.name + ' ' + item.family,
                     cell: item.cell,
                     delete: '<input type="checkbox"  value="' + item.id + '">'
@@ -166,7 +166,7 @@ export default {
           let data = {
             ids: this.selected
           }
-          UserService.deleteUser(data)
+          UserService.forceDeleteUsers(data)
               .then(() => {
                 this.selected = [];
                 if (this.current > 1) {
