@@ -10,16 +10,16 @@
         </label>
         <div class="form-group">
 
-          <VueInputUi dir="ltr" v-mask="'(####) ###-####'" type="array" label="(0912) 712-4321" v-model="cell"/>
+          <VueInputUi @keyup.enter="submit" dir="ltr" v-mask="'(####) ###-####'" type="array" label="(0912) 712-4321" v-model="cell"/>
         </div>
         <label>
           رمز عبور :
         </label>
         <div class="form-group">
-          <VueInputUi type="password" label="رمز عبور خود را وارد کنید..." v-model="password"/>
+          <VueInputUi @keyup.enter="submit" type="password" label="رمز عبور خود را وارد کنید..." v-model="password"/>
         </div>
         <div dir="ltr" id="button_box">
-                    <span @click="submit" style="width: 100%;border-radius: 0" class="submit_button">
+                    <span @click.enter="submit" style="width: 100%;border-radius: 0" class="submit_button">
                         ورود
                     </span>
         </div>

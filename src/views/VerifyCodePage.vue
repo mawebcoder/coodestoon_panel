@@ -9,7 +9,7 @@
           کد تایید ۶ رقمی :
         </label>
         <div class="form-group">
-          <VueInputUi dir="ltr"  v-mask="'######'" class="justify-content-center d-flex"  type="array" label="123456" v-model="code"/>
+          <VueInputUi @keyup.enter="submit" dir="ltr"  v-mask="'######'" class="justify-content-center d-flex"  type="array" label="123456" v-model="code"/>
         </div>
         <span id="time-box">
           <div id="timer" class="row" dir="ltr">

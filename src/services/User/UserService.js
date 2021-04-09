@@ -53,6 +53,7 @@ class UserService {
         return axios.get('/v1/users/teachers/info/'+user_id)
     }
 
+    // actives teachers
     getActiveTeacherList(){
         return axios.get('/v1/users/teachers/list/actives')
     }
@@ -62,6 +63,49 @@ class UserService {
     searchInActiveTeacherList(search){
         return axios.get('/v1/users/teachers/list/actives?search='+search)
     }
+
+    // inactive teachers
+    getInActiveTeachers(){
+        return axios.get('/v1/users/teachers/list/de-actives')
+    }
+
+    paginateInInActiveTeachers(page_number){
+        return axios.get('/v1/users/teachers/list/de-actives?page='+page_number)
+    }
+    searchInInActiveTeachers(search){
+        return axios.get('/v1/users/teachers/list/de-actives?search='+search)
+    }
+
+
+
+
+    // users
+    getTrashesUsers(){
+        return axios.get('/v1/users/trashes')
+    }
+
+    paginateInTrashesUsers(page_number){
+        return axios.get('/v1/users/trashes?page='+page_number)
+    }
+    searchInTrashesUsers(search){
+        return axios.get('/v1/users/trashes?search='+search)
+    }
+
+    forceDeleteUsers(data){
+        return axios.post('/v1/users/user/force-delete',data)
+    }
+
+    restoreUsers(data){
+        return axios.post('/v1/users/restore',data)
+    }
+
+
+    // teachers
+
+
+    
+
+
 
 }
 

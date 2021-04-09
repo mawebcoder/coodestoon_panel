@@ -87,11 +87,19 @@
                   </router-link>
                 </li>
                 <li>
-                  <router-link :to="{name:'article-category-deactive'}">لیست مدرسین غیر فعال
+                  <router-link :to="{name:'teachers-inactive'}">لیست مدرسین غیر فعال
                   </router-link>
                 </li>
                 <li>
-                  <router-link :to="{name:'users-teachers-list'}">لیست کاربران حذف شده
+                  <router-link :to="{name:'users-trashes'}">لیست کاربران حذف شده
+                  </router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'teacher-trash'}">لیست مدرسین حذف شده
+                  </router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'teacher-trash'}">لیست مدیران حذف شده
                   </router-link>
                 </li>
               </ul>
