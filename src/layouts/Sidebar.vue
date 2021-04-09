@@ -99,7 +99,7 @@
                   </router-link>
                 </li>
                 <li>
-                  <router-link :to="{name:'teacher-trash'}">لیست مدیران حذف شده
+                  <router-link :to="{name:'admin-trashes'}">لیست مدیران حذف شده
                   </router-link>
                 </li>
               </ul>

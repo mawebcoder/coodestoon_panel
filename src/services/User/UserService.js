@@ -103,7 +103,30 @@ class UserService {
     // teachers
 
 
+    getTrashesTeachers(){
+        return axios.get('/v1/users/teachers/trashes')
+    }
+
+    paginateInTrashesTeachers(page_number){
+        return axios.get('/v1/users/teachers/trashes?page='+page_number)
+    }
+
+    searchInTrashesTeachers(search){
+        return axios.get('/v1/users/teachers/trashes?search='+search)
+    }
+
+    forceDeleteTheTeachers(data){
+        return axios.post('/v1/users/teachers/force-delete',data)
+    }
+
     
+
+
+
+
+
+
+
 
 
 
