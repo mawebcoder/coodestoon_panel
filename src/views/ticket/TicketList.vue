@@ -23,7 +23,6 @@
 </template>
 
 <script>
-import ArticleService from "@/services/articles/ArticleService";
 import HelperClass from "@/services/HelperClass";
 import TicketService from "@/services/Ticket/TicketService";
 
@@ -96,24 +95,23 @@ export default {
   watch: {
     current(value) {
       this.$store.state.loading = true;
-      ArticleService.paginateArticles(value)
+      TicketService.paginateInTicketList(value)
           .then(res => {
             let list = [];
-            res.data.data.data.forEach(item => {
+            res.data.data.tickets.forEach(item => {
               list.push(
                   {
                     id: item.id,
-                    fa_title: item.fa_title,
-                    en_title_show: item.en_title ? item.en_title : '<span class="deactive_button">ندارد</span>',
-                    en_title: item.en_title,
-                    condition: item.status,
-                    status: item.status ? '<span class="active_button">فعال</span>' : '<span class="deactive_button">غیر فعال</span>',
+                    priority: item.priority,
+                    full_name: item.full_name,
+                    ticket_code: item.ticket_code,
+                    condition: item.condition,
+                    answer_condition: item.is_answered ? '<span class="active_button">پاسخ داده شده</span>' : '<span class="deactive_button">بدون پاسخ</span>',
+                    title: item.title,
+                    status: !item.is_closed ? '<span class="active_button">باز</span>' : '<span class="deactive_button">بسته</span>',
                     father: item.father ? item.father.fa_title : '<span class="deactive_button">ندارد</span>',
-                    switch_condition: item.status ? "<i class='active_it' title='غیر فعال کن'> <box-icon color='red' name='x'></box-icon></i>" : "<i title='فعال کن' class='active_it'><box-icon color='green' name='check'></box-icon></i>",
-                    edit: '<i  title="ویرایش" class="active_it"><box-icon color="green" type="solid" name="message-edit"></box-icon></i>',
-                    description: item.description,
-
-                    category: item.category != null ? item.category.fa_title : '<span class="deactive_button">حذف شده</span>',
+                    see: '<i  title="مشاهده و پاسخ" class="active_it"><box-icon color="green" type="solid" name="message-edit"></box-icon></i>',
+                    department: item.department.fa_name,
                     delete: '<input type="checkbox"  value="' + item.id + '">'
                   })
             })
@@ -150,7 +148,6 @@ export default {
                     title: item.title,
                     status: !item.is_closed ? '<span class="active_button">باز</span>' : '<span class="deactive_button">بسته</span>',
                     father: item.father ? item.father.fa_title : '<span class="deactive_button">ندارد</span>',
-                    switch_condition: item.is_closed ? "<i class='active_it' title='باز کردن تیکت'> <box-icon color='red' name='x'></box-icon></i>" : "<i title='بستن تیکت' class='active_it'><box-icon color='green' name='check'></box-icon></i>",
                     see: '<i  title="مشاهده و پاسخ" class="active_it"><box-icon color="green" type="solid" name="message-edit"></box-icon></i>',
                     department: item.department.fa_name,
                     delete: '<input type="checkbox"  value="' + item.id + '">'
@@ -166,11 +163,11 @@ export default {
       this.show_pagination = false
       if (this.search_value.trim() === '') {
         this.show_pagination = true;
-        this.getListOfTheArticles();
+        this.getList();
         return
       }
       this.$store.state.loading = true;
-      ArticleService.searchInArticles(this.search_value)
+      TicketService.searchInTicketList(this.search_value)
           .then((res) => {
             let list = [];
             if (res.status === 204) {
@@ -178,21 +175,21 @@ export default {
               this.$store.state.loading = false;
               return
             }
-            let result = res.data.data;
+            let result = res.data.data.tickets;
             result.forEach(item => {
               list.push(
                   {
                     id: item.id,
-                    fa_title: item.fa_title,
-                    en_title_show: item.en_title ? item.en_title : '<span class="deactive_button">ندارد</span>',
-                    en_title: item.en_title,
-                    condition: item.status,
-                    status: item.status ? '<span class="active_button">فعال</span>' : '<span class="deactive_button">غیر فعال</span>',
+                    priority: item.priority,
+                    full_name: item.full_name,
+                    ticket_code: item.ticket_code,
+                    condition: item.condition,
+                    answer_condition: item.is_answered ? '<span class="active_button">پاسخ داده شده</span>' : '<span class="deactive_button">بدون پاسخ</span>',
+                    title: item.title,
+                    status: !item.is_closed ? '<span class="active_button">باز</span>' : '<span class="deactive_button">بسته</span>',
                     father: item.father ? item.father.fa_title : '<span class="deactive_button">ندارد</span>',
-                    switch_condition: item.status ? "<i class='active_it' title='غیر فعال کن'> <box-icon color='red' name='x'></box-icon></i>" : "<i title='فعال کن' class='active_it'><box-icon color='green' name='check'></box-icon></i>",
-                    edit: '<i  title="ویرایش" class="active_it"><box-icon color="green" type="solid" name="message-edit"></box-icon></i>',
-                    description: item.description,
-                    category: item.category != null ? item.category.fa_title : '<span class="deactive_button">حذف شده</span>',
+                    see: '<i  title="مشاهده و پاسخ" class="active_it"><box-icon color="green" type="solid" name="message-edit"></box-icon></i>',
+                    department: item.department.fa_name,
                     delete: '<input type="checkbox"  value="' + item.id + '">'
                   })
             })
@@ -200,20 +197,6 @@ export default {
             this.$store.state.loading = false;
           }).catch(error => {
         HelperClass.showErrors(error, this.$noty);
-      })
-    },
-    switchCondition(row) {
-      this.$store.state.loading = true;
-      let data = {
-        status: row.condition ? 0 : 1,
-      }
-
-      ArticleService.switchArticleStatus(row.id, data)
-          .then(() => {
-            this.getListOfTheArticles();
-            HelperClass.showSuccess(this.$noty)
-          }).catch(error => {
-        HelperClass.showErrors(error, this.$noty)
       })
     },
     selectItems(inputElement) {
@@ -236,14 +219,14 @@ export default {
           let data = {
             ids: this.selected
           }
-          ArticleService.deleteArticles(data)
+          TicketService.softDeleteTickets(data)
               .then(() => {
                 this.selected = [];
                 if (this.current > 1) {
                   this.current = this.current - 1;
                 }
 
-                this.getListOfTheArticles();
+                this.getList();
                 HelperClass.scrollTop();
                 HelperClass.showSuccess(this.$noty)
               }).catch(error => {
@@ -261,10 +244,8 @@ export default {
       switch (tagName) {
         case ("BOX-ICON"):
 
-          if (column_name === 'edit') {
-            this.$router.push({name: 'article-edit', params: {article: row_object.id}, query: {from_list: true}})
-          } else if (column_name === 'switch_condition') {
-            this.switchCondition(row_object)
+          if (column_name === 'see') {
+            this.$router.push({name: 'ticket-page', params: {ticket_id: row_object.id}, query: {from_list: true}})
           }
           break
         case ('INPUT'):
