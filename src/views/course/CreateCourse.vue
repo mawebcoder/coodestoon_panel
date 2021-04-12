@@ -66,6 +66,7 @@
     <label style="margin:30px 0">
       توضیحات(الزامی)
     </label>
+    
     <editor
         v-model="description"
         api-key="214siyv4hmul2xqvhali31m8ox5kxrskd3g1k5b6an2ft09l"

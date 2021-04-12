@@ -493,7 +493,29 @@
           </li>
         </template>
 
+             <!--tickets-->
+        <li>
+          <span @click="subTen=!subTen,openerTen=!openerTen" class="sidebar_opener">
+                      <box-icon style="position: absolute;right: 12px" name='badge-check' color="#596860" type='solid'></box-icon>
+                      <p class="top_title">تیکت ها</p>
+                        <transition name="subTen" mode="out-in">
+                             <span v-if="subEight" :key="0" class="down_arrow">
+                                     <box-icon size="xs" color="#596860" type='solid' name='down-arrow'></box-icon>
+                                 </span>
+                             <span v-else :key="1" class="up_arrow">
+                           <box-icon size="xs" color="#596860" name='up-arrow' type='solid'></box-icon>
+                         </span>
+                        </transition>
 
+                    </span>
+          <transition name="openerTen" mode="in-out">
+            <ul v-show="openerTen" class="sidebar_ul_level_2">
+              <li>
+                <router-link :to="{name:'tickets-list'}">لیست تیکت ها</router-link>
+              </li>
+            </ul>
+          </transition>
+        </li>
         <!--        teacher_messages-->
 
         <li>
@@ -639,32 +661,7 @@
           </transition>
         </li>
 
-        <!--tickets-->
-        <li>
-                    <span @click="subNine=!subNine,openerNine=!openerNine" class="sidebar_opener">
-                      <box-icon style="position: absolute;right: 12px" name='badge-check' color="#596860" type='solid'></box-icon>
-                      <p class="top_title">تیکت ها</p>
-                        <transition name="subNine" mode="out-in">
-                             <span v-if="subEight" :key="0" class="down_arrow">
-                                     <box-icon size="xs" color="#596860" type='solid' name='down-arrow'></box-icon>
-                                 </span>
-                             <span v-else :key="1" class="up_arrow">
-                           <box-icon size="xs" color="#596860" name='up-arrow' type='solid'></box-icon>
-                         </span>
-                        </transition>
-
-                    </span>
-          <transition name="openerNine" mode="in-out">
-            <ul v-show="openerNine" class="sidebar_ul_level_2">
-              <li>
-                <router-link :to="{name:'department-create'}">لیست پیام های کاربران</router-link>
-              </li>
-              <li>
-                <router-link :to="{name:'department-assign-user'}">لیست پیام های مربیان</router-link>
-              </li>
-            </ul>
-          </transition>
-        </li>
+     
 
         <!--send messages-->
         <li>
@@ -891,6 +888,8 @@ export default {
       openerEight: false,
       subNine: false,
       openerNine: false,
+      subTen:false,
+      openerTen:false
     }
   },
   methods: {
@@ -1232,6 +1231,30 @@ subNine-leave-active {
 .openerNine-leave-active {
   max-height: 0;
 }
+
+
+// ten
+
+
+.subTen-enter {
+  opacity: .4;
+  transform: translateY(-5px);
+}
+
+subTen-leave-active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.openerTen-enter {
+  max-height: 0;
+}
+
+.openerTen-leave-active {
+  max-height: 0;
+}
+
+
 
 
 .li_title {
