@@ -2,35 +2,35 @@
   <div>
     <div class="row">
       <div class="col-6 row justify-content-center">
-        نام ارسال کننده : محمد امیری
+        نام ارسال کننده : {{ user_name }}
       </div>
       <div class="col-6 row justify-content-center">
-        شماره تیکت : ۷۶۵۴۳
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-6 row justify-content-center">
-        تاریخ ایجاد :۱۳۶۵/۸۷/۶۵
-      </div>
-      <div class="col-6 row justify-content-center">
-        عنوان : عنوان تیکتعنوان تیکتعنوان تیکتعنوان تیکتعنوان تیکت
+        شماره تیکت : {{ ticket_code }}
       </div>
     </div>
     <div class="row">
       <div class="col-6 row justify-content-center">
-        اولویت : بالا
+        تاریخ ایجاد : <span dir="ltr">{{ date }}</span>
       </div>
       <div class="col-6 row justify-content-center">
-        دپارتمان : مالی
+        عنوان :{{ origin_title }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6 row justify-content-center">
+        اولویت : {{ priority }}
+      </div>
+      <div class="col-6 row justify-content-center">
+        دپارتمان : {{ department_name }}
       </div>
     </div>
 
     <div class="row">
       <div class="col-6 row justify-content-center">
-        وضعیت :    <span class="deactive_button">بسته</span>
+        وضعیت : <span v-if="!is_closed" class="active_button">باز</span><span v-else class="deactive_button">بسته</span>
       </div>
       <div class="col-6 row justify-content-center">
-        آخرین پاسخ : پاسخ کاربر
+        آخرین پاسخ : {{ isAnswered }}
       </div>
     </div>
     <div class="row">
@@ -40,7 +40,7 @@
         </span>
       </div>
     </div>
-    <div class="editor-box"  v-if="show_editor" >
+    <div class="editor-box" v-if="show_editor">
       <editor
           v-model="description"
           api-key="214siyv4hmul2xqvhali31m8ox5kxrskd3g1k5b6an2ft09l"
@@ -69,15 +69,15 @@
 
     </div>
     <div>
-      <div class="row_section">
+      <div v-bind:key="value.id" v-for="value in children" class="row_section">
         <div class="row first-row">
-          <div class="col-3">نام مدیر : نام مدیر</div>
+          <div v-if="value.admin!==null" class="col-3">نام مدیر : {{value.admin.name+' '+ value.admin.family}}</div>
+          <div v-else class="col-3">{{user_name}}</div>
           <div class="col-6"></div>
-          <div class="col-3">تاریخ : ۱۴۰۰/۱/۱</div>
+          <div class="col-3">تاریخ : {{value.date}}</div>
         </div>
         <div class="ticket-content">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. At distinctio dolorum eligendi esse, expedita hic inventore laudantium minus modi molestiae quaerat reprehenderit repudiandae. Alias in incidunt iure reprehenderit rerum saepe.
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab accusantium, autem corporis debitis dolore dolorem doloribus eius esse excepturi harum illum ipsum iste itaque libero molestias nihil quibusdam reiciendis reprehenderit!
+         {{value.text}}
         </div>
       </div>
     </div>
@@ -85,16 +85,64 @@
 </template>
 
 <script>
+import TicketService from "@/services/Ticket/TicketService";
+import HelperClass from "@/services/HelperClass";
 import Editor from '@tinymce/tinymce-vue'
+
 export default {
   name: "TicketPage",
-  data(){
+  data() {
     return {
-      description:'',
-      show_editor:false
+      description: '',
+      show_editor: false,
+      title: '',
+      origin_text: '',
+      date: '',
+      user_name: '',
+      ticket_code: '',
+      is_closed: 0,
+      department_name: '',
+      children: [],
+      origin_title: '',
+      priority: '',
+      is_answered: 0,
     }
   },
-  components:{
+  computed: {
+    isAnswered() {
+      return this.is_answered ? 'پاسخ مدیر' : 'پاسخ کاربر';
+    }
+  },
+  methods: {
+    getValues(res) {
+      let data = res.data.data;
+      let origin_ticket = data.origin_ticket;
+
+      let children = data.children;
+
+      let user = data.origin_user;
+      let department = data.department;
+      this.department_name = department.fa_name;
+      this.is_closed = origin_ticket.is_closed;
+      this.user_name = user.name + ' ' + user.family;
+      this.date = data.date;
+      this.origin_text = origin_ticket.text;
+      this.children = children;
+      this.is_answered = data.is_answered;
+      this.ticket_code = origin_ticket.ticket_code;
+      this.origin_title = origin_ticket.title;
+      this.priority = data.priority;
+    }
+  },
+  created() {
+    TicketService.getTicketInformation(this.$route.params.ticket_id)
+        .then(res => {
+          this.getValues(res)
+        }).catch(error => {
+      HelperClass.showErrors(error, this.$noty)
+    })
+  },
+  components: {
     Editor
   }
 }
@@ -104,13 +152,16 @@ export default {
 .row {
   margin-bottom: 10px;
 }
-.editor-box{
+
+.editor-box {
   margin-bottom: 30px;
   overflow: hidden;
 }
-#submit_button{
+
+#submit_button {
   margin-top: 10px;
 }
+
 .row_section {
   min-height: 100px;
   border-radius: 5px;
@@ -125,7 +176,8 @@ export default {
       line-height: 49px;
     }
   }
-  .ticket-content{
+
+  .ticket-content {
     padding: 30px;
     direction: rtl;
     text-align: justify;

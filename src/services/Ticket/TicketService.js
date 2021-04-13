@@ -15,5 +15,8 @@ class TicketService {
     softDeleteTickets(data){
         return axios.post('/v1/tickets/softDelete',data)
     }
+    getTicketInformation(ticket_id){
+        return axios.get('/v1/tickets/original-children-tickets/'+ticket_id)
+    }
 }
 export  default new TicketService();

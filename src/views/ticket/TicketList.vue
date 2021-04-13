@@ -133,7 +133,6 @@ export default {
               this.last_page = 0;
               return;
             }
-            console.log(res)
             this.last_page = res.data.data.last_page;
             let result = res.data.data.tickets;
             result.forEach(item => {
