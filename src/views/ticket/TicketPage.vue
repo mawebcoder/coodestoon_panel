@@ -27,7 +27,7 @@
 
     <div class="row">
       <div class="col-6 row justify-content-center">
-        وضعیت : <span v-if="!is_closed" class="active_button">باز</span><span v-else class="deactive_button">بسته</span>
+        وضعیت : <span  v-if="!is_closed" class="active_button">باز</span><span v-else class="deactive_button">بسته</span>
       </div>
       <div class="col-6 row justify-content-center">
         آخرین پاسخ : {{ isAnswered }}
@@ -42,7 +42,7 @@
     </div>
     <div class="editor-box" v-if="show_editor">
       <editor
-          v-model="description"
+          v-model="text"
           api-key="214siyv4hmul2xqvhali31m8ox5kxrskd3g1k5b6an2ft09l"
           :init="{
                 menubar: true,
@@ -62,22 +62,35 @@
       />
 
       <div id="submit_button">
-        <span class="submit_button">
+        <span @click="submit" class="submit_button">
           ثبت
         </span>
       </div>
 
     </div>
     <div>
-      <div v-bind:key="value.id" v-for="value in children" class="row_section">
+
+      <div id="origin_ticket" class="row_section">
         <div class="row first-row">
-          <div v-if="value.admin!==null" class="col-3">نام مدیر : {{value.admin.name+' '+ value.admin.family}}</div>
-          <div v-else class="col-3">{{user_name}}</div>
+          <div class="col-3"></div>
           <div class="col-6"></div>
-          <div class="col-3">تاریخ : {{value.date}}</div>
+          <div class="col-3"></div>
         </div>
         <div class="ticket-content">
-         {{value.text}}
+          {{ origin_text }}
+        </div>
+      </div>
+
+      <div v-bind:key="value.id" v-for="value in children" class="row_section">
+        <div class="row first-row">
+          <div v-if="value.admin!==null" class="col-3">نام مدیر : {{ value.admin.name + ' ' + value.admin.family }}
+          </div>
+          <div v-else class="col-3">{{ user_name }}</div>
+          <div class="col-6"></div>
+          <div class="col-3">تاریخ : {{ value.date }}</div>
+        </div>
+        <div v-html="value.text" class="ticket-content">
+
         </div>
       </div>
     </div>
@@ -106,6 +119,9 @@ export default {
       origin_title: '',
       priority: '',
       is_answered: 0,
+      department_id: '',
+      origin_id: '',
+      text:'',
     }
   },
   computed: {
@@ -114,12 +130,21 @@ export default {
     }
   },
   methods: {
+    getTicketInformation(){
+      TicketService.getTicketInformation(this.$route.params.ticket_id)
+          .then(res => {
+            this.getValues(res)
+          }).catch(error => {
+        HelperClass.showErrors(error, this.$noty)
+      })
+    },
     getValues(res) {
+
       let data = res.data.data;
       let origin_ticket = data.origin_ticket;
-
       let children = data.children;
-
+      this.origin_id = origin_ticket.id;
+      this.department_id = origin_ticket.department_id;
       let user = data.origin_user;
       let department = data.department;
       this.department_name = department.fa_name;
@@ -132,15 +157,32 @@ export default {
       this.ticket_code = origin_ticket.ticket_code;
       this.origin_title = origin_ticket.title;
       this.priority = data.priority;
+      this.$store.state.pageTitle=`پاسخ به تیکت شماره ${this.ticket_code}`
+
+    },
+    submit() {
+      this.$store.state.loading=true;
+      let data = {
+        text: this.text,
+        origin_id: this.origin_id,
+        department_id: this.department_id
+      }
+      TicketService.answerTicket(data)
+          .then(() => {
+            this.text='';
+            this.show_editor=false;
+            HelperClass.showSuccess(this.$noty)
+            this.getTicketInformation()
+
+          }).catch(error => {
+
+        HelperClass.showErrors(error, this.$noty)
+
+      })
     }
   },
   created() {
-    TicketService.getTicketInformation(this.$route.params.ticket_id)
-        .then(res => {
-          this.getValues(res)
-        }).catch(error => {
-      HelperClass.showErrors(error, this.$noty)
-    })
+   this.getTicketInformation();
   },
   components: {
     Editor
@@ -158,12 +200,22 @@ export default {
   overflow: hidden;
 }
 
+#origin_ticket {
+  margin: 20px 0;
+
+  .first-row {
+    background-color: rgba(214, 46, 53, 0.81);
+    color: #fff;
+  }
+}
+
 #submit_button {
   margin-top: 10px;
 }
 
 .row_section {
   min-height: 100px;
+  margin: 20px 0;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(108, 110, 111, 0.3);
 

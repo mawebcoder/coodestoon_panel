@@ -513,6 +513,9 @@
               <li>
                 <router-link :to="{name:'tickets-list'}">لیست تیکت ها</router-link>
               </li>
+              <li>
+                <router-link :to="{name:'ticket-not-answered'}">لیست تیکت های بی پاسخ</router-link>
+              </li>
             </ul>
           </transition>
         </li>

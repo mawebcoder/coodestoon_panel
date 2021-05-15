@@ -18,5 +18,16 @@ class TicketService {
     getTicketInformation(ticket_id){
         return axios.get('/v1/tickets/original-children-tickets/'+ticket_id)
     }
+    answerTicket(data){
+        return axios.post('/v1/tickets',data)
+    }
+
+    getNotAnsweredTickets(){
+        return axios.get('/v1/tickets/not-answered')
+    }
+    paginateInUnAnsweredTickets(page_number){
+        return axios.get('/v1/tickets/not-answered?page='+page_number)
+
+    }
 }
 export  default new TicketService();
